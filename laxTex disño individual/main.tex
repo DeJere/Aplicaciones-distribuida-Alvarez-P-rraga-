@@ -1,0 +1,182 @@
+\documentclass[11pt,a4paper]{article}
+
+% --- Paquetes Académicos ---
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish,es-tabla]{babel}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{geometry}
+\usepackage{booktabs}
+\usepackage{hyperref}
+\usepackage{enumitem}
+\usepackage[ruled,vlined]{algorithm2e}
+\usepackage{microtype}
+
+% --- Configuración de Márgenes (1 pulgada) ---
+\geometry{margin=1in}
+
+% --- Configuración de Hipervínculos Sobrios ---
+\hypersetup{
+    colorlinks=true,
+    linkcolor=black,
+    urlcolor=black,
+    citecolor=black
+}
+
+% --- Título del Informe ---
+\title{\textbf{Análisis Crítico Comparativo de un Sistema Distribuido Real:} \\
+Google Spanner}
+\author{
+    Universidad Técnica de Quevedo \\
+    Facultad de Ciencias de la Ingeniería \\
+    Carrera de Ingeniería en Sistemas \\
+    \vspace{0.5cm} \\
+    \textbf{Asignatura:} Sistemas Distribuidos --- Unidad 1 \\
+    \textbf{Modalidad:} Individual — Sumativa
+}
+\date{Mayo 2026}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+Google Spanner es un sistema de gestión de bases de datos distribuido globalmente, desarrollado por Google LLC. Representa uno de los hitos más significativos en la historia de los sistemas distribuidos al lograr semántica ACID completa con transacciones externamente consistentes a escala planetaria. Este informe aplica los conceptos centrales de la Unidad 1 de Sistemas Distribuidos ---transparencias de distribución, teorema CAP, modelos de comunicación y tolerancia a fallos--- al análisis crítico de la arquitectura de Google Spanner, comparándolo detalladamente con alternativas de la industria como Apache Cassandra y MongoDB bajo la norma estándar IEEE.
+\end{abstract}
+
+\tableofcontents
+\newpage
+
+\section{Introducción}
+Los sistemas de bases de datos distribuidos han evolucionado aceleradamente en las últimas dos décadas, impulsados por la necesidad de escalar a millones de usuarios simultáneos, mantener alta disponibilidad ante fallos de infraestructura y garantizar la coherencia de los datos en entornos geográficamente dispersos. Durante mucho tiempo, la industria asumió que existía una disyuntiva irreconciliable entre consistencia y disponibilidad, formalizada teóricamente por el teorema CAP \cite{brewer2012}.
+
+Google Spanner irrumpe en este panorama como un sistema que desafía las interpretaciones convencionales de dicho teorema. Al aprovechar una infraestructura coordinada de relojes atómicos y GPS distribuidos ---denominada \textit{TrueTime API}--- Spanner logra ofrecer transacciones globalmente consistentes con tiempos de latencia competitivos, redefiniendo lo que es posible en sistemas distribuidos de producción a escala global \cite{corbett2012}. El objetivo de este informe es desglosar de manera analítica dicho comportamiento utilizando el marco conceptual de la Unidad 1.
+
+\section{Descripción General e Infraestructura Jerárquica}
+\subsection{Origen y Evolución: El paso de Bigtable a Spanner}
+Antes de la creación de Spanner, Google dependía de infraestructuras como Bigtable y Megastore \cite{corbett2012}. Si bien Bigtable proporcionaba una escalabilidad horizontal masiva para estructuras Clave-Valor, carecía de soporte para transacciones ACID complejas que involucraran múltiples filas y esquemas relacionales estrictos. Por otro lado, Megastore introdujo transacciones mediante el uso de Paxos, pero sufría de un rendimiento de escritura muy pobre debido a la latencia de la red WAN. Spanner fue diseñado para consolidar lo mejor de ambos mundos: la escalabilidad NoSQL de Bigtable y las garantías transaccionales estrictas de los sistemas relacionales tradicionales.
+
+\subsection{Componentes de la Arquitectura Interna}
+La organización física y lógica de Spanner se estructura de forma estrictamente jerárquica para mitigar los cuellos de botella geográficos:
+\begin{itemize}
+    \item \textbf{Universe:} Representa una instalación completa de Spanner. Generalmente, Google opera muy pocos \textit{universes} diferenciados (producción, desarrollo y pruebas).
+    \item \textbf{Zones:} Son las unidades operativas y de aislamiento administrativo dentro de un \textit{universe}. Equivalen a un centro de datos o a un conjunto de ellos en una misma región geográfica. Las zonas son también la unidad de replicación física.
+    \item \textbf{Universe Master y Placement Driver:} El \textit{Universe Master} es una consola central que monitorea el estado de todas las zonas, mientras que el \textit{Placement Driver} maneja de manera automatizada la migración de datos entre zonas según las políticas de latencia y carga.
+    \item \textbf{Spanserver:} Servidores físicos encargados de gestionar el almacenamiento y atender las peticiones de los clientes. Cada \textit{Spanserver} maneja entre cien y miles de unidades estructurales llamadas \textit{tablets}.
+\end{itemize}
+
+\section{Transparencias de Distribución en Spanner}
+El modelo de transparencias define en qué medida los detalles intrínsecos de la distribución física son perceptibles para el usuario \cite{tanenbaum2017}. Spanner aborda estas dimensiones de la siguiente manera:
+
+\begin{itemize}
+    \item \textbf{Transparencia de Acceso:} Spanner abstrae por completo los mecanismos locales de almacenamiento mediante una interfaz SQL estándar (ANSI SQL 2011). Las aplicaciones realizan consultas de forma idéntica sin importar si los datos residen en la memoria local del clúster o en un nodo remoto.
+    \item \textbf{Transparencia de Ubicación:} Los datos se organizan en conjuntos de filas denominados \textit{directorios}, los cuales se fragmentan dinámicamente en \textit{splits}. Spanner mueve estos \textit{splits} entre diferentes servidores o zonas geográficas sin que el cliente deba modificar sus cadenas de conexión o conocer la dirección IP del nodo destino.
+    \item \textbf{Transparencia de Replicación:} El cliente interactúa con la base de datos como si existiera una única copia. En el fondo, el sistema gestiona múltiples réplicas mediante grupos Paxos redundantes distribuidos de manera global.
+    \item \textbf{Transparencia de Concurrencia:} El aislamiento transaccional más fuerte (serializabilidad externa) asegura que múltiples operaciones concurrentes ejecutadas en diferentes continentes se comporten exactamente como si ocurrieran secuencialmente.
+    \item \textbf{Transparencia de Fallos:} Si un nodo interrumpe su servicio, los algoritmos de consenso Paxos eligen un nuevo líder de manera automática. El cliente experimenta únicamente una breve fluctuación en la latencia, pero no una pérdida de conectividad o de persistencia de datos.
+\end{itemize}
+
+\section{Análisis Detallado del Modelo CAP}
+\subsection{Clasificación CP frente al Comportamiento Práctico}
+El teorema CAP postula que en presencia de una partición de red ($P$), un sistema debe elegir entre Consistencia ($C$) o Disponibilidad ($A$) \cite{gilbert2002}. Teóricamente, Google Spanner se posiciona como un sistema \textbf{CP}. Ante un aislamiento drástico que impida alcanzar el quórum de la mayoría de las réplicas Paxos, Spanner prioriza la consistencia y rechaza de forma estricta las peticiones de escritura.
+
+Sin embargo, Google opera sobre una infraestructura de red de fibra óptica dedicada y redundante que minimiza la probabilidad de fallos de red ($P$). Esto permite a Spanner ofrecer un acuerdo de nivel de servicio (SLA) del $99.999\%$ (los "cinco nueves"), operando en condiciones normales con las ventajas de disponibilidad típicas de un sistema AP, pero sin comprometer jamás la consistencia estricta \cite{brewer2012}.
+
+\subsection{Tabla Comparativa de Sistemas Distribuidos}
+\begin{table}[h]
+\centering
+\begin{tabular}{@{}llll@{}}
+\toprule
+\textbf{Característica} & \textbf{Google Spanner} & \textbf{Apache Cassandra} & \textbf{MongoDB} \\ \midrule
+Clasificación CAP & CP (Efectivo CA) & AP (Configurable) & CP (Por defecto) \\
+Consistencia Local & Serializabilidad externa & Eventual / Ajustable & Snapshot Isolation \\
+Sincronización & TrueTime (Hardware) & NTP (Software) & Reloj del Sistema \\
+Manejo de Partición & Bloqueo de escrituras & Escritura con divergencia & Re-elección de Primario \\
+Escalabilidad & Horizontal Global & Horizontal en Anillo & Horizontal Sharding \\ \bottomrule
+\end{tabular}
+\caption{Comparativa del modelo CAP entre sistemas distribuidos}
+\label{tab:cap_comparativa}
+\end{table}
+
+\section{Modelos de Comunicación y el Ecosistema TrueTime}
+\subsection{Comunicación Basada en gRPC y Consenso Paxos}
+La capa externa de Spanner utiliza el framework de alto rendimiento \textbf{gRPC}, el cual aprovecha las ventajas de HTTP/2 como la multiplexación de flujos binarios sobre sockets TCP permanentes \cite{googledocs2024}. Internamente, la sincronización del estado de las réplicas depende del protocolo de consenso **Paxos** \cite{lamport1998}. Cada \textit{tablet} de Spanner está asignada a un grupo Paxos. Un líder de Paxos centraliza las peticiones de escritura de ese fragmento específico y propone los cambios a los nodos seguidores.
+
+\subsection{TrueTime y el Mecanismo de Commit-Wait}
+La sincronización temporal tradicional mediante el protocolo NTP introduce un margen de error demasiado alto e impredecible para coordinar ordenamiento causal. Para solucionar esto, la API TrueTime utiliza relojes atómicos de cesio y antenas GPS instalados directamente en cada centro de datos. TrueTime no entrega el tiempo como un punto absoluto, sino como un intervalo cerrado de incertidumbre matemática:
+\begin{equation}
+t_{abs} \in [TT.now().earliest, TT.now().latest]
+\end{equation}
+Donde el valor de incertidumbre máxima se denota por la variable $\epsilon$, la cual se define como:
+\begin{equation}
+\epsilon = \frac{latest - earliest}{2}
+\end{equation}
+En la infraestructura actual de Google, $\epsilon$ se mantiene garantizado por debajo de los $7\,\text{ms}$. Para asegurar la consistencia externa, Spanner implementa el algoritmo de **Commit-Wait** descrito formalmente a continuación:
+
+\begin{algorithm}[H]
+ \SetAlgoLined
+ \KwData{Transacción de escritura $T$}
+ \KwResult{Confirmación Física de la Transacción (Commit)}
+ Adquirir bloqueos de dos fases (2PL)\;
+ Asignar marca de tiempo de compromiso: $s = TT.now().latest$\;
+ Enviar propuesta de mutación al quórum Paxos\;
+ \If{La mayoría Paxos confirma la replicación del log}{
+   \tcp{Fase obligatoria de Commit Wait}
+   \While{TT.now().earliest $\leq s$}{
+        Sujetar la transacción (Esperar)\;
+   }
+   Aplicar cambios de manera definitiva en el almacenamiento\;
+   Liberar bloqueos (2PL)\;
+   \Return{Commit Exitoso}\;
+ }
+ \Return{Abortado por falta de quórum}\;
+ \caption{Protocolo de Commit Wait en Google Spanner}
+\end{algorithm}
+
+\section{Transacciones Distribuidas: 2PC sobre Paxos}
+Cuando una transacción requiere modificar datos que se encuentran almacenados en múltiples grupos Paxos separados geográficamente, Spanner coordina la operación implementando un protocolo de **Commit de Dos Fases (2PC)** distribuido.
+
+En las implementaciones clásicas de sistemas de bases de datos, el protocolo 2PC es altamente vulnerable debido a que el nodo coordinador representa un punto único de fallo (si el coordinador se cae en medio de la fase de preparación, los participantes quedan bloqueados indefinidamente). Spanner elimina críticamente esta debilidad: tanto los nodos participantes como el coordinador del 2PC no son servidores individuales, sino **grupos Paxos replicados**. De este modo, si el servidor físico que actúa como coordinador experimenta un fallo de hardware, el grupo Paxos subyacente elige instantáneamente un sustituto que hereda el estado exacto de la transacción, garantizando la resiliencia global de la operación distribuidora.
+
+\section{Tolerancia a Fallos y Mecanismos de Resiliencia}
+El diseño de Spanner proporciona mecanismos de tolerancia a fallos multi-nivel:
+\begin{itemize}
+    \item \textbf{Fallo a Nivel de Servidor:} Detectado por la ausencia de ráfagas de sincronización (\textit{heartbeats}) en Paxos. Si el nodo caído era un seguidor, el rendimiento no se altera; si era el líder, el quórum elige un nuevo líder en un lapso de 10 a 30 segundos.
+    \item \textbf{Fallo a Nivel de Zona o Región:} Gracias a la replicación multi-región activa, si un desastre natural destruye por completo una infraestructura zonal, el tráfico se redirige inmediatamente hacia las zonas geográficas supervivientes que mantengan la mayoría del quórum.
+    \item \textbf{Fallo en el Hardware de Tiempo:} Si un receptor GPS o un reloj atómico pierde precisión, la API TrueTime expande automáticamente el valor de la incertidumbre $\epsilon$. Como consecuencia, el lazo de espera del algoritmo de *Commit-Wait* se alarga de forma segura. El sistema experimenta una degradación de rendimiento (mayor latencia), pero la integridad y consistencia de los datos permanecen completamente inalteradas.
+\end{itemize}
+
+\section{Conclusiones y Crítica del Sistema}
+Google Spanner representa la consolidación práctica de la teoría avanzada de los sistemas distribuidos. Su análisis bajo el prisma de la Unidad 1 demuestra que las transparencias de distribución se pueden lograr de manera efectiva a gran escala mediante el uso inteligente y cohesionado de gRPC, Paxos y TrueTime.
+
+La principal limitación del sistema radica en su estrecho acoplamiento con la infraestructura propietaria de Google, lo que induce un riesgo latente de dependencia del proveedor (\textit{vendor lock-in}) y elevados costes operativos. No obstante, al demostrar que las barreras convencionales del teorema CAP se pueden flexibilizar mediante ingeniería de hardware y control riguroso de la incertidumbre del tiempo, Spanner ha redefinido el paradigma del almacenamiento global, inspirando de forma directa la arquitectura de los modernos motores de bases de datos de código abierto englobados en el movimiento \textit{NewSQL}.
+
+\newpage
+\section*{Referencias Bibliográficas}
+\addcontentsline{toc}{section}{Referencias Bibliográficas}
+\begin{thebibliography}{9}
+
+\bibitem{corbett2012}
+J. C. Corbett \textit{et al.}, ``Spanner: Google's Globally-Distributed Database,'' in \textit{Proceedings of the 10th USENIX Symposium on Operating Systems Design and Implementation (OSDI '12)}, Hollywood, CA, USA, 2012, pp. 251--264.
+
+\bibitem{brewer2012}
+E. Brewer, ``CAP twelve years later: How the rules have changed,'' \textit{Computer}, vol. 45, no. 2, pp. 23--29, Feb. 2012.
+
+\bibitem{tanenbaum2017}
+A. S. Tanenbaum and M. Van Steen, \textit{Distributed Systems: Principles and Paradigms}, 3ra ed. NJ, USA: CreateSpace Independent Publishing Platform, 2017.
+
+\bibitem{lamport1998}
+L. Lamport, ``The part-time parliament,'' \textit{ACM Transactions on Computer Systems}, vol. 16, no. 2, pp. 133--169, May 1998.
+
+\bibitem{gilbert2002}
+S. Gilbert and N. Lynch, ``Brewer's conjecture and the feasibility of consistent, available, partition-tolerant web services,'' \textit{ACM SIGACT News}, vol. 33, no. 2, pp. 51--59, Jun. 2002.
+
+\bibitem{googledocs2024}
+Google Cloud, ``Cloud Spanner documentation,'' Google Cloud Platform, Tech. Rep., 2024. [En línea]. Disponible en: \url{https://cloud.google.com/spanner/docs}
+
+\end{thebibliography}
+
+\end{document}
