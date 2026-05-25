@@ -1,0 +1,148 @@
+\documentclass[12pt,letterpaper]{article}
+
+% --- Paquetes Académicos y de Formato Estricto ---
+\usepackage[utf8]{inputenc}
+\usepackage[spanish,es-tabla]{babel} 
+\usepackage{geometry}
+\geometry{top=3cm, bottom=3cm, left=2.5cm, right=2.5cm}
+\usepackage{setspace}
+\usepackage{enumitem}   
+\usepackage{booktabs}   
+\usepackage{titlesec}
+\usepackage{hyperref}   
+
+% --- Configuración de Enlaces e Índice ---
+\hypersetup{
+    colorlinks=true,
+    linkcolor=black,
+    urlcolor=blue,
+    pdftitle={Análisis del Sistema Distribuido SGSST}
+}
+
+% --- Configuración Estética de Párrafos y Títulos ---
+\spacing{1.5}
+\setlength{\parskip}{0.6em}
+\setlength{\parindent}{0pt} % Estilo de reporte técnico moderno
+
+\titleformat{\section}{\normalfont\Large\bfseries}{\thesection.}{1em}{}
+\titleformat{\subsection}{\normalfont\large\bfseries}{\thesubsection.}{1em}{}
+
+\begin{document}
+
+% ====================================================================
+% PORTADA OFICIAL INSTITUCIONAL UTEQ
+% ====================================================================
+\begin{titlepage}
+    \centering
+    
+    {\Large\bfseries UNIVERSIDAD TÉCNICA ESTATAL DE QUEVEDO} \\[0.4cm]
+    {\large Facultad de Ciencias de la Computación
+} \\[0.2cm]
+    {\large CARRERA DE INGENIERÍA EN SOFTWARE} \\[0.8cm]
+    
+    \vspace{0.5cm}
+    
+    {\scshape Asignatura:} \\[0.1cm]
+    {\large\bfseries APLICACIONES DISTRIBUIDAS} \\[0.2cm]
+    {\small SOFT-R - A - [7MO NIVEL] \quad | \quad CORTE 1} \\[1.5cm]
+    
+    {\scshape Componente Práctico / Proyecto Integrador:} \\[0.3cm]
+    {\Large\bfseries Propuesta y Análisis Arquitectónico del Sistema de\\ Gestión de Solicitudes para Soporte Técnico\\ de Internet} \\[1cm]
+    
+    {\scshape Equipo de Investigación y Roles:} \\[0.2cm]
+    \begin{flushleft}
+        \large
+        \begin{description}[leftmargin=2cm, labelstyle=bfseries]
+            \item[Pacheco:] Arquitecto de Software
+            \item[Carpio:] Líder de Desarrollo
+            \item[Alvarez:] Responsable de Aseguramiento de la Calidad (QA)
+            \item[Cando:] Responsable de Documentación Técnico
+        \end{description}
+    \end{flushleft}
+    
+    \vfill
+    
+    {\large Quevedo - Los Ríos - Ecuador} \\[0.2cm]
+    {\large \textbf{Fecha de Entrega:} Miércoles 27 de Mayo del 2026}
+    
+\end{titlepage}
+
+\newpage
+\tableofcontents 
+\newpage
+
+% ====================================================================
+% SECCIÓN 1: RESUMEN EJECUTIVO
+% ====================================================================
+\section{Resumen Ejecutivo}
+El presente informe detalla la propuesta técnica y el análisis de arquitectura del Sistema de Gestión de Solicitudes de Soporte Técnico (SGSST) diseñado bajo un enfoque distribuido. El proyecto aborda la problemática crítica de los tiempos de respuesta y la pérdida de trazabilidad en los reportes de incidentes de conectividad a Internet. Mediante un estricto control de acceso basado en roles, la plataforma segmenta las responsabilidades operativas entre Clientes, Técnicos y Administradores. 
+
+Frente a las limitaciones de un esquema centralizado, la adopción de una arquitectura distribuida desacoplada garantiza capacidades esenciales de alta disponibilidad, tolerancia a fallos y procesamiento concurrente no bloqueante. El alcance establecido para este primer corte académico se centra exclusivamente en la fundamentación conceptual de la distribución, el modelado físico de la persistencia de datos y el diseño estructural del backend mediante el mapeo objeto-relacional básico, incorporando además la planeación de módulos avanzados de inteligencia artificial, mensajería asíncrona y analítica de datos para asegurar la escalabilidad futura del ecosistema tecnológico.
+
+\textbf{Palabras clave:} Sistema Distribuido, Gestión de Solicitudes, Arquitectura Desacoplada, Escalabilidad, Corte 1.
+
+\newpage
+% ====================================================================
+% SECCIÓN 2: INTRODUCCIÓN Y CONTEXTUALIZACIÓN
+% ====================================================================
+\section{Introducción}
+El incremento exponencial en el consumo de servicios de conectividad a Internet ha transformado a las redes de datos en una infraestructura crítica para el desarrollo social y productivo. En este escenario, la incidencia de fallas técnicas es inevitable; sin embargo, el factor diferenciador de las organizaciones radica en la eficiencia y oportunidad de sus procesos de mitigación y soporte técnico. La gestión tradicional de estas incidencias suele ejecutarse a través de canales no estructurados o sistemas centralizados monolíticos que carecen de mecanismos para escalar horizontalmente ante picos concurrentes de demanda.
+
+Este documento expone formalmente el análisis arquitectónico y la fundamentación de una plataforma web diseñada bajo los principios de los sistemas distribuidos. Al separar rigurosamente las responsabilidades transaccionales y de persistencia, la solución propuesta no solo automatiza el flujo de los tickets de soporte, sino que garantiza propiedades no funcionales indispensables en entornos distribuidos modernos, tales como la tolerancia a fallos parciales, la consistencia eventual y la inmutabilidad de los registros de auditoría histórica.
+
+\newpage
+% ====================================================================
+% SECCIÓN 3: PROPUESTA Y ANÁLISIS DEL SISTEMA DISTRIBUIDO
+% ====================================================================
+\section{Propuesta y Análisis del Sistema Distribuido}
+
+\subsection{¿Qué problema real resuelve el sistema?}
+En las estructuras organizacionales de soporte técnico para servicios de Internet, el flujo operativo sufre una degradación sistemática debido a tres problemas fundamentales: la opacidad en la trazabilidad de los estados, el aislamiento de la información y la vulnerabilidad ante puntos únicos de fallo (\textit{Single Point of Failure - SPOF}). Los canales informales impiden asociar de forma confiable evidencias documentales (como archivos adjuntos PNG, JPG o PDF) a las incidencias de red, imposibilitando un diagnóstico objetivo por parte de los especialistas.
+
+Este sistema resuelve de raíz la fragmentación operativa mediante el establecimiento de un repositorio transaccional desacoplado y un motor de estados lógicos. La plataforma automatiza la recepción de tickets, valida la integridad de los adjuntos y fuerza una línea de tiempo inmutable para cada solicitud. Esto erradica la pérdida de peticiones en tránsito, elimina la arbitrariedad en la asignación de cargas de trabajo técnicas y proporciona datos históricos auditables con marcas de tiempo precisas para medir la eficiencia real del soporte con respecto a los acuerdos de nivel de servicio (SLA).
+
+\subsection{¿Quiénes usarán la plataforma? (Actores y Perfiles)}
+Para preservar la integridad de los flujos de información compartida y delimitar con rigurosidad matemática las operaciones en las capas lógicas, el sistema implementa un Control de Acceso Basado en Roles (RBAC) que gobierna a tres actores fundamentales:
+\begin{itemize}
+    \item \textbf{Cliente (Nodo Consumidor):} Usuarios finales del servicio de Internet que experimentan degradación o interrupción de conectividad. Poseen permisos exclusivos para instanciar solicitudes de soporte mediante formularios web, inyectar archivos de evidencia y realizar lecturas síncronas sobre la evolución del estado de sus tickets en tiempo real.
+    \item \textbf{Técnico (Nodo Resolutor):} Operadores especializados dedicados al tratamiento de las fallas de red. Su interfaz interactúa únicamente con el subconjunto de datos que les ha sido asignado explícitamente. Tienen la facultad de mutar el estado operativo de la solicitud (\textit{Leída, En proceso, Resuelta}) e incorporar metadatos de diagnóstico al cierre del ciclo.
+    \item \textbf{Administrador (Nodo Coordinador):} Perfil de alta jerarquía con capacidades de supervisión global. Actúa como el despachador central del sistema, encargándose del aprovisionamiento de cuentas, la gestión de catálogos y la asignación manual estratégica de tickets a técnicos basándose en la disponibilidad operativa, resguardando la consistencia del flujo de trabajo.
+\end{itemize}
+
+\subsection{¿Por qué un sistema distribuido es la solución apropiada?}
+La selección de un modelo distribuido frente a un esquema monolítico centralizado se fundamenta en criterios estrictos de ingeniería de software y teoría de sistemas distribuidos:
+
+\subsubsection{Alta Disponibilidad y Aislamiento de Fallos}
+En un entorno centralizado tradicional, una falla catastrófica en el servidor de negocio o en la base de datos detiene por completo la operación de soporte. Al estructurar la solución en capas desacopladas (Presentación, Lógica de Negocio y Datos), el sistema puede tolerar fallos parciales. Por ejemplo, la caída temporal del módulo de persistencia no inhabilita la capa de presentación para notificar al cliente una indisponibilidad controlada, evitando fallos en cascada.
+
+\subsubsection{Tratamiento de la Concurrencia de Eventos}
+Las incidencias en servicios de Internet comúnmente ocurren de forma masiva (debido a fallas en nodos de enrutamiento principales o cortes de enlaces). Un sistema distribuido permite canalizar cientos de solicitudes de escritura simultáneas de forma no bloqueante, distribuyendo el cómputo y evitando la saturación de los hilos de ejecución de la capa lógica principal.
+
+\subsubsection{Consistencia de Datos y Trazabilidad Inmutable (Teorema CAP)}
+Bajo el prisma del Teorema CAP, el sistema prioriza la Consistencia ($C$) y la Tolerancia al Particionamiento ($P$). El registro de auditoría de cambios de estado (\textit{Historial\_Estado}) captura de forma lineal el identificador del usuario, el estado de destino y la marca de tiempo exacta del sistema. Esta inmutabilidad garantiza que, a pesar de que el procesamiento de negocio se ejecute de forma distribuida en hilos concurrentes, exista una única fuente de verdad histórica e indiscutible sobre el rendimiento de la atención técnica.
+
+\subsection{Alcance del período académico (Corte 1)}
+El alcance estipulado para este primer hito de evaluación dentro de la asignatura de Aplicaciones Distribuidas se enfoca de manera exclusiva en la **fase de cimentación estructural y persistencia conceptual** del sistema. Las fronteras del entregable comprenden:
+\begin{enumerate}
+    \item El análisis formal de los requerimientos y el modelado conceptual de la comunicación inter-capas.
+    \item El diseño del modelo físico relacional de la base de datos orientada al soporte de herencia jerárquica de usuarios (estrategia \textit{Joined}), control estricto de roles, y auditoría distribuida.
+    \item La implementación a nivel de backend del mapeo objeto-relacional (ORM) a través del desarrollo estructurado de las entidades base en Java utilizando las especificaciones nativas de JPA/Jakarta Persistence.
+\end{enumerate}
+Se excluyen explícitamente de este Corte 1 el aprovisionamiento de colas de mensajería asíncrona avanzada, la configuración de proxies inversos o API Gateways, el proceso de contenerización y la orquestación distribuida automatizada, componentes asignados a las fases de evolución del ciclo académico.
+
+\newpage
+% ====================================================================
+% SECCIÓN 4: FUNCIONALIDADES AVANZADAS DE ESCALABILIDAD
+% ====================================================================
+\section{Funcionalidades Avanzadas y Escalabilidad Futura}
+Para proyectar el sistema hacia un escenario de operación maduro y maximizar el aprovechamiento de un entorno verdaderamente desacoplado y orientado a microservicios, se analiza e incorpora la planificación de las siguientes extensiones funcionales avanzadas:
+
+\begin{itemize}
+    \item \textbf{Chatbot de Autogestión y Triaje (IA):} Diseñado como un microservicio periférico e independiente que procesa interacciones concurrentes de usuarios en la capa de frontend. Este componente ejecuta algoritmos lógicos de primer nivel (como diagnosticar reinicios de enrutadores o verificar atenuaciones físicas locales) para resolver incidentes comunes. Si la falla persiste, recopila los datos limpios de la sesión y genera el ticket de forma asíncrona directamente en el núcleo del backend.
+    \item \textbf{Clasificación y Categorización Automática mediante NLP:} Integración de un servicio analítico basado en modelos de procesamiento de lenguaje natural. Al instante en que un usuario ingresa una descripción textual libre sobre su avería, el servicio interpreta semánticamente los datos en segundo plano para deducir y asignar automáticamente la categoría de la falla, optimizando los tiempos del triaje.
+    \item \textbf{Notificaciones Mensajería en Tiempo Real (WebSockets):} Evolución del protocolo HTTP tradicional hacia canales bidireccionales persistentes full-duplex de baja latencia. Esto asegura que en el milisegundo exacto en que un Administrador reasigne un ticket o un Técnico conmute un estado a \textit{Resuelta}, el nodo cliente reciba el evento de forma push sin necesidad de recargar la interfaz web.
+    \item \textbf{Base de Conocimiento (FAQs) Indexada para Técnicos:} Un repositorio distribuido de consulta optimizada y almacenamiento indexado. Funciona como una herramienta de apoyo para el personal técnico, permitiendo la búsqueda rápida de arquitecturas de solución aplicadas con éxito en incidentes históricos análogos, acelerando el tiempo medio de reparación (MTTR).
+    \item \textbf{Dashboard de Métricas y Analítica en Tiempo Real:} Implementación de un nodo de inteligencia de negocio encargado de consumir las trazas del historial de estados. Consolida indicadores de rendimiento operativos (KPI) críticos, tales como el rendimiento técnico individual, las zonas geográficas de mayor densidad de fallas en el cantón y los cuellos de botella en los flujos de atención.
+\end{itemize}
+
+\end{document}
