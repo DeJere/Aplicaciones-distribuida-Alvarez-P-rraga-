@@ -1,0 +1,69 @@
+\documentclass[12pt]{article}
+\usepackage[spanish]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{geometry}
+\geometry{margin=2.5cm}
+
+\title{Arquitecturas Distribuidas en la Industria: Caso Netflix}
+\author{Jeremy Alexis Alvarez Parraga}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\section{Caso de Estudio}
+
+Netflix es una de las empresas más conocidas por la implementación de una arquitectura basada en microservicios. Inicialmente utilizaba una arquitectura monolítica, pero debido al crecimiento acelerado de usuarios y servicios, migró a una arquitectura distribuida compuesta por cientos de microservicios independientes.
+
+\section{Razones para Elegir Microservicios}
+
+La empresa adoptó este estilo arquitectónico para mejorar la escalabilidad, disponibilidad y mantenimiento de la plataforma. Cada servicio puede desarrollarse, desplegarse y actualizarse de forma independiente, permitiendo responder rápidamente a las necesidades del negocio.
+
+\section{Beneficios Obtenidos}
+
+Entre los principales beneficios destacan:
+
+\begin{itemize}
+\item Escalabilidad independiente de cada servicio.
+\item Mayor tolerancia a fallos.
+\item Despliegues continuos sin afectar toda la plataforma.
+\item Equipos de desarrollo más autónomos.
+\item Mejor experiencia para millones de usuarios simultáneos.
+\end{itemize}
+
+\section{Desafíos Encontrados}
+
+La adopción de microservicios también presentó desafíos importantes:
+
+\begin{itemize}
+\item Mayor complejidad en la comunicación entre servicios.
+\item Necesidad de herramientas de monitoreo y observabilidad.
+\item Gestión de la consistencia de datos distribuidos.
+\item Incremento en los costos de infraestructura.
+\end{itemize}
+
+\section{Aplicación al Proyecto Propio}
+
+En el proyecto desarrollado durante la asignatura, la arquitectura de microservicios podría aplicarse separando funcionalidades como autenticación, gestión de usuarios, procesamiento de datos y generación de reportes. Esto permitiría que cada módulo evolucione de manera independiente, facilitando el mantenimiento y la escalabilidad futura del sistema.
+
+\section{Conclusión}
+
+La experiencia de Netflix demuestra que los microservicios constituyen una alternativa efectiva para sistemas que requieren alta disponibilidad y crecimiento continuo. Aunque su implementación implica desafíos técnicos, los beneficios obtenidos en términos de flexibilidad y escalabilidad justifican su adopción en aplicaciones distribuidas modernas.
+
+\begin{thebibliography}{9}
+
+\bibitem{hasselbring}
+Hasselbring, W., \& Steinacker, G. (2017).
+Microservice Architectures for Scalability, Agility and Reliability in E-Commerce.
+IEEE International Conference on Software Architecture Workshops (ICSAW).
+DOI: 10.1109/ICSAW.2017.11
+
+\bibitem{pahl}
+Pahl, C., \& Jamshidi, P. (2016).
+Microservices: A Systematic Mapping Study.
+Proceedings of the 6th International Conference on Cloud Computing and Services Science.
+DOI: 10.5220/0005785501370146
+
+\end{thebibliography}
+\end{document}
