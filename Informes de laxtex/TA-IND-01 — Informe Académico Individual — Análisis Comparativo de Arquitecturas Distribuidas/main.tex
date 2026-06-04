@@ -1,0 +1,229 @@
+\documentclass[12pt,a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish]{babel}
+\usepackage{array}
+\usepackage{geometry}
+
+\geometry{margin=2.5cm}
+
+\title{Análisis Comparativo entre Monolito Modular y Microservicios}
+\author{Jeremy Alexis Alvarez Parraga}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+\section{Introducción}
+
+Las arquitecturas distribuidas desempeñan un papel fundamental en el desarrollo de aplicaciones modernas debido al crecimiento constante de los sistemas de información y a la necesidad de ofrecer servicios escalables, confiables y de alto rendimiento. Las organizaciones actuales requieren aplicaciones capaces de soportar grandes cantidades de usuarios concurrentes, responder rápidamente a los cambios del negocio y mantener una alta disponibilidad.
+
+Entre los enfoques arquitectónicos más utilizados se encuentran el Monolito Modular y los Microservicios. Ambos modelos buscan organizar el software de manera eficiente, pero presentan diferencias importantes en aspectos como la escalabilidad, el despliegue, el mantenimiento y la comunicación entre componentes.
+
+El presente trabajo tiene como objetivo realizar un análisis comparativo entre estas dos arquitecturas, identificando sus características, ventajas, desventajas y posibles aplicaciones dentro del contexto de los sistemas distribuidos modernos. Además, se analiza cómo estas arquitecturas podrían implementarse en el proyecto integrador desarrollado durante la asignatura.
+
+\section{Fundamentos de las Arquitecturas Distribuidas}
+
+Una arquitectura distribuida está formada por múltiples componentes de software que trabajan conjuntamente a través de una red para proporcionar un servicio unificado al usuario. Este modelo permite distribuir la carga de procesamiento entre diferentes nodos, mejorar la disponibilidad del sistema y facilitar la escalabilidad.
+
+Los sistemas distribuidos modernos suelen utilizar protocolos de comunicación estandarizados como HTTP, REST, gRPC y sistemas de mensajería orientados a eventos. Gracias a estos mecanismos, es posible desarrollar aplicaciones capaces de crecer de manera flexible y responder a las necesidades cambiantes de las organizaciones.
+
+La adopción de arquitecturas distribuidas ha aumentado considerablemente debido al auge de la computación en la nube, los contenedores, DevOps y la necesidad de desarrollar aplicaciones altamente escalables.
+
+\section{Características del Monolito Modular}
+
+La arquitectura monolítica modular organiza una aplicación como una única unidad desplegable, pero divide internamente sus funcionalidades en módulos independientes. Cada módulo tiene responsabilidades específicas, permitiendo una mejor organización del código y facilitando el mantenimiento.
+
+Aunque exista una separación lógica entre módulos, todos comparten la misma base de código, la misma base de datos y el mismo entorno de ejecución. Esto simplifica el desarrollo inicial y reduce la complejidad operativa.
+
+Entre sus principales ventajas se encuentran:
+
+\begin{itemize}
+\item Simplicidad de desarrollo.
+\item Facilidad de despliegue.
+\item Menor costo de infraestructura.
+\item Menor complejidad administrativa.
+\item Facilidad para realizar pruebas integradas.
+\end{itemize}
+
+Sin embargo, cuando el sistema crece significativamente pueden aparecer problemas relacionados con el mantenimiento, la escalabilidad y la velocidad de despliegue.
+
+\section{Características de la Arquitectura de Microservicios}
+
+La arquitectura de microservicios divide una aplicación en múltiples servicios pequeños e independientes. Cada servicio implementa una funcionalidad específica del negocio y puede desarrollarse, desplegarse y escalarse de forma autónoma.
+
+Los microservicios suelen comunicarse mediante APIs REST utilizando HTTP y JSON. También pueden emplearse protocolos más eficientes como gRPC cuando se requiere una comunicación interna de alto rendimiento.
+
+Este enfoque permite que diferentes equipos trabajen simultáneamente sobre distintos servicios sin afectar el funcionamiento global del sistema.
+
+Entre sus principales ventajas destacan:
+
+\begin{itemize}
+\item Escalabilidad independiente.
+\item Despliegues continuos.
+\item Mayor tolerancia a fallos.
+\item Flexibilidad tecnológica.
+\item Mantenimiento simplificado por servicio.
+\end{itemize}
+
+No obstante, también introduce desafíos relacionados con la complejidad de infraestructura, monitoreo, seguridad y coordinación entre servicios.
+
+\section{Comparación entre Monolito Modular y Microservicios}
+
+\subsection{Comparación Técnica}
+
+\begin{table}[h]
+\centering
+\begin{tabular}{|p{4cm}|p{4cm}|p{4cm}|}
+\hline
+\textbf{Característica} & \textbf{Monolito Modular} & \textbf{Microservicios} \\
+\hline
+Despliegue & Único despliegue & Despliegues independientes \\
+\hline
+Escalabilidad & Escala toda la aplicación & Escala cada servicio por separado \\
+\hline
+Mantenimiento & Más simple al inicio & Más flexible a largo plazo \\
+\hline
+Comunicación & Interna dentro del proceso & APIs REST, eventos o gRPC \\
+\hline
+Tolerancia a fallos & Un error puede afectar todo el sistema & Los fallos pueden aislarse \\
+\hline
+Complejidad operativa & Baja & Alta \\
+\hline
+Tiempo de desarrollo inicial & Menor & Mayor \\
+\hline
+\end{tabular}
+\caption{Comparación entre Monolito Modular y Microservicios}
+\label{tab:comparacion}
+\end{table}
+
+\section{Comunicación entre Servicios}
+
+Uno de los aspectos más importantes dentro de una arquitectura distribuida es la comunicación entre componentes. En el caso de los microservicios, la comunicación suele realizarse mediante APIs REST basadas en HTTP y JSON.
+
+REST permite que los servicios intercambien información utilizando recursos identificados mediante URI y verbos HTTP como GET, POST, PUT y DELETE. Este modelo facilita la interoperabilidad entre aplicaciones desarrolladas con diferentes tecnologías.
+
+Además, muchas arquitecturas modernas utilizan un API Gateway como punto central de acceso. Este componente se encarga de gestionar autenticación, autorización, balanceo de carga y monitoreo, simplificando la interacción entre clientes y microservicios.
+
+\section{Aplicación al Proyecto Integrador}
+
+En el proyecto integrador desarrollado durante la asignatura, una arquitectura de microservicios permitiría separar funcionalidades como autenticación, gestión de usuarios, procesamiento de datos y generación de reportes en servicios independientes.
+
+Cada servicio podría exponer endpoints REST siguiendo buenas prácticas de diseño de APIs. Esto permitiría escalar únicamente los módulos que requieran mayores recursos y facilitaría el mantenimiento del sistema.
+
+Por otro lado, una arquitectura monolítica modular simplificaría la implementación inicial del proyecto debido a que todas las funcionalidades se ejecutarían dentro de una misma aplicación. Sin embargo, a medida que aumente la complejidad del sistema, los microservicios proporcionarían mayores beneficios en términos de escalabilidad y flexibilidad.
+
+\section{Discusión Crítica}
+
+La elección entre una arquitectura monolítica modular y una arquitectura basada en microservicios depende de múltiples factores, incluyendo el tamaño del proyecto, la experiencia del equipo de desarrollo, los recursos disponibles y los objetivos de negocio.
+
+Para proyectos pequeños y medianos, el monolito modular suele ofrecer una solución más sencilla y económica. En cambio, para aplicaciones de gran escala que requieren actualizaciones frecuentes y alta disponibilidad, los microservicios representan una alternativa más adecuada.
+
+La adopción de microservicios debe realizarse cuando exista una necesidad real de escalabilidad y autonomía entre componentes, evitando introducir complejidad innecesaria en proyectos que podrían resolverse mediante una arquitectura más simple.
+
+\section{Guía Práctica de Selección Arquitectónica}
+
+La decisión entre una arquitectura monolítica modular y una de microservicios no debe tomarse únicamente con base en tendencias tecnológicas, sino en función del contexto real del proyecto. A continuación se presentan criterios concretos y patrones que orientan dicha selección.
+
+\subsection{Criterios de Selección por Contexto}
+
+El tamaño del equipo, la complejidad del dominio y los recursos de infraestructura disponibles son variables determinantes. Para equipos pequeños con presupuesto limitado, el monolito modular reduce significativamente la carga operativa. En cambio, cuando distintos módulos tienen ritmos de crecimiento muy diferentes o requieren despliegues frecuentes e independientes, los microservicios ofrecen ventajas concretas.
+
+\begin{table}[h]
+\centering
+\begin{tabular}{|p{3.5cm}|p{5.5cm}|p{3.5cm}|}
+\hline
+\textbf{Contexto} & \textbf{Descripción} & \textbf{Arquitectura Recomendada} \\
+\hline
+Startup / MVP & Equipo pequeño, lanzamiento rápido, recursos limitados. & Monolito Modular \\
+\hline
+E-commerce mediano & Módulos definidos, crecimiento moderado. & Monolito Modular \\
+\hline
+Plataforma SaaS & Alta demanda variable, múltiples clientes, SLAs elevados. & Microservicios \\
+\hline
+Banca / Fintech & Dominios complejos, equipos autónomos por dominio. & Microservicios \\
+\hline
+Sistema educativo & Funcionalidades acotadas, equipo académico pequeño. & Monolito Modular \\
+\hline
+\end{tabular}
+\caption{Selección arquitectónica según el contexto del proyecto}
+\label{tab:seleccion}
+\end{table}
+
+\subsection{Patrones de Diseño Asociados}
+
+Cada arquitectura cuenta con patrones bien establecidos que facilitan su implementación. El patrón \textit{Strangler Fig} permite migrar progresivamente un monolito hacia microservicios reemplazando módulos de forma incremental. El patrón \textit{API Gateway} centraliza el acceso a los microservicios gestionando autenticación y enrutamiento. El patrón \textit{CQRS} (Command Query Responsibility Segregation) separa las operaciones de lectura y escritura para optimizar el rendimiento, y puede aplicarse en ambas arquitecturas.
+
+\subsection{Consideraciones sobre DevOps e Infraestructura}
+
+La adopción de microservicios implica una transformación operativa. Los equipos deben contar con pipelines de integración y entrega continua (CI/CD) por servicio, orquestación de contenedores mediante herramientas como Kubernetes, y sistemas de monitoreo distribuido para trazabilidad entre servicios. Sin estas capacidades, la complejidad operativa puede superar los beneficios arquitectónicos. El monolito modular, en contraste, puede ejecutarse en infraestructuras más simples con menor costo operativo.
+
+\section{Conclusiones}
+
+El análisis realizado demuestra que tanto el Monolito Modular como los Microservicios presentan ventajas y desventajas dependiendo del contexto de aplicación.
+
+El Monolito Modular destaca por su simplicidad de desarrollo y administración, siendo una opción adecuada para proyectos de menor escala. Por su parte, los Microservicios ofrecen una mayor capacidad de escalabilidad, flexibilidad y tolerancia a fallos, convirtiéndose en una solución ideal para sistemas distribuidos complejos.
+
+Considerando las tendencias actuales del desarrollo de software y los requerimientos de los sistemas modernos, la arquitectura de Microservicios representa una alternativa con mayor potencial para aplicaciones que demandan crecimiento continuo, alta disponibilidad y despliegues frecuentes.
+
+Considerando los requerimientos actuales de los sistemas distribuidos modernos, la arquitectura de microservicios representa una opción más apropiada para aplicaciones que requieren alta disponibilidad, crecimiento constante e integración con múltiples servicios.
+
+
+\section{Tendencias Actuales y Herramientas del Ecosistema}
+
+El panorama tecnológico alrededor de las arquitecturas distribuidas ha evolucionado rápidamente en los últimos años. Comprender las herramientas y tendencias vigentes permite tomar decisiones más informadas al momento de diseñar o migrar sistemas de software.
+
+\subsection{Herramientas para Microservicios}
+
+La adopción de microservicios ha impulsado el desarrollo de un ecosistema robusto de herramientas especializadas. Entre las más utilizadas en la industria se encuentran:
+
+\begin{itemize}
+\item \textbf{Kubernetes:} Plataforma de orquestación de contenedores que automatiza el despliegue, escalado y gestión de microservicios empaquetados en contenedores Docker.
+\item \textbf{Istio:} Malla de servicios (service mesh) que gestiona la comunicación entre microservicios, proporcionando seguridad, observabilidad y control de tráfico de forma transparente.
+\item \textbf{Apache Kafka:} Sistema de mensajería distribuida orientado a eventos, ampliamente utilizado para la comunicación asíncrona entre microservicios de alta demanda.
+\item \textbf{Prometheus y Grafana:} Herramientas de monitoreo y visualización de métricas que permiten observar el comportamiento de cada servicio de forma independiente.
+\item \textbf{Jaeger:} Sistema de trazabilidad distribuida que permite rastrear el flujo de una solicitud a través de múltiples microservicios, facilitando la detección de cuellos de botella.
+\end{itemize}
+
+\subsection{Herramientas para Monolito Modular}
+
+El monolito modular también cuenta con un conjunto de herramientas que facilitan su organización y mantenimiento:
+
+\begin{itemize}
+\item \textbf{Maven / Gradle:} Sistemas de construcción que permiten organizar el proyecto en módulos con dependencias bien definidas.
+\item \textbf{Spring Modulith:} Extensión del ecosistema Spring que proporciona soporte explícito para la construcción de monolitos modulares en Java, con validación de límites entre módulos.
+\item \textbf{ArchUnit:} Librería para verificar mediante pruebas automatizadas que se respetan las reglas arquitectónicas definidas entre módulos.
+\end{itemize}
+
+\subsection{Tendencias Emergentes}
+
+Actualmente se observan varias tendencias que están redefiniendo la forma en que se implementan las arquitecturas distribuidas. La arquitectura serverless permite ejecutar funciones individuales sin gestionar servidores, llevando al extremo el concepto de descomposición funcional de los microservicios. Por otro lado, el enfoque de \textit{micro-frontends} extiende los principios de los microservicios hacia la capa de presentación, permitiendo que distintos equipos desarrollen y desplieguen partes independientes de la interfaz de usuario.
+
+Asimismo, el uso de plataformas de integración como servicio (iPaaS) y la adopción de arquitecturas basadas en eventos (Event-Driven Architecture) están ganando terreno como complementos naturales de los microservicios, permitiendo una mayor desacoplamiento entre los componentes del sistema y una respuesta más ágil ante eventos de negocio en tiempo real.
+
+\begin{thebibliography}{99}
+
+\bibitem{dragoni}
+Dragoni, N., et al.
+\textit{Microservices: Yesterday, Today, and Tomorrow}.
+DOI: 10.1007/978-3-319-67425-4\_12
+
+\bibitem{hasselbring}
+Hasselbring, W. y Steinacker, G.
+\textit{Microservice Architectures for Scalability, Agility and Reliability in E-Commerce}.
+DOI: 10.1109/ICSAW.2017.11
+
+\bibitem{villamizar}
+Villamizar, M., et al.
+\textit{Evaluating the Monolithic and the Microservice Architecture Pattern to Deploy Web Applications in the Cloud}.
+DOI: 10.1109/TLA.2015.7386416
+
+\bibitem{taibi}
+Taibi, D., Lenarduzzi, V. y Pahl, C.
+\textit{Architectural Patterns for Microservices}.
+DOI: 10.5220/0006798302210232
+
+\end{thebibliography}
+
+\end{document}
