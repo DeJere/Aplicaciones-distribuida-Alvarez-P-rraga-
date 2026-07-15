@@ -1,0 +1,4 @@
+ec\edu\uteq\bancoaustro\BancoAustroApplication.class
+ec\edu\uteq\bancoaustro\config\DataSourceConfig.class
+ec\edu\uteq\bancoaustro\controller\BancoController.class
+ec\edu\uteq\bancoaustro\service\ConsultaDistribuidaService.class
