@@ -1,0 +1,122 @@
+openapi: 3.0.0
+info:
+  title: Notification Service API
+  description: Registro y consulta de notificaciones de eventos para TiendaTech
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:8080/api/notifications
+    description: Via API Gateway
+  - url: http://localhost:8003
+    description: Directo (desarrollo)
+
+paths:
+  /notifications:
+    post:
+      summary: Registrar y enviar una notificación de evento
+      tags: [Notifications]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NotificationRequest'
+            example:
+              resourceId: 1
+              action: "PRODUCT_CREATED"
+              message: "Producto creado: Laptop Pro"
+              recipientEmail: "admin@tiendatech.com"
+      responses:
+        '201':
+          description: Notificación procesada y persistida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponseNotification'
+              example:
+                status: 201
+                data:
+                  id: 1
+                  resourceId: 1
+                  action: "PRODUCT_CREATED"
+                  message: "Producto creado: Laptop Pro"
+                  recipientEmail: "admin@tiendatech.com"
+                  status: "SENT"
+                  timestamp: "2026-06-16T14:05:00Z"
+                message: "Notificación procesada exitosamente"
+                timestamp: "2026-06-16T14:05:00Z"
+        '400':
+          description: Datos inválidos
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponseError'
+
+    get:
+      summary: Obtener historial de notificaciones
+      tags: [Notifications]
+      responses:
+        '200':
+          description: Historial de notificaciones
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponseNotificationList'
+
+components:
+  schemas:
+    NotificationRequest:
+      type: object
+      required: [action, message, recipientEmail]
+      properties:
+        resourceId:
+          type: integer
+          format: int64
+          description: ID del recurso que generó el evento
+        action:
+          type: string
+          enum: [PRODUCT_CREATED, PRODUCT_UPDATED, PRODUCT_DELETED, USER_REGISTERED]
+        message:
+          type: string
+        recipientEmail:
+          type: string
+          format: email
+
+    NotificationLog:
+      type: object
+      properties:
+        id: { type: integer, format: int64 }
+        resourceId: { type: integer, format: int64 }
+        action: { type: string }
+        message: { type: string }
+        recipientEmail: { type: string }
+        status: { type: string }
+        timestamp: { type: string, format: date-time }
+
+    ApiResponseNotification:
+      type: object
+      properties:
+        status: { type: integer }
+        data:
+          $ref: '#/components/schemas/NotificationLog'
+        message: { type: string }
+        timestamp: { type: string, format: date-time }
+
+    ApiResponseNotificationList:
+      type: object
+      properties:
+        status: { type: integer }
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/NotificationLog'
+        message: { type: string }
+        timestamp: { type: string, format: date-time }
+
+    ApiResponseError:
+      type: object
+      properties:
+        status: { type: integer }
+        data: { nullable: true }
+        message: { type: string }
+        timestamp: { type: string, format: date-time }

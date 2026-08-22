@@ -1,0 +1,197 @@
+openapi: 3.0.0
+info:
+  title: Resource Service API
+  description: CRUD de productos para TiendaTech. Todos los endpoints requieren JWT.
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:8080/api/resources
+    description: Via API Gateway
+  - url: http://localhost:8002
+    description: Directo (desarrollo)
+
+security:
+  - bearerAuth: []
+
+paths:
+  /:
+    get:
+      summary: Listar todos los productos
+      tags: [Products]
+      responses:
+        '200':
+          description: Lista de productos
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponseProductList'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /create:
+    post:
+      summary: Crear un nuevo producto
+      tags: [Products]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProductRequest'
+            example:
+              name: "Laptop Pro"
+              description: "Laptop para desarrolladores"
+              price: 1500.00
+              stock: 10
+              category: "Electrónica"
+      responses:
+        '201':
+          description: Producto creado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponseProduct'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /{id}:
+    get:
+      summary: Obtener producto por ID
+      tags: [Products]
+      parameters:
+        - $ref: '#/components/parameters/ProductId'
+      responses:
+        '200':
+          description: Producto encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponseProduct'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+    put:
+      summary: Actualizar producto
+      tags: [Products]
+      parameters:
+        - $ref: '#/components/parameters/ProductId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProductRequest'
+      responses:
+        '200':
+          description: Producto actualizado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponseProduct'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+    delete:
+      summary: Eliminar producto
+      tags: [Products]
+      parameters:
+        - $ref: '#/components/parameters/ProductId'
+      responses:
+        '200':
+          description: Producto eliminado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponseVoid'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  parameters:
+    ProductId:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: integer
+        format: int64
+
+  schemas:
+    ProductRequest:
+      type: object
+      required: [name, price, stock]
+      properties:
+        name: { type: string }
+        description: { type: string }
+        price: { type: number, format: double }
+        stock: { type: integer }
+        category: { type: string }
+
+    Product:
+      allOf:
+        - $ref: '#/components/schemas/ProductRequest'
+        - type: object
+          properties:
+            id: { type: integer, format: int64 }
+
+    ApiResponseProduct:
+      type: object
+      properties:
+        status: { type: integer }
+        data:
+          $ref: '#/components/schemas/Product'
+        message: { type: string }
+        timestamp: { type: string, format: date-time }
+
+    ApiResponseProductList:
+      type: object
+      properties:
+        status: { type: integer }
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Product'
+        message: { type: string }
+        timestamp: { type: string, format: date-time }
+
+    ApiResponseVoid:
+      type: object
+      properties:
+        status: { type: integer }
+        data: { nullable: true }
+        message: { type: string }
+        timestamp: { type: string, format: date-time }
+
+  responses:
+    Unauthorized:
+      description: Token JWT inválido o no proporcionado
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ApiResponseVoid'
+    NotFound:
+      description: Recurso no encontrado
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ApiResponseVoid'
+    BadRequest:
+      description: Datos inválidos
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ApiResponseVoid'

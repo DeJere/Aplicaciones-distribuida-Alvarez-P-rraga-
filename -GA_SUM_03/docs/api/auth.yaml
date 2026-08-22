@@ -1,0 +1,172 @@
+openapi: 3.0.0
+info:
+  title: Auth Service API
+  description: Servicio de autenticación con JWT para TiendaTech
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:8080/api/auth
+    description: Via API Gateway
+  - url: http://localhost:8001
+    description: Directo (desarrollo)
+
+paths:
+  /register:
+    post:
+      summary: Registrar nuevo usuario
+      tags: [Auth]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RegisterRequest'
+            example:
+              username: "johndoe"
+              password: "secret123"
+      responses:
+        '201':
+          description: Usuario registrado exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponseUser'
+              example:
+                status: 201
+                data:
+                  username: "johndoe"
+                  roles: "ROLE_USER"
+                message: "Usuario registrado exitosamente"
+                timestamp: "2026-06-16T14:00:00Z"
+        '409':
+          description: Usuario ya existe
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponseError'
+
+  /login:
+    post:
+      summary: Iniciar sesión y obtener JWT
+      tags: [Auth]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+            example:
+              username: "admin"
+              password: "admin"
+      responses:
+        '200':
+          description: Autenticación exitosa
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponseJwt'
+              example:
+                status: 200
+                data:
+                  token: "eyJhbGciOiJIUzUxMiJ9..."
+                  expiresIn: 3600000
+                message: "Autenticación exitosa"
+                timestamp: "2026-06-16T14:00:00Z"
+        '401':
+          description: Credenciales inválidas
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponseError'
+
+  /validate:
+    get:
+      summary: Validar token JWT
+      tags: [Auth]
+      parameters:
+        - name: Authorization
+          in: header
+          required: false
+          schema:
+            type: string
+          example: "Bearer eyJhbGciOiJIUzUxMiJ9..."
+        - name: token
+          in: query
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Token válido
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponseValidate'
+        '401':
+          description: Token inválido o expirado
+
+components:
+  schemas:
+    RegisterRequest:
+      type: object
+      required: [username, password]
+      properties:
+        username:
+          type: string
+          minLength: 3
+        password:
+          type: string
+          minLength: 6
+
+    LoginRequest:
+      type: object
+      required: [username, password]
+      properties:
+        username:
+          type: string
+        password:
+          type: string
+
+    ApiResponseJwt:
+      type: object
+      properties:
+        status: { type: integer }
+        data:
+          type: object
+          properties:
+            token: { type: string }
+            expiresIn: { type: integer }
+        message: { type: string }
+        timestamp: { type: string, format: date-time }
+
+    ApiResponseUser:
+      type: object
+      properties:
+        status: { type: integer }
+        data:
+          type: object
+          properties:
+            username: { type: string }
+            roles: { type: string }
+        message: { type: string }
+        timestamp: { type: string, format: date-time }
+
+    ApiResponseValidate:
+      type: object
+      properties:
+        status: { type: integer }
+        data:
+          type: object
+          properties:
+            username: { type: string }
+            valid: { type: boolean }
+        message: { type: string }
+        timestamp: { type: string, format: date-time }
+
+    ApiResponseError:
+      type: object
+      properties:
+        status: { type: integer }
+        data: { nullable: true }
+        message: { type: string }
+        timestamp: { type: string, format: date-time }

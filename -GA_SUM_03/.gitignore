@@ -1,0 +1,42 @@
+# Dependency directories
+node_modules/
+**/node_modules/
+venv/
+.env/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Build output
+dist/
+build/
+target/
+
+# IDE and editor files
+.idea/
+.vscode/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+
+# Environment variables and secrets
+.env
+.env.local
+.env.*.local
+
+# Docker files
+docker-compose.override.yml
+
+# Logs and runtime files
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+logs/
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db

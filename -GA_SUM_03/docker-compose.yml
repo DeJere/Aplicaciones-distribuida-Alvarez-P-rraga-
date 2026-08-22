@@ -1,0 +1,130 @@
+version: '3.9'
+
+services:
+  api-gateway:
+    build:
+      context: ./api-gateway
+    container_name: api-gateway
+    ports:
+      - '8080:8080'
+    depends_on:
+      auth-service:
+        condition: service_started
+      resource-service:
+        condition: service_started
+      notification-service:
+        condition: service_started
+    networks:
+      - tiendatech-network
+    restart: unless-stopped
+
+  # ── Auth ──────────────────────────────────────────────
+  auth-db:
+    image: postgres:15-alpine
+    container_name: auth-db
+    environment:
+      POSTGRES_USER: auth_user
+      POSTGRES_PASSWORD: SecureAuthPass123!@#
+      POSTGRES_DB: authdb
+    volumes:
+      - auth_data:/var/lib/postgresql/data
+    networks:
+      - tiendatech-network
+
+  auth-service:
+    build:
+      context: ./auth-service
+    container_name: auth-service
+    environment:
+      - PORT=8001
+      - AUTH_JWT_SECRET=${AUTH_JWT_SECRET}
+      - AUTH_POSTGRES_USER=auth_user
+      - AUTH_POSTGRES_PASSWORD=SecureAuthPass123!@#
+      - AUTH_POSTGRES_DB=authdb
+      - AUTH_DATABASE_URL=jdbc:postgresql://auth-db:5432/authdb
+    ports:
+      - '8001:8001'
+    networks:
+      - tiendatech-network
+    depends_on:
+      - auth-db
+    restart: unless-stopped
+
+  # ── Resource ──────────────────────────────────────────
+  resource-db:
+    image: postgres:15-alpine
+    container_name: resource-db
+    environment:
+      POSTGRES_USER: resource_user
+      POSTGRES_PASSWORD: SecureResourcePass456!@#
+      POSTGRES_DB: resourcedb
+    volumes:
+      - resource_data:/var/lib/postgresql/data
+    networks:
+      - tiendatech-network
+
+  resource-service:
+    build:
+      context: ./resource-service
+    container_name: resource-service
+    environment:
+      - PORT=8002
+      - AUTH_JWT_SECRET=${AUTH_JWT_SECRET}
+      - RESOURCE_POSTGRES_USER=resource_user
+      - RESOURCE_POSTGRES_PASSWORD=SecureResourcePass456!@#
+      - RESOURCE_POSTGRES_DB=resourcedb
+      - RESOURCE_DATABASE_URL=jdbc:postgresql://resource-db:5432/resourcedb
+      - NOTIFICATION_SERVICE_URL=http://notification-service:8003
+    ports:
+      - '8002:8002'
+    networks:
+      - tiendatech-network
+    depends_on:
+      - resource-db
+      - notification-service
+    restart: unless-stopped
+
+  # ── Notification ──────────────────────────────────────
+  notification-db:
+    image: postgres:15-alpine
+    container_name: notification-db
+    environment:
+      POSTGRES_USER: notif_user
+      POSTGRES_PASSWORD: SecureNotifPass789!@#
+      POSTGRES_DB: notificationdb
+    volumes:
+      - notification_data:/var/lib/postgresql/data
+    networks:
+      - tiendatech-network
+
+  notification-service:
+    build:
+      context: ./notification-service
+    container_name: notification-service
+    environment:
+      - PORT=8003
+      - NOTIF_POSTGRES_USER=notif_user
+      - NOTIF_POSTGRES_PASSWORD=SecureNotifPass789!@#
+      - NOTIF_POSTGRES_DB=notificationdb
+      - NOTIF_DATABASE_URL=jdbc:postgresql://notification-db:5432/notificationdb
+      - SMTP_HOST=${SMTP_HOST}
+      - SMTP_PORT=${SMTP_PORT}
+      - SMTP_USER=${SMTP_USER}
+      - SMTP_PASS=${SMTP_PASS}
+      - SMTP_FROM=${SMTP_FROM}
+    ports:
+      - '8003:8003'
+    networks:
+      - tiendatech-network
+    depends_on:
+      - notification-db
+    restart: unless-stopped
+
+networks:
+  tiendatech-network:
+    driver: bridge
+
+volumes:
+  auth_data:
+  resource_data:
+  notification_data:
