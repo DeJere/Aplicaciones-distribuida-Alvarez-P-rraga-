@@ -1,4 +1,4 @@
-# Portafolio Personal de Evidencias de Aprendizaje y Autoevaluación Sumativa Individual
+# EV-AUT-03 — Portafolio de Evidencias Individuales
 
 **Asignatura:** Aplicaciones Distribuidas (ISR-701)  
 **Institución:** Universidad Técnica Estatal de Quevedo (UTEQ)  
@@ -6,48 +6,74 @@
 **Carrera:** Ingeniería de Software  
 **Estudiante:** Jeremy Alexis Alvarez Párraga ([@DeJere](https://github.com/DeJere))  
 **Correo Institucional:** `jalvarezp3@uteq.edu.ec`  
+**Equipo PFC:** D / ACC (ACC — Soporte Técnico ISP)  
 **Docente Responsable:** Gleiston C. Guerrero-Ulloa, M.Sc.  
 **Período Académico:** 2026–2027 PPA  
-**Modalidad:** Individual | **Carácter:** Sumativa (Autoevaluación de fin de período)  
+**Código de Actividad:** **EV-AUT-03**  
+**Modalidad:** Individual | **Carácter:** Sumativa (Autoevaluación final del período)  
 
 ---
 
-## 📊 Desglose Oficial de Calificación de la Actividad
+## 🔗 Enlaces Oficiales de Entrega
 
-| Componente de Evaluación | Ponderación | Nota Obtenida | Puntaje Ponderado |
-| :--- | :---: | :---: | :---: |
-| **Portafolio de Evidencias de Aprendizaje y Autoevaluación** | 60% | 10.00 / 10.00 | **6.00 / 6.00** |
-| **Cuestionario de Evaluación Formativa de Fin de Período** | 40% | 10.00 / 10.00 | **4.00 / 4.00** |
-| **CALIFICACIÓN FINAL CONSOLIDADA (100%)** | **100%** | **10.00 / 10.00** | **10.00 / 10.00** |
-
----
-
-## 📑 Estructura y Contenido del Portafolio
-
-El portafolio se encuentra completamente documentado y formalizado en formato LaTeX/PDF, cumpliendo con todos los criterios de la rúbrica institucional:
-
-### 1. Tres (3) Evidencias Concretas de Aprendizaje del Período
-1. **Evidencia 1 (Unidad 1 y 2 - Sockets y Sincronización Lógica):**
-   - Implementación en Python del algoritmo de **Relojes Lógicos de Lamport** con soporte *thread-safe*, enmarcado de paquetes (*length-prefix framing*) y ordenación causal estricta de eventos ($a \to b$).
-   - *Código de referencia:* `AplicacionesDistribuidas/APORTEPARTEPRACTICA/distributed_nodes/`
-2. **Evidencia 2 (Unidad 3 - Arquitectura de Microservicios y Resiliencia):**
-   - Diseño de un ecosistema distribuido desacoplado con **API Gateway (Nginx)**, autenticación *stateless* basada en **JSON Web Tokens (JWT)** y microservicios independientes (`auth-service`, `resource-service`, `notification-service`, `catalogo`, `pedidos`).
-   - *Código de referencia:* `-GA_SUM_03/` y `examne-prctica-2-juli/`
-3. **Evidencia 3 (Unidad 4 - Cómputo Paralelo Masivo y Ley de Amdahl):**
-   - Pipeline distribuido en **Apache Spark (PySpark)** sobre un conjunto de datos real de más de 600,000 registros (FCC Consumer Complaints), con análisis comparativo frente a Pandas monohilo y contrastación experimental del *Speedup* ($S(N)$) y fracción paralelizable ($p \approx 89.2\%$) según la **Ley de Amdahl**.
-   - *Código de referencia:* `pe-u4-spark-Soporte-Tecnico-ISP/` y `TA-IND-04-An-lisis-de-Rendimiento-Paralelo/`
-
-### 2. Contribución Individual al PFC y Registro de Commits GitHub
-- Repositorio Oficial: [`https://github.com/DeJere/Aplicaciones-distribuida-Alvarez-P-rraga-.git`](https://github.com/DeJere/Aplicaciones-distribuida-Alvarez-P-rraga-)
-- Historial inmutable y continuo de commits desde mayo de 2026 hasta agosto de 2026, con autoría única de **Jeremy Alexis Alvarez Párraga** (`DeJere <jalvarezp3@uteq.edu.ec>`).
-
-### 3. Cuestionario de Evaluación Formativa de Fin de Período (40%)
-- Banco de 10 preguntas teórico-prácticas resueltas con fundamentación formal sobre Teorema CAP, Relojes de Lamport vs Vectoriales, gRPC/Protobuf, API Gateway, JWT Stateless, Transformaciones Narrow vs Wide en Spark, Ley de Amdahl, DAGs y Tolerancia a Fallos, Fallos Bizantinos y Orquestación con Docker Compose.
+* **URL del repositorio del portafolio (única línea):**  
+  `https://github.com/DeJere/Aplicaciones-distribuida-Alvarez-P-rraga-.git`
+* **URL del repositorio del PFC (única línea):**  
+  `https://github.com/DeJere/Aplicaciones-distribuida-Alvarez-P-rraga-.git`
 
 ---
 
-## 📂 Archivos del Entregable
+## 🛠️ Instrucciones de Compilación Limpia (Regla de Piso 2)
 
-- **Documento LaTeX fuente:** [`docs/Portafolio_Autoevaluacion_Sumativa.tex`](./docs/Portafolio_Autoevaluacion_Sumativa.tex)
-- **Bibliografía IEEE:** [`docs/references.bib`](./docs/references.bib)
-- **Documento PDF Compilado:** [`Portafolio_Autoevaluacion_Sumativa_AlvarezParraga_Jeremy.pdf`](./Portafolio_Autoevaluacion_Sumativa_AlvarezParraga_Jeremy.pdf)
+Para reproducir y compilar de manera determinista y limpia los documentos PDF desde cualquier entorno con distribución LaTeX (TeX Live, MiKTeX o MacTeX):
+
+### 1. Dependencias y Requisitos
+* Compilador: `pdflatex` (versión $\ge 3.14159265$)
+* Procesador bibliográfico: `biber` (versión $\ge 2.19$)
+* Paquetes de LaTeX requeridos:
+  * `babel` (con opción `spanish,es-tabla`), `inputenc` (utf8), `fontenc` (T1)
+  * `geometry`, `amsmath`, `amssymb`, `siunitx`, `booktabs`, `tabularx`
+  * `listings`, `xcolor`, `tcolorbox`, `tikz`, `fancyhdr`, `biblatex` (estilo `ieee`), `hyperref`, `cleveref`
+
+### 2. Orden de Comandos para Compilación
+
+#### A. Documento Principal del Portafolio (`Portafolio_Autoevaluacion_Sumativa.tex`):
+```bash
+cd Autoevaluacion-Sumativa-Portafolio-Individual/docs
+pdflatex -interaction=nonstopmode Portafolio_Autoevaluacion_Sumativa.tex
+biber Portafolio_Autoevaluacion_Sumativa
+pdflatex -interaction=nonstopmode Portafolio_Autoevaluacion_Sumativa.tex
+pdflatex -interaction=nonstopmode Portafolio_Autoevaluacion_Sumativa.tex
+```
+
+#### B. Carátula de 1 Página para Entrega en LMS SGA (`LMS_Caratula_EV-AUT-03_AlvarezParraga_Jeremy.tex`):
+```bash
+cd Autoevaluacion-Sumativa-Portafolio-Individual/docs
+pdflatex -interaction=nonstopmode LMS_Caratula_EV-AUT-03_AlvarezParraga_Jeremy.tex
+```
+
+---
+
+## 📑 Estructura del Entregable y Correspondencia con la Rúbrica EV-AUT-03
+
+1. **Carátula:** Datos de identificación completos y URLs en una sola línea.
+2. **Parte (a) — Tres Evidencias de Aprendizaje del Período:**
+   * **Evidencia 1 (D1 - Código Propio):** Sincronización con Relojes Lógicos de Lamport *thread-safe* en Python (`AplicacionesDistribuidas/APORTEPARTEPRACTICA/distributed_nodes/lamport_clock.py`, commit `5532cbb`). Explicación en primera persona con decisión de diseño, alternativas descartadas y concepto de causalidad lógica.
+   * **Evidencia 2 (D2 - Análisis Técnico sobre Datos Propios):** Medición empírica de tiempos de ejecución y *Speedup* en Apache Spark sobre 600,000 registros FCC (`pe-u4-spark-Soporte-Tecnico-ISP/resultados/tiempos_resumen.csv`, commit `e4406fe`). Protocolo detallado con `time.perf_counter()`, ajuste de Ley de Amdahl ($p \approx 89.2\%$) y análisis de la métrica de Karp-Flatt.
+   * **Evidencia 3 (D3 - Reflexión Documentada):** Análisis crítico de fallos en cascada por acoplamiento síncrono HTTP en el API Gateway y propuesta transferible de *Event-Driven Architecture* (`-GA_SUM_03/api-gateway/nginx.conf`, commit `a91b0a8`).
+3. **Parte (b) — Contribución Individual al PFC (D4):**
+   * Historial exhaustivo de commits individuales verificables con autoría de `DeJere <jalvarezp3@uteq.edu.ec>`.
+4. **Declaración de Uso de IA Generativa (D6.2):** Herramientas, alcance y distinción de autoría.
+5. **Referencias Bibliográficas IEEE (D6.1):** Citas académicas reales con DOIs resolubles.
+6. **Hoja de Calificación:** Autoevaluación analítica con nota **10.00 / 10.00 (Sobresaliente)**.
+7. **Anexo Formativo:** Cuestionario de evaluación formativa de 10 preguntas técnicas justificadas.
+
+---
+
+## 📁 Archivos Disponibles en este Directorio
+
+* [`Portafolio_Autoevaluacion_Sumativa_AlvarezParraga_Jeremy.pdf`](./Portafolio_Autoevaluacion_Sumativa_AlvarezParraga_Jeremy.pdf) — Documento completo del portafolio.
+* [`LMS_Caratula_EV-AUT-03_AlvarezParraga_Jeremy.pdf`](./LMS_Caratula_EV-AUT-03_AlvarezParraga_Jeremy.pdf) — Carátula de 1 sola página para subir al LMS SGA.
+* [`docs/Portafolio_Autoevaluacion_Sumativa.tex`](./docs/Portafolio_Autoevaluacion_Sumativa.tex) — Código fuente LaTeX del portafolio.
+* [`docs/LMS_Caratula_EV-AUT-03_AlvarezParraga_Jeremy.tex`](./docs/LMS_Caratula_EV-AUT-03_AlvarezParraga_Jeremy.tex) — Código fuente LaTeX de la carátula LMS.
+* [`docs/references.bib`](./docs/references.bib) — Base de datos bibliográfica en formato BibLaTeX/IEEE.

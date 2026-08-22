@@ -19,6 +19,75 @@
 
 \refsection{0}
   \datalist[entry]{none/global//global/global/global}
+    \entry{panadero2017effects}{article}{}{}
+      \name{author}{3}{}{%
+        {{hash=99748d4b75462f2392a3a05dcd9b5710}{%
+           family={Panadero},
+           familyi={P\bibinitperiod},
+           given={Ernesto},
+           giveni={E\bibinitperiod}}}%
+        {{hash=04e29da5671d1500b96ab2d0d4b1c2c3}{%
+           family={Jonsson},
+           familyi={J\bibinitperiod},
+           given={Anders},
+           giveni={A\bibinitperiod}}}%
+        {{hash=0afbe288b9260445907903b5d1eeb237}{%
+           family={Botella},
+           familyi={B\bibinitperiod},
+           given={Juan},
+           giveni={J\bibinitperiod}}}%
+      }
+      \strng{namehash}{34411f9eba1ea64956a1d5b044424488}
+      \strng{fullhash}{29b43b71d23d5357c806a1816cf3fda2}
+      \strng{fullhashraw}{29b43b71d23d5357c806a1816cf3fda2}
+      \strng{bibnamehash}{29b43b71d23d5357c806a1816cf3fda2}
+      \strng{authorbibnamehash}{29b43b71d23d5357c806a1816cf3fda2}
+      \strng{authornamehash}{34411f9eba1ea64956a1d5b044424488}
+      \strng{authorfullhash}{29b43b71d23d5357c806a1816cf3fda2}
+      \strng{authorfullhashraw}{29b43b71d23d5357c806a1816cf3fda2}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Educational Research Review}
+      \field{title}{Effects of Self-Assessment on Self-Regulated Learning and Self-Efficacy: Four Meta-Analyses}
+      \field{volume}{22}
+      \field{year}{2017}
+      \field{pages}{74\bibrangedash 98}
+      \range{pages}{25}
+      \verb{doi}
+      \verb 10.1016/j.edurev.2017.08.004
+      \endverb
+    \endentry
+    \entry{buffardi2020assessing}{article}{}{}
+      \name{author}{1}{}{%
+        {{hash=952c082b22eaeaf4ede7ea01557a6544}{%
+           family={Buffardi},
+           familyi={B\bibinitperiod},
+           given={Kevin},
+           giveni={K\bibinitperiod}}}%
+      }
+      \strng{namehash}{952c082b22eaeaf4ede7ea01557a6544}
+      \strng{fullhash}{952c082b22eaeaf4ede7ea01557a6544}
+      \strng{fullhashraw}{952c082b22eaeaf4ede7ea01557a6544}
+      \strng{bibnamehash}{952c082b22eaeaf4ede7ea01557a6544}
+      \strng{authorbibnamehash}{952c082b22eaeaf4ede7ea01557a6544}
+      \strng{authornamehash}{952c082b22eaeaf4ede7ea01557a6544}
+      \strng{authorfullhash}{952c082b22eaeaf4ede7ea01557a6544}
+      \strng{authorfullhashraw}{952c082b22eaeaf4ede7ea01557a6544}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{Proceedings of the 51st ACM Technical Symposium on Computer Science Education (SIGCSE '20)}
+      \field{title}{Assessing Individual Contributions to Software Engineering Projects with Git Logs and User Stories}
+      \field{year}{2020}
+      \field{pages}{650\bibrangedash 656}
+      \range{pages}{7}
+      \verb{doi}
+      \verb 10.1145/3328778.3366948
+      \endverb
+    \endentry
     \entry{lamport1978time}{inproceedings}{}{}
       \name{author}{1}{}{%
         {{hash=5d77435450d10a850a5b58577b9a456b}{%
@@ -38,8 +107,8 @@
       \strng{authornamehash}{5d77435450d10a850a5b58577b9a456b}
       \strng{authorfullhash}{5d77435450d10a850a5b58577b9a456b}
       \strng{authorfullhashraw}{5d77435450d10a850a5b58577b9a456b}
-      \field{sortinit}{1}
-      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{journaltitle}{Communications of the ACM}
@@ -72,49 +141,13 @@
       \strng{authornamehash}{b6be43602c2787d279f8522a7d9713db}
       \strng{authorfullhash}{b6be43602c2787d279f8522a7d9713db}
       \strng{authorfullhashraw}{b6be43602c2787d279f8522a7d9713db}
-      \field{sortinit}{2}
-      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{sortinit}{3}
+      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{edition}{2nd}
       \field{title}{Building Microservices: Designing Fine-Grained Systems}
       \field{year}{2021}
-    \endentry
-    \entry{gilbert2002brewer}{article}{}{}
-      \name{author}{2}{}{%
-        {{hash=1de0da84dd43d0f480ffc9c70be34dc5}{%
-           family={Gilbert},
-           familyi={G\bibinitperiod},
-           given={Seth},
-           giveni={S\bibinitperiod}}}%
-        {{hash=6613a6fcc0482e691a0e8d84039b9458}{%
-           family={Lynch},
-           familyi={L\bibinitperiod},
-           given={Nancy},
-           giveni={N\bibinitperiod}}}%
-      }
-      \strng{namehash}{220e8940797e44af8a50c3d3d438c505}
-      \strng{fullhash}{220e8940797e44af8a50c3d3d438c505}
-      \strng{fullhashraw}{220e8940797e44af8a50c3d3d438c505}
-      \strng{bibnamehash}{220e8940797e44af8a50c3d3d438c505}
-      \strng{authorbibnamehash}{220e8940797e44af8a50c3d3d438c505}
-      \strng{authornamehash}{220e8940797e44af8a50c3d3d438c505}
-      \strng{authorfullhash}{220e8940797e44af8a50c3d3d438c505}
-      \strng{authorfullhashraw}{220e8940797e44af8a50c3d3d438c505}
-      \field{sortinit}{3}
-      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
-      \field{labelnamesource}{author}
-      \field{labeltitlesource}{title}
-      \field{journaltitle}{ACM SIGACT News}
-      \field{number}{2}
-      \field{title}{Brewer's Conjecture and the Feasibility of Consistent, Available, Partition-Tolerant Web Services}
-      \field{volume}{33}
-      \field{year}{2002}
-      \field{pages}{51\bibrangedash 59}
-      \range{pages}{9}
-      \verb{doi}
-      \verb 10.1145/564585.564601
-      \endverb
     \endentry
     \entry{amdahl1967}{inproceedings}{}{}
       \name{author}{1}{}{%
@@ -227,6 +260,105 @@
       \verb 10.1145/2723372.2742797
       \endverb
     \endentry
+    \entry{fccdataset2026}{online}{}{}
+      \name{author}{1}{}{%
+        {{hash=fcde1f9150f9cd09007800afe621be90}{%
+           family={{Federal Communications Commission, Consumer and Governmental Affairs Bureau}},
+           familyi={F\bibinitperiod}}}%
+      }
+      \strng{namehash}{fcde1f9150f9cd09007800afe621be90}
+      \strng{fullhash}{fcde1f9150f9cd09007800afe621be90}
+      \strng{fullhashraw}{fcde1f9150f9cd09007800afe621be90}
+      \strng{bibnamehash}{fcde1f9150f9cd09007800afe621be90}
+      \strng{authorbibnamehash}{fcde1f9150f9cd09007800afe621be90}
+      \strng{authornamehash}{fcde1f9150f9cd09007800afe621be90}
+      \strng{authorfullhash}{fcde1f9150f9cd09007800afe621be90}
+      \strng{authorfullhashraw}{fcde1f9150f9cd09007800afe621be90}
+      \field{sortinit}{6}
+      \field{sortinithash}{b33bc299efb3c36abec520a4c896a66d}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{{CGB} --- Consumer Complaints Data}
+      \field{year}{2026}
+      \verb{urlraw}
+      \verb https://opendata.fcc.gov/d/3xyp-aqkj
+      \endverb
+      \verb{url}
+      \verb https://opendata.fcc.gov/d/3xyp-aqkj
+      \endverb
+    \endentry
+    \entry{karpflatt1990}{article}{}{}
+      \name{author}{2}{}{%
+        {{hash=9a033419cb18643c341ded86ec43f60f}{%
+           family={Karp},
+           familyi={K\bibinitperiod},
+           given={Alan\bibnamedelima H.},
+           giveni={A\bibinitperiod\bibinitdelim H\bibinitperiod}}}%
+        {{hash=c0db84f6a03b71f0c431b3cb48b46c5a}{%
+           family={Flatt},
+           familyi={F\bibinitperiod},
+           given={Horace\bibnamedelima P.},
+           giveni={H\bibinitperiod\bibinitdelim P\bibinitperiod}}}%
+      }
+      \strng{namehash}{d31bb7b12680caf8d3dd7fe1f9aa8a99}
+      \strng{fullhash}{d31bb7b12680caf8d3dd7fe1f9aa8a99}
+      \strng{fullhashraw}{d31bb7b12680caf8d3dd7fe1f9aa8a99}
+      \strng{bibnamehash}{d31bb7b12680caf8d3dd7fe1f9aa8a99}
+      \strng{authorbibnamehash}{d31bb7b12680caf8d3dd7fe1f9aa8a99}
+      \strng{authornamehash}{d31bb7b12680caf8d3dd7fe1f9aa8a99}
+      \strng{authorfullhash}{d31bb7b12680caf8d3dd7fe1f9aa8a99}
+      \strng{authorfullhashraw}{d31bb7b12680caf8d3dd7fe1f9aa8a99}
+      \field{sortinit}{8}
+      \field{sortinithash}{a231b008ebf0ecbe0b4d96dcc159445f}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Communications of the ACM}
+      \field{number}{5}
+      \field{title}{Measuring Parallel Processor Performance}
+      \field{volume}{33}
+      \field{year}{1990}
+      \field{pages}{539\bibrangedash 543}
+      \range{pages}{5}
+      \verb{doi}
+      \verb 10.1145/78607.78614
+      \endverb
+    \endentry
+    \entry{gilbert2002brewer}{article}{}{}
+      \name{author}{2}{}{%
+        {{hash=1de0da84dd43d0f480ffc9c70be34dc5}{%
+           family={Gilbert},
+           familyi={G\bibinitperiod},
+           given={Seth},
+           giveni={S\bibinitperiod}}}%
+        {{hash=6613a6fcc0482e691a0e8d84039b9458}{%
+           family={Lynch},
+           familyi={L\bibinitperiod},
+           given={Nancy},
+           giveni={N\bibinitperiod}}}%
+      }
+      \strng{namehash}{220e8940797e44af8a50c3d3d438c505}
+      \strng{fullhash}{220e8940797e44af8a50c3d3d438c505}
+      \strng{fullhashraw}{220e8940797e44af8a50c3d3d438c505}
+      \strng{bibnamehash}{220e8940797e44af8a50c3d3d438c505}
+      \strng{authorbibnamehash}{220e8940797e44af8a50c3d3d438c505}
+      \strng{authornamehash}{220e8940797e44af8a50c3d3d438c505}
+      \strng{authorfullhash}{220e8940797e44af8a50c3d3d438c505}
+      \strng{authorfullhashraw}{220e8940797e44af8a50c3d3d438c505}
+      \field{sortinit}{9}
+      \field{sortinithash}{0a5ebc79d83c96b6579069544c73c7d4}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{ACM SIGACT News}
+      \field{number}{2}
+      \field{title}{Brewer's Conjecture and the Feasibility of Consistent, Available, Partition-Tolerant Web Services}
+      \field{volume}{33}
+      \field{year}{2002}
+      \field{pages}{51\bibrangedash 59}
+      \range{pages}{9}
+      \verb{doi}
+      \verb 10.1145/564585.564601
+      \endverb
+    \endentry
     \entry{zaharia2012resilient}{inproceedings}{}{}
       \name{author}{9}{}{%
         {{hash=00dc518b94dfa6349c86e70661a1a5ef}{%
@@ -283,8 +415,8 @@
       \strng{authornamehash}{43b7683e391995e2f59755c9e939df3c}
       \strng{authorfullhash}{d9d8555218bf294d2cfe6b3070c6e357}
       \strng{authorfullhashraw}{d9d8555218bf294d2cfe6b3070c6e357}
-      \field{sortinit}{6}
-      \field{sortinithash}{b33bc299efb3c36abec520a4c896a66d}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{booktitle}{9th USENIX Symposium on Networked Systems Design and Implementation (NSDI '12)}
@@ -292,33 +424,6 @@
       \field{year}{2012}
       \field{pages}{15\bibrangedash 28}
       \range{pages}{14}
-    \endentry
-    \entry{fccdataset2026}{online}{}{}
-      \name{author}{1}{}{%
-        {{hash=fcde1f9150f9cd09007800afe621be90}{%
-           family={{Federal Communications Commission, Consumer and Governmental Affairs Bureau}},
-           familyi={F\bibinitperiod}}}%
-      }
-      \strng{namehash}{fcde1f9150f9cd09007800afe621be90}
-      \strng{fullhash}{fcde1f9150f9cd09007800afe621be90}
-      \strng{fullhashraw}{fcde1f9150f9cd09007800afe621be90}
-      \strng{bibnamehash}{fcde1f9150f9cd09007800afe621be90}
-      \strng{authorbibnamehash}{fcde1f9150f9cd09007800afe621be90}
-      \strng{authornamehash}{fcde1f9150f9cd09007800afe621be90}
-      \strng{authorfullhash}{fcde1f9150f9cd09007800afe621be90}
-      \strng{authorfullhashraw}{fcde1f9150f9cd09007800afe621be90}
-      \field{sortinit}{7}
-      \field{sortinithash}{108d0be1b1bee9773a1173443802c0a3}
-      \field{labelnamesource}{author}
-      \field{labeltitlesource}{title}
-      \field{title}{{CGB} --- Consumer Complaints Data}
-      \field{year}{2026}
-      \verb{urlraw}
-      \verb https://opendata.fcc.gov/d/3xyp-aqkj
-      \endverb
-      \verb{url}
-      \verb https://opendata.fcc.gov/d/3xyp-aqkj
-      \endverb
     \endentry
   \enddatalist
 \endrefsection

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex 2026.7.13)  21 AUG 2026 22:09
+This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex 2026.7.13)  21 AUG 2026 22:13
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -82,9 +82,9 @@ Package babel Info: Making < an active character on input line 722.
 Package babel Info: Making > an active character on input line 722.
 ))
 LaTeX Encoding Info:    Redeclaring text command \guillemotleft (encoding OT1) 
-on input line 39.
+on input line 34.
 LaTeX Encoding Info:    Redeclaring text command \guillemotright (encoding OT1)
- on input line 39.
+ on input line 34.
 
 (C:\Users\jalva\AppData\Local\Programs\MiKTeX\tex/latex/csquotes\csquotes.sty
 Package: csquotes 2026-05-19 v5.2p context-sensitive quotations (JAW)
@@ -1240,26 +1240,26 @@ Package babel Info: 'spanish' activates 'spanish' shorthands.
 )
 \openout1 = `Portafolio_Autoevaluacion_Sumativa.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 155.
-LaTeX Font Info:    ... okay on input line 155.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 155.
-LaTeX Font Info:    ... okay on input line 155.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 155.
-LaTeX Font Info:    ... okay on input line 155.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 155.
-LaTeX Font Info:    ... okay on input line 155.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 155.
-LaTeX Font Info:    ... okay on input line 155.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 155.
-LaTeX Font Info:    ... okay on input line 155.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 155.
-LaTeX Font Info:    ... okay on input line 155.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 155.
-LaTeX Font Info:    ... okay on input line 155.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 155.
-LaTeX Font Info:    ... okay on input line 155.
-LaTeX Info: Redefining \. on input line 155.
-LaTeX Info: Redefining \% on input line 155.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 150.
+LaTeX Font Info:    ... okay on input line 150.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 150.
+LaTeX Font Info:    ... okay on input line 150.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 150.
+LaTeX Font Info:    ... okay on input line 150.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 150.
+LaTeX Font Info:    ... okay on input line 150.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 150.
+LaTeX Font Info:    ... okay on input line 150.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 150.
+LaTeX Font Info:    ... okay on input line 150.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 150.
+LaTeX Font Info:    ... okay on input line 150.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 150.
+LaTeX Font Info:    ... okay on input line 150.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 150.
+LaTeX Font Info:    ... okay on input line 150.
+LaTeX Info: Redefining \. on input line 150.
+LaTeX Info: Redefining \% on input line 150.
 
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
@@ -1302,7 +1302,7 @@ File: translations-basic-dictionary-spanish.trsl (spanish translation file `tra
 nslations-basic-dictionary')
 )
 Package translations Info: loading dictionary `translations-basic-dictionary' f
-or `spanish'. on input line 155.
+or `spanish'. on input line 150.
 
 (C:\Users\jalva\AppData\Local\Programs\MiKTeX\tex/context/base/mkii\supp-pdf.mk
 ii
@@ -1351,22 +1351,22 @@ Package biblatex Info: Trying to load bibliographic data...
 Package biblatex Info: ... file 'Portafolio_Autoevaluacion_Sumativa.bbl' found.
 
  (Portafolio_Autoevaluacion_Sumativa.bbl)
-Package biblatex Info: Reference section=0 on input line 155.
-Package biblatex Info: Reference segment=0 on input line 155.
-Package hyperref Info: Link coloring ON on input line 155.
+Package biblatex Info: Reference section=0 on input line 150.
+Package biblatex Info: Reference segment=0 on input line 150.
+Package hyperref Info: Link coloring ON on input line 150.
 
 (Portafolio_Autoevaluacion_Sumativa.out)
 (Portafolio_Autoevaluacion_Sumativa.out)
 \@outlinefile=\write5
 \openout5 = `Portafolio_Autoevaluacion_Sumativa.out'.
 
-LaTeX Font Info:    Trying to load font information for U+msa on input line 180
+LaTeX Font Info:    Trying to load font information for U+msa on input line 177
 .
 
 (C:\Users\jalva\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 180
+LaTeX Font Info:    Trying to load font information for U+msb on input line 177
 .
 
 (C:\Users\jalva\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\umsb.fd
@@ -1375,96 +1375,62 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 [1
 
 {C:/Users/jalva/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map}]
-Underfull \hbox (badness 10000) in paragraph at lines 238--238
-[]|\T1/cmr/bx/n/10 1. Di-se-ño de
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 238--238
-\T1/cmr/bx/n/10 Ar-qui-tec-tu-ras
- []
-
-
-Underfull \hbox (badness 1540) in paragraph at lines 238--238
-[]|\T1/cmr/bx/n/10 2. Pro-to-co-los de
- []
-
-
-Underfull \hbox (badness 1515) in paragraph at lines 238--238
-[]|\T1/cmr/bx/n/10 3. Pro-ce-sa-mien-to
- []
-
-
-Underfull \hbox (badness 1383) in paragraph at lines 238--238
-\T1/cmr/bx/n/10 di-go y Ver-sio-na-
- []
-
-
-Underfull \hbox (badness 1527) in paragraph at lines 238--238
-[]|\T1/cmr/bx/n/10 5. Ri-gor Teó-ri-co
- []
-
-
-Underfull \hbox (badness 2671) in paragraph at lines 238--238
-\T1/cmr/bx/n/10 y Re-so-lu-ción de
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 238--238
-[]|\T1/cmr/bx/n/10 Promedio Au-to-
- []
-
-
-Underfull \hbox (badness 10000) in alignment at lines 238--238
-[][][] 
- []
-
-[1]
-Overfull \hbox (61.35036pt too wide) in paragraph at lines 263--265
-\T1/cmr/bx/n/10.95 Ubicación en Re-po-si-to-rio: \T1/cmtt/m/n/10.95 Aplicacione
-sDistribuidas/APORTEPARTEPRACTICA/distributed_nodes/ 
+Overfull \hbox (148.13069pt too wide) in paragraph at lines 232--236
+\T1/cmr/bx/n/10.95 Artefacto (Ru-ta y Hash): \T1/cmtt/m/n/10.95 AplicacionesDis
+tribuidas/APORTEPARTEPRACTICA/distributed_nodes/lamport_clock.py
  []
 
 (C:\Users\jalva\AppData\Local\Programs\MiKTeX\tex/latex/listings\lstlang1.sty
 File: lstlang1.sty 2025/11/14 1.11b listings language file
 )
 Package hyperref Info: bookmark level for unknown lstlisting defaults to 0 on i
-nput line 286.
+nput line 241.
 LaTeX Font Info:    Font shape `T1/cmtt/bx/n' in size <9> not available
-(Font)              Font shape `T1/cmtt/m/n' tried instead on input line 287.
+(Font)              Font shape `T1/cmtt/m/n' tried instead on input line 242.
 
-[2] [3]
-(C:\Users\jalva\AppData\Local\Programs\MiKTeX\tex/latex/listings\lstlang1.sty
-File: lstlang1.sty 2025/11/14 1.11b listings language file
-)
-[4]
-Underfull \hbox (badness 10000) in paragraph at lines 411--413
-\T1/cmr/bx/n/10.95 Ubicación en Re-po-si-to-rio: \T1/cmtt/m/n/10.95 pe-u4-spark
--Soporte-Tecnico-ISP/ \T1/cmr/m/n/10.95 y
+[1]
+Overfull \hbox (51.93839pt too wide) in paragraph at lines 303--307
+\T1/cmr/bx/n/10.95 Artefacto (Ru-ta y Hash): \T1/cmtt/m/n/10.95 pe-u4-spark-Sop
+orte-Tecnico-ISP/resultados/tiempos_resumen.csv
  []
 
-[5]
-Overfull \hbox (94.39684pt too wide) in paragraph at lines 463--473
+[2]
+LaTeX Font Info:    Font shape `T1/cmtt/bx/n' in size <10.95> not available
+(Font)              Font shape `T1/cmtt/m/n' tried instead on input line 313.
+
+Overfull \hbox (144.35466pt too wide) in paragraph at lines 323--333
  [][] 
  []
 
 
-Overfull \hbox (12.1485pt too wide) in paragraph at lines 480--480
-[]\T1/cmr/bx/n/14.4 Contribución In-di-vi-dual al PFC y Re-gis-tro de Com-mits 
-en GitHub 
+Underfull \hbox (badness 10000) in paragraph at lines 348--352
+\T1/cmr/bx/n/10.95 Artefacto (Ru-ta y Hash): \T1/cmtt/m/n/10.95 -GA_SUM_03/api-
+gateway/nginx.conf \T1/cmr/m/n/10.95 y
+ []
+
+[3]
+(C:\Users\jalva\AppData\Local\Programs\MiKTeX\tex/latex/listings\lstlang1.sty
+File: lstlang1.sty 2025/11/14 1.11b listings language file
+)
+(C:\Users\jalva\AppData\Local\Programs\MiKTeX\tex/latex/listings\lstlang1.sty
+File: lstlang1.sty 2025/11/14 1.11b listings language file
+)
+[4]
+Underfull \hbox (badness 5161) in paragraph at lines 410--410
+[]|\T1/cmr/m/n/9 Implementación ba-se cliente-servidor con soc-kets
  []
 
 
-Underfull \hbox (badness 2050) in paragraph at lines 516--516
-[]|\T1/cmr/m/n/9 Implementación ba-se de co-mu-ni-ca-ción cliente-
+Underfull \hbox (badness 1496) in paragraph at lines 410--410
+[]|\T1/cmr/m/n/9 Formalización de in-for-mes aca-dé-mi-cos in-di-vi-dua-les
  []
 
-[6] [7] [8]
-Overfull \hbox (17.14545pt too wide) in alignment at lines 608--608
-[][][][] 
+
+Overfull \hbox (5.50682pt too wide) in paragraph at lines 462--462
+[]|\T1/cmr/bx/n/10 Criterio| 
  []
 
-[9] [10] (Portafolio_Autoevaluacion_Sumativa.aux
+[5] [6] [7] [8] (Portafolio_Autoevaluacion_Sumativa.aux
 LaTeX Info: Redefining \sptext on input line 12.
 LaTeX Info: Redefining \. on input line 12.
 LaTeX Info: Redefining \% on input line 12.
@@ -1475,52 +1441,49 @@ L3 programming layer <2025-12-24>
  ***********
 Package rerunfilecheck Info: File `Portafolio_Autoevaluacion_Sumativa.out' has 
 not changed.
-(rerunfilecheck)             Checksum: A83E84552F14F02666C727E4DBE8B4B6;6915.
+(rerunfilecheck)             Checksum: 35F3DEE3A5B1D3A8A16E1563256DD619;6205.
 Package logreq Info: Writing requests to 'Portafolio_Autoevaluacion_Sumativa.ru
 n.xml'.
 \openout1 = `Portafolio_Autoevaluacion_Sumativa.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 44886 strings out of 467871
- 936305 string characters out of 5418376
- 1918714 words of memory out of 5000000
- 73035 multiletter control sequences out of 15000+600000
- 649225 words of font info for 92 fonts, out of 8000000 for 9000
+ 44796 strings out of 467871
+ 935087 string characters out of 5418376
+ 1898469 words of memory out of 5000000
+ 73014 multiletter control sequences out of 15000+600000
+ 648209 words of font info for 90 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 98i,13n,108p,1229b,2850s stack positions out of 10000i,1000n,20000p,200000b,200000s
- <C:\Users\jalva\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\eccc
-1095.pk> <C:\Users\jalva\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi60
-0\ecbi1095.pk> <C:\Users\jalva\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec
+ 98i,13n,108p,1229b,2864s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ <C:\Users\jalva\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecrm
+0800.pk> <C:\Users\jalva\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi60
+0\eccc1095.pk> <C:\Users\jalva\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec
 /dpi600\ecrm0900.pk> <C:\Users\jalva\AppData\Local\MiKTeX\fonts/pk/ljfour/jknap
-pen/ec/dpi600\ecit0900.pk> <C:\Users\jalva\AppData\Local\MiKTeX\fonts/pk/ljfour
-/jknappen/ec/dpi600\ectt0900.pk> <C:\Users\jalva\AppData\Local\MiKTeX\fonts/pk/
-ljfour/jknappen/ec/dpi600\ecrm0600.pk> <C:\Users\jalva\AppData\Local\MiKTeX\fon
-ts/pk/ljfour/jknappen/ec/dpi600\ecrm0800.pk> <C:\Users\jalva\AppData\Local\MiKT
-eX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx0900.pk> <C:\Users\jalva\AppData\Loca
-l\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecti1000.pk> <C:\Users\jalva\AppDat
-a\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecrm1000.pk> <C:\Users\jalva\
-AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx1000.pk> <C:\Users\
-jalva\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecti1095.pk> <C:\
-Users\jalva\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\eccc1000.pk
-> <C:\Users\jalva\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ectt1
-095.pk> <C:\Users\jalva\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600
-\ecbx1095.pk> <C:\Users\jalva\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/
-dpi600\ecrm1200.pk> <C:\Users\jalva\AppData\Local\MiKTeX\fonts/pk/ljfour/jknapp
-en/ec/dpi600\ecbx1440.pk> <C:\Users\jalva\AppData\Local\MiKTeX\fonts/pk/ljfour/
-jknappen/ec/dpi600\ecrm1095.pk> <C:\Users\jalva\AppData\Local\MiKTeX\fonts/pk/l
-jfour/jknappen/ec/dpi600\ecbx1200.pk><C:/Users/jalva/AppData/Local/Programs/MiK
-TeX/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Users/jalva/AppData/Local/Pro
-grams/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi8.pfb><C:/Users/jalva/AppData/L
-ocal/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/jalva/A
-ppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr8.pfb><C:/Users/
-jalva/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb><
-C:/Users/jalva/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cms
-y8.pfb>
-Output written on Portafolio_Autoevaluacion_Sumativa.pdf (11 pages, 445413 byte
-s).
+pen/ec/dpi600\ecbx0900.pk> <C:\Users\jalva\AppData\Local\MiKTeX\fonts/pk/ljfour
+/jknappen/ec/dpi600\ecrm1000.pk> <C:\Users\jalva\AppData\Local\MiKTeX\fonts/pk/
+ljfour/jknappen/ec/dpi600\ecbx1000.pk> <C:\Users\jalva\AppData\Local\MiKTeX\fon
+ts/pk/ljfour/jknappen/ec/dpi600\ecti1000.pk> <C:\Users\jalva\AppData\Local\MiKT
+eX\fonts/pk/ljfour/jknappen/ec/dpi600\ectt0900.pk> <C:\Users\jalva\AppData\Loca
+l\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecrm0600.pk> <C:\Users\jalva\AppDat
+a\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecti1095.pk> <C:\Users\jalva\
+AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\eccc1000.pk> <C:\Users\
+jalva\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ectt1095.pk> <C:\
+Users\jalva\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx1095.pk
+> <C:\Users\jalva\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx1
+440.pk> <C:\Users\jalva\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600
+\ecrm1095.pk> <C:\Users\jalva\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/
+dpi600\ecbx1200.pk><C:/Users/jalva/AppData/Local/Programs/MiKTeX/fonts/type1/pu
+blic/amsfonts/cm/cmmi10.pfb><C:/Users/jalva/AppData/Local/Programs/MiKTeX/fonts
+/type1/public/amsfonts/cm/cmmi6.pfb><C:/Users/jalva/AppData/Local/Programs/MiKT
+eX/fonts/type1/public/amsfonts/cm/cmmi8.pfb><C:/Users/jalva/AppData/Local/Progr
+ams/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/jalva/AppData/Loc
+al/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr8.pfb><C:/Users/jalva/AppD
+ata/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/j
+alva/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy8.pfb>
+Output written on Portafolio_Autoevaluacion_Sumativa.pdf (9 pages, 403421 bytes
+).
 PDF statistics:
- 1325 PDF objects out of 1440 (max. 8388607)
- 172 named destinations out of 1000 (max. 500000)
- 293 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 1137 PDF objects out of 1200 (max. 8388607)
+ 103 named destinations out of 1000 (max. 500000)
+ 253 words of extra memory for PDF output out of 10000 (max. 10000000)
 
