@@ -1,0 +1,71 @@
+services:
+  db-catalogo:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: catalogo
+      POSTGRES_USER: catalogo
+      POSTGRES_PASSWORD: catalogo
+    volumes:
+      - catalogo-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U catalogo -d catalogo"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  db-pedidos:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: pedidos
+      POSTGRES_USER: pedidos
+      POSTGRES_PASSWORD: pedidos
+    volumes:
+      - pedidos-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U pedidos -d pedidos"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  svc-catalogo:
+    build: ./svc_catalogo
+    environment:
+      DATABASE_URL: postgresql://catalogo:catalogo@db-catalogo:5432/catalogo
+    depends_on:
+      db-catalogo:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/api/v1/productos').read()"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  svc-pedidos:
+    build: ./svc_pedidos
+    environment:
+      DATABASE_URL: postgresql://pedidos:pedidos@db-pedidos:5432/pedidos
+      CATALOG_URL: http://svc-catalogo:8000
+    depends_on:
+      db-pedidos:
+        condition: service_healthy
+      svc-catalogo:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/api/v1/pedidos').read()"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  nginx:
+    image: nginx:alpine
+    ports:
+      - "8080:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
+    depends_on:
+      - svc-catalogo
+      - svc-pedidos
+
+volumes:
+  catalogo-data:
+  pedidos-data:
