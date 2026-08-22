@@ -1,0 +1,11 @@
+# Artefactos de compilacion LaTeX (regenerables con la secuencia del README)
+docs/*.aux
+docs/*.bbl
+docs/*.bcf
+docs/*.blg
+docs/*.log
+docs/*.out
+docs/*.run.xml
+docs/*.toc
+docs/*.fls
+docs/*.fdb_latexmk
