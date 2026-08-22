@@ -1,0 +1,326 @@
+% $ biblatex auxiliary file $
+% $ biblatex bbl format version 3.3 $
+% Do not modify the above lines!
+%
+% This is an auxiliary file used by the 'biblatex' package.
+% This file may safely be deleted. It will be recreated by
+% biber as required.
+%
+\begingroup
+\makeatletter
+\@ifundefined{ver@biblatex.sty}
+  {\@latex@error
+     {Missing 'biblatex' package}
+     {The bibliography requires the 'biblatex' package.}
+      \aftergroup\endinput}
+  {}
+\endgroup
+
+
+\refsection{0}
+  \datalist[entry]{none/global//global/global/global}
+    \entry{lamport1978time}{inproceedings}{}{}
+      \name{author}{1}{}{%
+        {{hash=5d77435450d10a850a5b58577b9a456b}{%
+           family={Lamport},
+           familyi={L\bibinitperiod},
+           given={Leslie},
+           giveni={L\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {ACM}%
+      }
+      \strng{namehash}{5d77435450d10a850a5b58577b9a456b}
+      \strng{fullhash}{5d77435450d10a850a5b58577b9a456b}
+      \strng{fullhashraw}{5d77435450d10a850a5b58577b9a456b}
+      \strng{bibnamehash}{5d77435450d10a850a5b58577b9a456b}
+      \strng{authorbibnamehash}{5d77435450d10a850a5b58577b9a456b}
+      \strng{authornamehash}{5d77435450d10a850a5b58577b9a456b}
+      \strng{authorfullhash}{5d77435450d10a850a5b58577b9a456b}
+      \strng{authorfullhashraw}{5d77435450d10a850a5b58577b9a456b}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Communications of the ACM}
+      \field{number}{7}
+      \field{title}{Time, Clocks, and the Ordering of Events in a Distributed System}
+      \field{volume}{21}
+      \field{year}{1978}
+      \field{pages}{558\bibrangedash 565}
+      \range{pages}{8}
+      \verb{doi}
+      \verb 10.1145/359545.359563
+      \endverb
+    \endentry
+    \entry{newman2021building}{book}{}{}
+      \name{author}{1}{}{%
+        {{hash=b6be43602c2787d279f8522a7d9713db}{%
+           family={Newman},
+           familyi={N\bibinitperiod},
+           given={Sam},
+           giveni={S\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {O'Reilly Media}%
+      }
+      \strng{namehash}{b6be43602c2787d279f8522a7d9713db}
+      \strng{fullhash}{b6be43602c2787d279f8522a7d9713db}
+      \strng{fullhashraw}{b6be43602c2787d279f8522a7d9713db}
+      \strng{bibnamehash}{b6be43602c2787d279f8522a7d9713db}
+      \strng{authorbibnamehash}{b6be43602c2787d279f8522a7d9713db}
+      \strng{authornamehash}{b6be43602c2787d279f8522a7d9713db}
+      \strng{authorfullhash}{b6be43602c2787d279f8522a7d9713db}
+      \strng{authorfullhashraw}{b6be43602c2787d279f8522a7d9713db}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{edition}{2nd}
+      \field{title}{Building Microservices: Designing Fine-Grained Systems}
+      \field{year}{2021}
+    \endentry
+    \entry{gilbert2002brewer}{article}{}{}
+      \name{author}{2}{}{%
+        {{hash=1de0da84dd43d0f480ffc9c70be34dc5}{%
+           family={Gilbert},
+           familyi={G\bibinitperiod},
+           given={Seth},
+           giveni={S\bibinitperiod}}}%
+        {{hash=6613a6fcc0482e691a0e8d84039b9458}{%
+           family={Lynch},
+           familyi={L\bibinitperiod},
+           given={Nancy},
+           giveni={N\bibinitperiod}}}%
+      }
+      \strng{namehash}{220e8940797e44af8a50c3d3d438c505}
+      \strng{fullhash}{220e8940797e44af8a50c3d3d438c505}
+      \strng{fullhashraw}{220e8940797e44af8a50c3d3d438c505}
+      \strng{bibnamehash}{220e8940797e44af8a50c3d3d438c505}
+      \strng{authorbibnamehash}{220e8940797e44af8a50c3d3d438c505}
+      \strng{authornamehash}{220e8940797e44af8a50c3d3d438c505}
+      \strng{authorfullhash}{220e8940797e44af8a50c3d3d438c505}
+      \strng{authorfullhashraw}{220e8940797e44af8a50c3d3d438c505}
+      \field{sortinit}{3}
+      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{ACM SIGACT News}
+      \field{number}{2}
+      \field{title}{Brewer's Conjecture and the Feasibility of Consistent, Available, Partition-Tolerant Web Services}
+      \field{volume}{33}
+      \field{year}{2002}
+      \field{pages}{51\bibrangedash 59}
+      \range{pages}{9}
+      \verb{doi}
+      \verb 10.1145/564585.564601
+      \endverb
+    \endentry
+    \entry{amdahl1967}{inproceedings}{}{}
+      \name{author}{1}{}{%
+        {{hash=9d4382f1500ff84c4eca531179c994c7}{%
+           family={Amdahl},
+           familyi={A\bibinitperiod},
+           given={Gene\bibnamedelima M.},
+           giveni={G\bibinitperiod\bibinitdelim M\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {ACM}%
+      }
+      \strng{namehash}{9d4382f1500ff84c4eca531179c994c7}
+      \strng{fullhash}{9d4382f1500ff84c4eca531179c994c7}
+      \strng{fullhashraw}{9d4382f1500ff84c4eca531179c994c7}
+      \strng{bibnamehash}{9d4382f1500ff84c4eca531179c994c7}
+      \strng{authorbibnamehash}{9d4382f1500ff84c4eca531179c994c7}
+      \strng{authornamehash}{9d4382f1500ff84c4eca531179c994c7}
+      \strng{authorfullhash}{9d4382f1500ff84c4eca531179c994c7}
+      \strng{authorfullhashraw}{9d4382f1500ff84c4eca531179c994c7}
+      \field{sortinit}{4}
+      \field{sortinithash}{9381316451d1b9788675a07e972a12a7}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{Proceedings of the April 18--20, 1967, Spring Joint Computer Conference (AFIPS '67)}
+      \field{title}{Validity of the Single Processor Approach to Achieving Large Scale Computing Capabilities}
+      \field{year}{1967}
+      \field{pages}{483\bibrangedash 485}
+      \range{pages}{3}
+      \verb{doi}
+      \verb 10.1145/1465482.1465560
+      \endverb
+    \endentry
+    \entry{armbrust2015sparksql}{inproceedings}{}{}
+      \name{author}{11}{}{%
+        {{hash=8eafad8289b06f72c2e8b7caf80a413a}{%
+           family={Armbrust},
+           familyi={A\bibinitperiod},
+           given={Michael},
+           giveni={M\bibinitperiod}}}%
+        {{hash=5f4b66d7cacadea3e7b21ebcc1706643}{%
+           family={Xin},
+           familyi={X\bibinitperiod},
+           given={Reynold\bibnamedelima S.},
+           giveni={R\bibinitperiod\bibinitdelim S\bibinitperiod}}}%
+        {{hash=5aa904851b2181ca0d3be3e2246f7229}{%
+           family={Lian},
+           familyi={L\bibinitperiod},
+           given={Cheng},
+           giveni={C\bibinitperiod}}}%
+        {{hash=cbb279ea2aed8be2bffed2fbad7d2f36}{%
+           family={Huai},
+           familyi={H\bibinitperiod},
+           given={Yin},
+           giveni={Y\bibinitperiod}}}%
+        {{hash=dfafd64b4da8908562304387c1d8152d}{%
+           family={Liu},
+           familyi={L\bibinitperiod},
+           given={Davies},
+           giveni={D\bibinitperiod}}}%
+        {{hash=6c1bf6d516462b9529c5db822237a253}{%
+           family={Bradley},
+           familyi={B\bibinitperiod},
+           given={Joseph\bibnamedelima K.},
+           giveni={J\bibinitperiod\bibinitdelim K\bibinitperiod}}}%
+        {{hash=2776c215c8df7c9787aea25db59709d0}{%
+           family={Meng},
+           familyi={M\bibinitperiod},
+           given={Xiangrui},
+           giveni={X\bibinitperiod}}}%
+        {{hash=fcdb5789d0b6902b1b22fa4e061a4448}{%
+           family={Kaftan},
+           familyi={K\bibinitperiod},
+           given={Tomer},
+           giveni={T\bibinitperiod}}}%
+        {{hash=2b80efa845ff86794acc83783899dcf0}{%
+           family={Franklin},
+           familyi={F\bibinitperiod},
+           given={Michael\bibnamedelima J.},
+           giveni={M\bibinitperiod\bibinitdelim J\bibinitperiod}}}%
+        {{hash=dfd14c69d2338ce9cf556c819a32d286}{%
+           family={Ghodsi},
+           familyi={G\bibinitperiod},
+           given={Ali},
+           giveni={A\bibinitperiod}}}%
+        {{hash=00dc518b94dfa6349c86e70661a1a5ef}{%
+           family={Zaharia},
+           familyi={Z\bibinitperiod},
+           given={Matei},
+           giveni={M\bibinitperiod}}}%
+      }
+      \strng{namehash}{1bae7c2a3fe6ea29ffc01edd0ac606b5}
+      \strng{fullhash}{7656908331ad4d0eab1d6981cb87b807}
+      \strng{fullhashraw}{7656908331ad4d0eab1d6981cb87b807}
+      \strng{bibnamehash}{7656908331ad4d0eab1d6981cb87b807}
+      \strng{authorbibnamehash}{7656908331ad4d0eab1d6981cb87b807}
+      \strng{authornamehash}{1bae7c2a3fe6ea29ffc01edd0ac606b5}
+      \strng{authorfullhash}{7656908331ad4d0eab1d6981cb87b807}
+      \strng{authorfullhashraw}{7656908331ad4d0eab1d6981cb87b807}
+      \field{sortinit}{4}
+      \field{sortinithash}{9381316451d1b9788675a07e972a12a7}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{Proceedings of the 2015 ACM SIGMOD International Conference on Management of Data}
+      \field{title}{Spark {SQL}: Relational Data Processing in Spark}
+      \field{year}{2015}
+      \field{pages}{1383\bibrangedash 1394}
+      \range{pages}{12}
+      \verb{doi}
+      \verb 10.1145/2723372.2742797
+      \endverb
+    \endentry
+    \entry{zaharia2012resilient}{inproceedings}{}{}
+      \name{author}{9}{}{%
+        {{hash=00dc518b94dfa6349c86e70661a1a5ef}{%
+           family={Zaharia},
+           familyi={Z\bibinitperiod},
+           given={Matei},
+           giveni={M\bibinitperiod}}}%
+        {{hash=c5a8ae0d5f065be17aae440a9eb11c79}{%
+           family={Chowdhury},
+           familyi={C\bibinitperiod},
+           given={Mosharaf},
+           giveni={M\bibinitperiod}}}%
+        {{hash=f8b27ed8b503bc3e7b32fc53bace3697}{%
+           family={Das},
+           familyi={D\bibinitperiod},
+           given={Tathagata},
+           giveni={T\bibinitperiod}}}%
+        {{hash=aec50de877bd49b0c55f7067c573cd4f}{%
+           family={Dave},
+           familyi={D\bibinitperiod},
+           given={Ankur},
+           giveni={A\bibinitperiod}}}%
+        {{hash=c443d4c28f0cacfebd1b66027cee9098}{%
+           family={Ma},
+           familyi={M\bibinitperiod},
+           given={Justin},
+           giveni={J\bibinitperiod}}}%
+        {{hash=a7e9bbc361fd067983b764264a12e10e}{%
+           family={McCauley},
+           familyi={M\bibinitperiod},
+           given={Murphy},
+           giveni={M\bibinitperiod}}}%
+        {{hash=2b80efa845ff86794acc83783899dcf0}{%
+           family={Franklin},
+           familyi={F\bibinitperiod},
+           given={Michael\bibnamedelima J.},
+           giveni={M\bibinitperiod\bibinitdelim J\bibinitperiod}}}%
+        {{hash=8d2fd528d2484047352789c731e250a5}{%
+           family={Shenker},
+           familyi={S\bibinitperiod},
+           given={Scott},
+           giveni={S\bibinitperiod}}}%
+        {{hash=51d9ef26181e2e8a9dc546b401e0bb26}{%
+           family={Stoica},
+           familyi={S\bibinitperiod},
+           given={Ion},
+           giveni={I\bibinitperiod}}}%
+      }
+      \strng{namehash}{43b7683e391995e2f59755c9e939df3c}
+      \strng{fullhash}{d9d8555218bf294d2cfe6b3070c6e357}
+      \strng{fullhashraw}{d9d8555218bf294d2cfe6b3070c6e357}
+      \strng{bibnamehash}{d9d8555218bf294d2cfe6b3070c6e357}
+      \strng{authorbibnamehash}{d9d8555218bf294d2cfe6b3070c6e357}
+      \strng{authornamehash}{43b7683e391995e2f59755c9e939df3c}
+      \strng{authorfullhash}{d9d8555218bf294d2cfe6b3070c6e357}
+      \strng{authorfullhashraw}{d9d8555218bf294d2cfe6b3070c6e357}
+      \field{sortinit}{6}
+      \field{sortinithash}{b33bc299efb3c36abec520a4c896a66d}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{9th USENIX Symposium on Networked Systems Design and Implementation (NSDI '12)}
+      \field{title}{Resilient Distributed Datasets: A Fault-Tolerant Abstraction for In-Memory Cluster Computing}
+      \field{year}{2012}
+      \field{pages}{15\bibrangedash 28}
+      \range{pages}{14}
+    \endentry
+    \entry{fccdataset2026}{online}{}{}
+      \name{author}{1}{}{%
+        {{hash=fcde1f9150f9cd09007800afe621be90}{%
+           family={{Federal Communications Commission, Consumer and Governmental Affairs Bureau}},
+           familyi={F\bibinitperiod}}}%
+      }
+      \strng{namehash}{fcde1f9150f9cd09007800afe621be90}
+      \strng{fullhash}{fcde1f9150f9cd09007800afe621be90}
+      \strng{fullhashraw}{fcde1f9150f9cd09007800afe621be90}
+      \strng{bibnamehash}{fcde1f9150f9cd09007800afe621be90}
+      \strng{authorbibnamehash}{fcde1f9150f9cd09007800afe621be90}
+      \strng{authornamehash}{fcde1f9150f9cd09007800afe621be90}
+      \strng{authorfullhash}{fcde1f9150f9cd09007800afe621be90}
+      \strng{authorfullhashraw}{fcde1f9150f9cd09007800afe621be90}
+      \field{sortinit}{7}
+      \field{sortinithash}{108d0be1b1bee9773a1173443802c0a3}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{{CGB} --- Consumer Complaints Data}
+      \field{year}{2026}
+      \verb{urlraw}
+      \verb https://opendata.fcc.gov/d/3xyp-aqkj
+      \endverb
+      \verb{url}
+      \verb https://opendata.fcc.gov/d/3xyp-aqkj
+      \endverb
+    \endentry
+  \enddatalist
+\endrefsection
+\endinput
+
