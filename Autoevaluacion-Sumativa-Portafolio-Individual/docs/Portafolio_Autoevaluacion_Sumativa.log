@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex 2026.7.13)  21 AUG 2026 22:22
+This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex 2026.7.13)  21 AUG 2026 22:23
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1375,9 +1375,9 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 [1
 
 {C:/Users/jalva/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map}]
-Overfull \hbox (148.13069pt too wide) in paragraph at lines 245--249
+Underfull \hbox (badness 10000) in paragraph at lines 245--249
 \T1/cmr/bx/n/10.95 Artefacto (Ru-ta y Hash): \T1/cmtt/m/n/10.95 AplicacionesDis
-tribuidas/APORTEPARTEPRACTICA/distributed_nodes/lamport_clock.py
+tribuidas/APORTEPARTEPRACTICA/
  []
 
 (C:\Users\jalva\AppData\Local\Programs\MiKTeX\tex/latex/listings\lstlang1.sty
@@ -1389,9 +1389,15 @@ LaTeX Font Info:    Font shape `T1/cmtt/bx/n' in size <9> not available
 (Font)              Font shape `T1/cmtt/m/n' tried instead on input line 255.
 
 [1]
-Overfull \hbox (51.93839pt too wide) in paragraph at lines 316--320
+Underfull \hbox (badness 10000) in paragraph at lines 316--320
 \T1/cmr/bx/n/10.95 Artefacto (Ru-ta y Hash): \T1/cmtt/m/n/10.95 pe-u4-spark-Sop
-orte-Tecnico-ISP/resultados/tiempos_resumen.csv
+orte-Tecnico-ISP/resultados/
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 316--320
+\T1/cmtt/m/n/10.95 tiempos_resumen.csv \T1/cmr/m/n/10.95 y \T1/cmtt/m/n/10.95 T
+A-IND-04-An-lisis-de-Rendimiento-Paralelo/datos/
  []
 
 [2]
@@ -1403,9 +1409,9 @@ Overfull \hbox (144.35466pt too wide) in paragraph at lines 336--346
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 361--365
+Underfull \hbox (badness 1924) in paragraph at lines 361--365
 \T1/cmr/bx/n/10.95 Artefacto (Ru-ta y Hash): \T1/cmtt/m/n/10.95 -GA_SUM_03/api-
-gateway/nginx.conf \T1/cmr/m/n/10.95 y
+gateway/nginx.conf \T1/cmr/m/n/10.95 y \T1/cmtt/m/n/10.95 -GA_SUM_03/
  []
 
 [3]
@@ -1485,10 +1491,10 @@ n.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 44836 strings out of 467871
- 935564 string characters out of 5418376
- 1912112 words of memory out of 5000000
- 73035 multiletter control sequences out of 15000+600000
+ 44834 strings out of 467871
+ 935463 string characters out of 5418376
+ 1911042 words of memory out of 5000000
+ 73033 multiletter control sequences out of 15000+600000
  650067 words of font info for 97 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  98i,13n,108p,1229b,2858s stack positions out of 10000i,1000n,20000p,200000b,200000s
@@ -1519,7 +1525,7 @@ ta/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr8.pfb><C:/Users/jalv
 a/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/U
 sers/jalva/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy8.p
 fb>
-Output written on Portafolio_Autoevaluacion_Sumativa.pdf (11 pages, 432739 byte
+Output written on Portafolio_Autoevaluacion_Sumativa.pdf (11 pages, 432747 byte
 s).
 PDF statistics:
  1181 PDF objects out of 1200 (max. 8388607)
