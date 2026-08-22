@@ -1,14 +1,14 @@
 [0] Config.pm:328> INFO - This is Biber 2.21
 [0] Config.pm:331> INFO - Logfile is 'Portafolio_Autoevaluacion_Sumativa.blg'
-[224] biber-MSWIN64:342> INFO - === 
-[292] Biber.pm:421> INFO - Reading 'Portafolio_Autoevaluacion_Sumativa.bcf'
-[498] Biber.pm:1002> INFO - Found 7 citekeys in bib section 0
-[519] Biber.pm:4487> INFO - Processing section 0
-[533] Biber.pm:4678> INFO - Looking for bibtex file 'references.bib' for section 0
-[620] bibtex.pm:1713> INFO - LaTeX decoding ...
-[663] bibtex.pm:1519> INFO - Found BibTeX data source 'references.bib'
-[783] UCollate.pm:68> INFO - Overriding locale 'es-ES' defaults 'variable = shifted' with 'variable = non-ignorable'
-[783] UCollate.pm:68> INFO - Overriding locale 'es-ES' defaults 'normalization = NFD' with 'normalization = prenormalized'
-[783] Biber.pm:4307> INFO - Sorting list 'none/global//global/global/global' of type 'entry' with template 'none' and locale 'es-ES'
-[797] bbl.pm:676> INFO - Writing 'Portafolio_Autoevaluacion_Sumativa.bbl' with encoding 'UTF-8'
-[805] bbl.pm:779> INFO - Output to Portafolio_Autoevaluacion_Sumativa.bbl
+[153] biber-MSWIN64:342> INFO - === 
+[201] Biber.pm:421> INFO - Reading 'Portafolio_Autoevaluacion_Sumativa.bcf'
+[358] Biber.pm:1002> INFO - Found 7 citekeys in bib section 0
+[377] Biber.pm:4487> INFO - Processing section 0
+[390] Biber.pm:4678> INFO - Looking for bibtex file 'references.bib' for section 0
+[465] bibtex.pm:1713> INFO - LaTeX decoding ...
+[484] bibtex.pm:1519> INFO - Found BibTeX data source 'references.bib'
+[593] UCollate.pm:68> INFO - Overriding locale 'es-ES' defaults 'normalization = NFD' with 'normalization = prenormalized'
+[593] UCollate.pm:68> INFO - Overriding locale 'es-ES' defaults 'variable = shifted' with 'variable = non-ignorable'
+[593] Biber.pm:4307> INFO - Sorting list 'none/global//global/global/global' of type 'entry' with template 'none' and locale 'es-ES'
+[606] bbl.pm:676> INFO - Writing 'Portafolio_Autoevaluacion_Sumativa.bbl' with encoding 'UTF-8'
+[615] bbl.pm:779> INFO - Output to Portafolio_Autoevaluacion_Sumativa.bbl
