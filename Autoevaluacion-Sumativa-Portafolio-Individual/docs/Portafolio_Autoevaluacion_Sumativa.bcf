@@ -2384,9 +2384,6 @@
     <bcf:citekey order="6" intorder="1">fccdataset2026</bcf:citekey>
     <bcf:citekey order="7" intorder="1">amdahl1967</bcf:citekey>
     <bcf:citekey order="8" intorder="1">karpflatt1990</bcf:citekey>
-    <bcf:citekey order="9" intorder="1">gilbert2002brewer</bcf:citekey>
-    <bcf:citekey order="10" intorder="1">lamport1978time</bcf:citekey>
-    <bcf:citekey order="11" intorder="1">zaharia2012resilient</bcf:citekey>
   </bcf:section>
   <!-- SORTING TEMPLATES -->
   <bcf:sortingtemplate name="none">

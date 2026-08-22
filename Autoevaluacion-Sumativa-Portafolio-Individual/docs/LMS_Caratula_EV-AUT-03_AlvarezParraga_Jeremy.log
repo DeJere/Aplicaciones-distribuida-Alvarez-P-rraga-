@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex 2026.7.13)  21 AUG 2026 22:13
+This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex 2026.7.13)  21 AUG 2026 22:22
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -268,8 +268,12 @@ Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 2
 tex.def
 File: l3backend-pdftex.def 2025-10-09 L3 backend support: PDF output (pdfTeX)
 \l__color_backend_stack_int=\count301
+) (LMS_Caratula_EV-AUT-03_AlvarezParraga_Jeremy.aux
+LaTeX Info: Redefining \. on input line 11.
+LaTeX Info: Redefining \% on input line 11.
+Package babel Info: 'spanish' activates 'spanish' shorthands.
+(babel)             Reported on input line 11.
 )
-No file LMS_Caratula_EV-AUT-03_AlvarezParraga_Jeremy.aux.
 \openout1 = `LMS_Caratula_EV-AUT-03_AlvarezParraga_Jeremy.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 10.
@@ -292,8 +296,7 @@ LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 10.
 LaTeX Font Info:    ... okay on input line 10.
 LaTeX Info: Redefining \. on input line 10.
 LaTeX Info: Redefining \% on input line 10.
-Package babel Info: 'spanish' activates 'spanish' shorthands.
-(babel)             Reported on input line 10.
+
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
 *geometry* verbose mode - [ preamble ] result:
@@ -345,6 +348,8 @@ ii
 \everyMPtoPDFconversion=\toks23
 )
 Package hyperref Info: Link coloring ON on input line 10.
+ (LMS_Caratula_EV-AUT-03_AlvarezParraga_Jeremy.out)
+(LMS_Caratula_EV-AUT-03_AlvarezParraga_Jeremy.out)
 \@outlinefile=\write3
 \openout3 = `LMS_Caratula_EV-AUT-03_AlvarezParraga_Jeremy.out'.
 
@@ -365,23 +370,15 @@ LaTeX Info: Redefining \% on input line 11.
 LaTeX2e <2025-11-01>
 L3 programming layer <2025-12-24>
  ***********
-
-
-Package rerunfilecheck Warning: File `LMS_Caratula_EV-AUT-03_AlvarezParraga_Jer
-emy.out' has changed.
-(rerunfilecheck)                Rerun to get outlines right
-(rerunfilecheck)                or use package `bookmark'.
-
-Package rerunfilecheck Info: Checksums for `LMS_Caratula_EV-AUT-03_AlvarezParra
-ga_Jeremy.out':
-(rerunfilecheck)             Before: <no file>
-(rerunfilecheck)             After:  D41D8CD98F00B204E9800998ECF8427E;0.
+Package rerunfilecheck Info: File `LMS_Caratula_EV-AUT-03_AlvarezParraga_Jeremy
+.out' has not changed.
+(rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
  ) 
 Here is how much of TeX's memory you used:
- 10668 strings out of 467871
- 167279 string characters out of 5418376
- 608847 words of memory out of 5000000
- 39461 multiletter control sequences out of 15000+600000
+ 10676 strings out of 467871
+ 168043 string characters out of 5418376
+ 608972 words of memory out of 5000000
+ 39463 multiletter control sequences out of 15000+600000
  636936 words of font info for 58 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  75i,7n,79p,289b,464s stack positions out of 10000i,1000n,20000p,200000b,200000s

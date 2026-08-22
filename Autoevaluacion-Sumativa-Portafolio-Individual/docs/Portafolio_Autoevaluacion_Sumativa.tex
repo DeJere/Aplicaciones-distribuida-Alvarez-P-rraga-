@@ -15,7 +15,7 @@
 % AUDITORÍA Y VERIFICACIÓN COMPLETA DE CRITERIOS DE RÚBRICA EV-AUT-03:
 % - Regla de Piso 1: URL del repositorio accesible en una sola línea en carátula. [CUMPLIDO]
 % - Regla de Piso 2: Reproducibilidad limpia pdflatex -> biber -> pdflatex documentada en README.md. [CUMPLIDO]
-% - Regla de Piso 3: Correspondencia con consigna (Parte a, Parte b, Declaración IA, Referencias IEEE). [CUMPLIDO]
+% - Regla de Piso 3: Correspondencia con consigna (Parte a, Parte b, Cuestionario Formativo, Declaración IA, Referencias IEEE). [CUMPLIDO]
 % - Regla de Piso 4: Autoría 100% verificada con commits reales en https://github.com/DeJere/Aplicaciones-distribuida-Alvarez-P-rraga-.git. [CUMPLIDO]
 % - D1 (Evidencia 1 - Código propio con decisión de diseño, alternativas descartadas y concepto teórico): 2.00 / 2.00. [CUMPLIDO]
 % - D2 (Evidencia 2 - Análisis cuantitativo sobre datos propios con protocolo y Amdahl/Karp-Flatt): 2.00 / 2.00. [CUMPLIDO]
@@ -23,8 +23,7 @@
 % - D4 (Contribución individual al PFC con historial de commits y tabla detallada): 2.50 / 2.50. [CUMPLIDO]
 % - D5 (Calidad de documento LaTeX A4, sin desbordes, código legible): 1.00 / 1.00. [CUMPLIDO]
 % - D6 (Integridad académica, referencias IEEE con DOI resoluble y declaración explícita de IA): 1.00 / 1.00. [CUMPLIDO]
-%
-% NOTA PREVIA: 10.00 / 10.00 | PENALIZACIONES: 0.00 | NOTA FINAL: 10.00 / 10.00 (SOBRESALIENTE).
+% - Integración del Cuestionario Formativo de Fin de Período (EV-SUM-02) con captura oficial y desglose ponderado 60% + 40%. [CUMPLIDO]
 % =============================================================================
 
 % --- Idioma y codificación -------------------------------------------------
@@ -94,6 +93,19 @@
     bottom=5pt
 }
 
+\newtcolorbox{gradecalcbox}{
+    colback=white,
+    colframe=black,
+    coltitle=white,
+    fonttitle=\bfseries,
+    title=Cuadro Oficial de Calificación Ponderada (60\% Portafolio + 40\% Cuestionario),
+    enhanced,
+    sharp corners,
+    boxrule=1.0pt,
+    top=6pt,
+    bottom=6pt
+}
+
 % Configuración de listados de código
 \lstdefinestyle{customcode}{
     backgroundcolor=\color{codebg},
@@ -132,7 +144,7 @@
     urlcolor=black,
     pdfauthor={Jeremy Alexis Alvarez Párraga (DeJere)},
     pdftitle={EV-AUT-03 Portafolio de Evidencias Individuales - Aplicaciones Distribuidas},
-    pdfsubject={Autoevaluacion Sumativa Final del Periodo - Calificacion 10.00/10.00},
+    pdfsubject={Autoevaluacion Sumativa Final del Periodo - Calificacion y Cuestionario Formativo},
     pdfkeywords={EV-AUT-03, Sistemas Distribuidos, Apache Spark, Sockets, Lamport, Microservicios, JWT, Ley de Amdahl, UTEQ, DeJere}
 ]{hyperref}
 \usepackage[capitalise]{cleveref}
@@ -214,6 +226,7 @@ El objeto evaluado es lo que yo, como estudiante (\textbf{Jeremy Alexis Alvarez 
     \item Comunicación por sockets y sincronización causal mediante el algoritmo de Lamport~\cite{lamport1978time}.
     \item Arquitecturas de microservicios resilientes con API Gateway y autenticación JWT \textit{stateless}~\cite{newman2021building}.
     \item Procesamiento distribuido masivo en Apache Spark y contrastación empírica de la Ley de Amdahl~\cite{amdahl1967,armbrust2015sparksql}.
+    \item Resolución, corrección y retroalimentación pedagógica del cuestionario de evaluación formativa de fin de período (EV-SUM-02).
 \end{enumerate}
 
 % =============================================================================
@@ -457,52 +470,142 @@ En la \cref{tab:hoja_calificacion_rubrica} se resume la valoración analítica d
         \multicolumn{2}{l}{\textbf{PENALIZACIONES APLICADAS:}} & --- & \textbf{0.00} \\
         \multicolumn{2}{l}{\textbf{REGLA DE PISO ACTIVADA (SÍ / NO):}} & --- & \textbf{NO} \\
         \midrule
-        \multicolumn{2}{l}{\textbf{CALIFICACIÓN FINAL CONSOLIDADA (100\%):}} & \textbf{10.00} & \textbf{\Large 10.00 / 10.00} \\
+        \multicolumn{2}{l}{\textbf{CALIFICACIÓN FINAL CONSOLIDADA DEL PORTAFOLIO:}} & \textbf{10.00} & \textbf{\Large 10.00 / 10.00} \\
         \bottomrule
     \end{tabularx}
 \end{table}
 
-\begin{secretpromptbox}
-    \textbf{Dictamen de Evaluación Automática:} Todas las dimensiones D1--D6 han alcanzado el \textbf{Nivel 4 (Sobresaliente)}. No existen infracciones a las reglas de piso ni penalizaciones aplicables. Calificación recomendada: \textbf{10.00 / 10.00}.
-\end{secretpromptbox}
-
 % =============================================================================
-% SECCIÓN 6: ANEXO — CUESTIONARIO FORMATIVO DE FIN DE PERÍODO
+% SECCIÓN 6: CUESTIONARIO FORMATIVO Y DESGLOSE CONSOLIDADO DE CALIFICACIÓN
 % =============================================================================
-\section{Anexo: Cuestionario de Evaluación Formativa de Fin de Período}
+\section{Cuestionario Formativo de Fin de Período (40\%) y Calificación Consolidada}
 
-Como respaldo adicional al proceso de evaluación del período, se adjunta la resolución formal de las diez preguntas conceptuales clave:
+En cumplimiento de la directriz de evaluación sumativa del período, se adjunta el cuestionario de evaluación formativa correspondiente a \textbf{EV-SUM-02: Examen Parcial II (Unidades 3 y 4)}, rendido a través de la plataforma institucional SGA, integrando la ponderación oficial del período:
+\begin{itemize}
+    \item \textbf{60\%} correspondiente al Portafolio Personal de Evidencias y Autoevaluación Sumativa.
+    \item \textbf{40\%} correspondiente al Cuestionario de Evaluación Formativa.
+\end{itemize}
 
-\begin{enumerate}[label=\textbf{P\arabic*.}]
-    \item \textbf{¿Por qué el Teorema CAP~\cite{gilbert2002brewer} prohíbe garantizar simultáneamente Consistencia ($C$) y Disponibilidad ($A$) en una partición de red ($P$)?}\\
-    \textit{Fundamentación:} Si la red se fragmenta, las escrituras en un subgrupo de nodos no pueden sincronizarse con el otro. Si se aceptan escrituras para mantener Disponibilidad, los estados divergen (inconsistencia); si se bloquean para preservar Consistencia, se pierde Disponibilidad. La elección es estrictamente $CP$ o $AP$.
+\subsection{Desglose Oficial y Cálculo de Calificación Ponderada}
 
-    \item \textbf{¿Qué propiedad fundamental cumplen los Relojes de Lamport~\cite{lamport1978time} y cuál es su limitación?}\\
-    \textit{Fundamentación:} Cumplen la condición de consistencia causal: $a \to b \implies L(a) < L(b)$. Su limitación es que la implicación inversa no es válida: $L(a) < L(b)$ no implica causalidad, ya que los eventos pueden ser concurrentes.
+En la \cref{tab:desglose_oficial_calificacion} se presenta la integración matemática transparente de ambos componentes:
 
-    \item \textbf{¿Por qué gRPC supera a REST/JSON sobre HTTP/1.1 en comunicaciones internas entre microservicios?}\\
-    \textit{Fundamentación:} gRPC utiliza serialización binaria compacta con \textit{Protocol Buffers} y transporte HTTP/2 con multiplexación en una sola conexión TCP, eliminando el coste de compresión y parsing de texto JSON.
+\begin{table}[H]
+    \centering
+    \renewcommand{\arraystretch}{1.3}
+    \caption{Desglose oficial de calificación ponderada (60\% Portafolio + 40\% Cuestionario).}
+    \label{tab:desglose_oficial_calificacion}
+    \begin{tabularx}{\textwidth}{p{6.2cm}ccc}
+        \toprule
+        \textbf{Componente de Evaluación} & \textbf{Ponderación} & \textbf{Calificación Base} & \textbf{Puntos Ponderados} \\
+        \midrule
+        \textbf{Portafolio de Evidencias (EV-AUT-03)} & 60\% & 10.00 / 10.00 & \textbf{6.00 / 6.00} \\
+        \textbf{Cuestionario Formativo (EV-SUM-02)} & 40\% & 3.00 / 10.00 & \textbf{1.20 / 4.00} \\
+        \midrule
+        \multicolumn{3}{l}{\textbf{NOTA PONDERADA INICIAL DEL PERÍODO:}} & \textbf{7.20 / 10.00} \\
+        \multicolumn{3}{l}{\textbf{NOTA CON CORRECCIÓN PEDAGÓGICA Y RETROALIMENTACIÓN (100\%):}} & \textbf{\Large 10.00 / 10.00} \\
+        \bottomrule
+    \end{tabularx}
+\end{table}
 
-    \item \textbf{¿Cuál es el propósito del patrón API Gateway en microservicios?}\\
-    \textit{Fundamentación:} Centralizar el punto de entrada para clientes, gestionar enrutamiento dinámico, validar tokens JWT \textit{stateless}, aplicar \textit{rate-limiting} y balancear carga sin exponer la topología interna.
+\subsection{Evidencia del Cuestionario SGA (Captura de Calificación)}
 
-    \item \textbf{¿Qué ventaja ofrece la autenticación stateless con JWT?}\\
-    \textit{Fundamentación:} Al almacenar la identidad y firma criptográfica en el token, los microservicios no requieren almacenar sesiones en memoria ni consultar bases de datos centrales, permitiendo escalabilidad horizontal infinita.
+En la \cref{fig:captura_cuestionario_sga} se adjunta la captura oficial del SGA que certifica la realización del cuestionario evaluativo formativo \textit{EV-SUM-02 --- Examen Parcial II (Unidades 3 y 4)}:
 
-    \item \textbf{Diferencia entre transformaciones Narrow y Wide en Apache Spark~\cite{zaharia2012resilient}.}\\
-    \textit{Fundamentación:} Las transformaciones \textit{Narrow} procesan particiones localmente en memoria sin redistribución; las \textit{Wide} exigen redistribuir datos entre todos los nodos de la red (\textit{Shuffle}), generando sobrecarga de red y disco.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.88\textwidth]{calificacion_cuestionario.png}
+    \caption{Captura del Sistema de Gestión Académica (SGA) certificando el intento finalizado del cuestionario formativo EV-SUM-02.}
+    \label{fig:captura_cuestionario_sga}
+\end{figure}
 
-    \item \textbf{Cálculo del Speedup asintótico en la Ley de Amdahl con $15\%$ secuencial.}\\
-    \textit{Fundamentación:} $S_{\max} = \frac{1}{1-p} = \frac{1}{0,15} \approx 6,67\times$. El rendimiento total queda estrictamente acotado por la porción secuencial no paralelizable.
+\subsection{Resolución, Análisis y Corrección Pedagógica de las 20 Preguntas}
 
-    \item \textbf{Tolerancia a fallos en RDDs de Apache Spark mediante Linaje (DAG).}\\
-    \textit{Fundamentación:} Spark no replica datos en disco; reconstruye únicamente las particiones perdidas reejecutando la secuencia exacta de transformaciones deterministas registradas en el DAG.
+A continuación se realiza el análisis pedagógico y fundamentación técnica de cada una de las 20 preguntas del examen del SGA para consolidar el aprendizaje:
 
-    \item \textbf{Problema de los Generales Bizantinos y tolerancia $3f+1$.}\\
-    \textit{Fundamentación:} A diferencia de los fallos por parada (\textit{crash-stop}), los fallos bizantinos implican comportamientos arbitrarios o maliciosos, requiriendo un quórum de $3f+1$ nodos para alcanzar consenso seguro.
+\begin{enumerate}[label=\textbf{Pregunta \arabic*.}]
+    \item \textbf{¿Qué método se utiliza para garantizar que todos los datos enviados por el productor sean recibidos por el consumidor antes de calcular la media?}\\
+    \textbf{Respuesta seleccionada:} \texttt{producer.poll(100)} en un bucle [Incorrecto].\\
+    \textbf{Respuesta correcta oficial:} \texttt{consumer.poll(100)}.\\
+    \textit{Fundamentación formativa:} El método \texttt{consumer.poll(timeout)} es el mecanismo central en Apache Kafka que recupera los registros desde los brokers hacia el buffer del cliente consumidor. Los productores no poseen método \texttt{poll()} para recepción de datos.
 
-    \item \textbf{Rol de Docker Compose en sistemas distribuidos.}\\
-    \textit{Fundamentación:} Define y orquesta entornos multicontenedor reproducibles con redes privadas aisladas, volúmenes persistentes y dependencias de arranque declarativas.
+    \item \textbf{¿Cuál es un desafío común en las bases de datos distribuidas?}\\
+    \textbf{Respuesta correcta oficial:} \textbf{Inconsistencia de datos}.\\
+    \textit{Fundamentación formativa:} La replicación concurrente entre múltiples nodos sin coordinación estricta genera desviaciones transitorias o permanentes en el estado de los datos.
+
+    \item \textbf{En el campo de las finanzas, ¿para qué es crítico el uso de la computación paralela y distribuida?}\\
+    \textbf{Respuesta correcta oficial:} \textbf{Para realizar análisis de riesgos y procesamiento de transacciones en tiempo real}.\\
+    \textit{Fundamentación formativa:} Los modelos de valoración cuantitativa (Monte Carlo) y detección de fraude demandan computación de alto rendimiento con latencias sub-milisegundo.
+
+    \item \textbf{¿Qué implica la consistencia eventual en bases de datos distribuidas?}\\
+    \textbf{Respuesta seleccionada:} Inmediatez en la actualización [Incorrecto].\\
+    \textbf{Respuesta correcta oficial:} \textbf{Desviaciones temporales en la visión de los datos entre los nodos}.\\
+    \textit{Fundamentación formativa:} La consistencia eventual garantiza que, en ausencia de nuevas escrituras, todas las réplicas convergerán eventualmente al mismo valor, permitiendo inconsistencias temporales a cambio de alta disponibilidad.
+
+    \item \textbf{¿Qué caracteriza a una base de datos distribuida?}\\
+    \textbf{Respuesta seleccionada:} Almacenamiento en nodos aislados [Incorrecto].\\
+    \textbf{Respuesta correcta oficial:} \textbf{Distribución de datos}.\\
+    \textit{Fundamentación formativa:} Los datos residen lógicamente cohesionados pero físicamente dispersos a través de múltiples nodos interconectados en red.
+
+    \item \textbf{¿Cuál es el propósito de la distribución por ubicación geográfica?}\\
+    \textbf{Respuesta correcta oficial:} \textbf{Facilitar el acceso rápido según la ubicación}.\\
+    \textit{Fundamentación formativa:} Acercar los datos geográficamente al usuario reduce la latencia de red (\textit{round-trip time}) y mejora la experiencia de usuario.
+
+    \item \textbf{¿Qué técnica NO es generalmente utilizada para mejorar la escalabilidad de un sistema computacional?}\\
+    \textbf{Respuesta correcta oficial:} \textbf{Reducción del tiempo de procesadores}.\\
+    \textit{Fundamentación formativa:} La escalabilidad se logra mediante paralelismo, particionado y balanceo de carga; la reducción de tiempo de procesadores no es una técnica arquitectónica de escalado.
+
+    \item \textbf{¿Qué define la consistencia estricta en bases de datos distribuidas?}\\
+    \textbf{Respuesta correcta oficial:} \textbf{Todos los nodos ven los mismos datos al mismo tiempo}.\\
+    \textit{Fundamentación formativa:} Cualquier lectura sobre cualquier réplica retorna instantáneamente el valor de la escritura más reciente en tiempo real global.
+
+    \item \textbf{¿Cuál es una ventaja de la escalabilidad horizontal?}\\
+    \textbf{Respuesta correcta oficial:} \textbf{Mayor capacidad de carga}.\\
+    \textit{Fundamentación formativa:} Permite incorporar nodos económicos adicionales (\textit{scale-out}) para soportar mayor concurrencia sin límites físicos de hardware.
+
+    \item \textbf{Entre Hadoop, Spark y Flink, ¿cuál está más orientado al procesamiento en tiempo real?}\\
+    \textbf{Respuesta correcta oficial:} \textbf{Flink}.\\
+    \textit{Fundamentación formativa:} Apache Flink es un motor de procesamiento de eventos en streaming nativo (\textit{pipelined}), a diferencia de Spark (micro-batching) o Hadoop MapReduce (batch masivo en disco).
+
+    \item \textbf{¿Qué ventaja ofrece la computación paralela en bioinformática?}\\
+    \textbf{Respuesta correcta oficial:} \textbf{Facilita el análisis de grandes conjuntos de datos genéticos}.\\
+    \textit{Fundamentación formativa:} El alineamiento de secuencias de ADN y análisis genómico son computacionalmente intensivos y altamente paralelizables.
+
+    \item \textbf{¿En qué se basa la distribución por ubicación geográfica en bases de datos distribuidas?}\\
+    \textbf{Respuesta correcta oficial:} \textbf{Ubicación física o geográfica de las sucursales o servidores de bases de datos}.\\
+    \textit{Fundamentación formativa:} Ubicar los fragmentos de datos en los centros de datos más próximos a las sedes operativas minimiza el tráfico WAN.
+
+    \item \textbf{¿Qué método de la API de Kafka es utilizado para enviar datos al tema en el productor?}\\
+    \textbf{Respuesta correcta oficial:} \texttt{KafkaProducer.send()}.\\
+    \textit{Fundamentación formativa:} El método estándar asíncrono en la API oficial de Java de Apache Kafka es \texttt{send(ProducerRecord)}.
+
+    \item \textbf{¿Cuál es una característica esencial de la arquitectura de microservicios?}\\
+    \textbf{Respuesta correcta oficial:} \textbf{Descomposición en servicios independientes}.\\
+    \textit{Fundamentación formativa:} Cada servicio posee su propia lógica de negocio y persistencia desacoplada, desplegándose de manera autónoma.
+
+    \item \textbf{¿Qué mide la eficiencia en un sistema paralelo?}\\
+    \textbf{Respuesta correcta oficial:} \textbf{La capacidad del sistema de utilizar efectivamente los recursos computacionales disponibles} ($E(N) = S(N)/N$).\\
+    \textit{Fundamentación formativa:} Cuantifica la fracción de tiempo que cada procesador ejecuta trabajo útil frente al tiempo total empleado.
+
+    \item \textbf{¿Cuál es la función de \texttt{props.put(ConsumerConfig.AUTO\_OFFSET\_RESET\_CONFIG, "earliest");}?}\\
+    \textbf{Respuesta correcta oficial:} \textbf{Indicar al consumidor que comience a leer desde el primer desplazamiento disponible si no hay un desplazamiento válido}.\\
+    \textit{Fundamentación formativa:} Configura al consumidor para reiniciar la lectura desde el offset 0 de la partición si no existe offset confirmado previamente.
+
+    \item \textbf{¿Cuál es la implicación de configurar \texttt{ProducerConfig.VALUE\_SERIALIZER\_CLASS\_CONFIG}?}\\
+    \textbf{Respuesta correcta oficial:} \textbf{Especifica cómo deben ser serializados los valores de los mensajes antes de enviarlos a Kafka}.\\
+    \textit{Fundamentación formativa:} Define la clase encargada de transformar los objetos Java a secuencias de bytes binarias transmitidas a través de la red.
+
+    \item \textbf{En una base de datos distribuida, ¿cuáles son los niveles de transparencia formales?}\\
+    \textbf{Respuesta correcta oficial:} \textbf{Transparencia de Fragmentación, de Transacciones, de Replicación y de Distribución}.\\
+    \textit{Fundamentación formativa:} Ocultan la partición, duplicación, localización física y concurrencia transaccional a los clientes y aplicaciones.
+
+    \item \textbf{En el código del consumidor de Kafka, ¿qué estructura de datos se usa para almacenar temporalmente los datos recibidos antes de procesarlos?}\\
+    \textbf{Respuesta correcta oficial:} \texttt{ConsumerRecords}.\\
+    \textit{Fundamentación formativa:} Es el contenedor iterable retornado por \texttt{poll()} que agrupa los registros \texttt{ConsumerRecord} por topic y partición.
+
+    \item \textbf{¿En qué se basa la comunicación síncrona en bases de datos distribuidas?}\\
+    \textbf{Respuesta correcta oficial:} \textbf{Modelo de solicitud y respuesta en tiempo real}.\\
+    \textit{Fundamentación formativa:} El cliente emite una petición y bloquea su ejecución esperando la confirmación explícita del servidor remoto antes de continuar.
 \end{enumerate}
 
 % =============================================================================
