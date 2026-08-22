@@ -1,0 +1,531 @@
+% TA-IND-02 -- Informe Tecnico Individual: Analisis de Consistencia y Replicacion en BDD Distribuidas
+% Estudiante: Jeremy Alexis Alvarez Parraga -- Equipo PFC: ACC (Soporte Tecnico ISP)
+% Repositorio: https://github.com/DeJere/TA-IND-02-Informe-T-cnico-Individual-.git
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish,es-noquoting]{babel}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{caption}
+\usepackage{tikz}
+\usetikzlibrary{positioning,arrows.meta,fit,backgrounds,shapes.geometric}
+\usepackage{enumitem}
+\usepackage{setspace}
+
+\addto\captionsspanish{\renewcommand{\tablename}{Tabla}}
+\addto\captionsspanish{\renewcommand{\figurename}{Figura}}
+
+\setstretch{1.12}
+\setlength{\parskip}{0.35em}
+
+\title{}
+\date{}
+
+\begin{document}
+\shorthandoff{"}
+\sloppy
+
+% ============================================================
+% PORTADA
+% ============================================================
+\begin{titlepage}
+\centering
+\vspace*{1cm}
+{\large UNIVERSIDAD T\'ECNICA ESTATAL DE QUEVEDO\par}
+{\normalsize Facultad de Ciencias de la Computaci\'on\par}
+{\normalsize Carrera de Ingenier\'ia de Software\par}
+\vspace{0.3cm}
+{\normalsize Aplicaciones Distribuidas (ISR-701) -- Unidad 3: Bases de Datos Distribuidas\par}
+
+\vspace{2.5cm}
+{\Large \bfseries Informe T\'ecnico Individual\par}
+\vspace{0.4cm}
+{\Large \bfseries An\'alisis de Consistencia y Replicaci\'on en Bases de Datos Distribuidas\par}
+\vspace{0.6cm}
+{\large ¿Es el modelo de consistencia elegido el \'optimo para el dominio del sistema?\par}
+
+\vspace{2.2cm}
+\begin{tabular}{ll}
+\textbf{C\'odigo:} & TA-IND-02 \\[0.3em]
+\textbf{Tipo:} & Trabajo Aut\'onomo -- Individual -- Sumativa \\[0.3em]
+\textbf{Unidad:} & 3 -- Bases de Datos Distribuidas \\[0.3em]
+\textbf{Equipo PFC analizado:} & ACC -- Soporte T\'ecnico ISP (gesti\'on de tickets) \\[0.3em]
+\textbf{Estudiante:} & Jeremy Alexis Alvarez Parraga \\[0.3em]
+\textbf{Docente:} & Prof. Guerrero Ulloa G.C. \\[0.3em]
+\textbf{Fecha:} & \today \\
+\end{tabular}
+
+\vspace{1.2cm}
+{\small\texttt{Repositorio: https://github.com/DeJere/TA-IND-02-Informe-T-cnico-Individual-.git}\par}
+
+\vfill
+{\normalsize Periodo 2026--2027\par}
+\end{titlepage}
+
+% ============================================================
+% RESUMEN
+% ============================================================
+\section*{Resumen}
+
+El equipo ACC del Proyecto Fin de Curso (PFC) implementa un sistema de gesti\'on de tickets de
+soporte t\'ecnico para un proveedor de Internet (ISP) organizado en tres zonas operativas. Este
+informe caracteriza el modelo de consistencia realmente implementado en dicho sistema: un
+n\'ucleo transaccional sobre CockroachDB, particionado geogr\'aficamente por zona y replicado de
+forma s\'incrona mediante consenso Raft bajo aislamiento serializable, combinado con una
+coreograf\'ia de eventos as\'incrona sobre Apache Kafka entre \texttt{ticket-service} y
+\texttt{ai-service} que introduce consistencia eventual en el enriquecimiento de clasificaci\'on
+autom\'atica de tickets. Se ubica esta arquitectura h\'ibrida en el espectro de consistencia de
+Viotti y Vukoli\'c, se interpreta la decisi\'on de dise\~no bajo los marcos CAP y PACELC, y se
+contrasta el modelo actual con dos alternativas -- r\'eplica primario--secundario as\'incrona y
+almacenamiento sin l\'ider por quorum -- mediante cinco criterios t\'ecnicos explicitados en una
+tabla comparativa. La postura sostenida es que el modelo h\'ibrido resulta adecuado para el
+dominio porque separa la consistencia fuerte que exigen los invariantes cr\'iticos del negocio
+(asignaci\'on de t\'ecnicos, cumplimiento de SLA) de la consistencia relajada que es tolerable en
+una tarea de enriquecimiento no bloqueante, si bien persisten limitaciones de latencia de
+escritura entre zonas y de observabilidad del retraso de la coreograf\'ia.
+
+% ============================================================
+% INTRODUCCION
+% ============================================================
+\section{Introducci\'on}
+
+El Proyecto Fin de Curso del equipo ACC aborda el dominio de \emph{Soporte T\'ecnico ISP}: la
+gesti\'on del ciclo de vida de tickets de soporte t\'ecnico para un proveedor de Internet que
+opera en tres zonas geogr\'aficas de la ciudad de Quevedo (centro, norte y sur). Cada ticket se
+origina cuando un cliente reporta una incidencia (conectividad, DNS, hardware, configuraci\'on o
+velocidad), se le asigna una prioridad y un t\'ecnico de la zona correspondiente, y su resoluci\'on
+queda sujeta a un acuerdo de nivel de servicio (SLA) cuyo incumplimiento debe poder detectarse de
+forma confiable. El sistema est\'a compuesto por tres microservicios (\texttt{auth-service},
+\texttt{ticket-service} y \texttt{ai-service}), un cl\'uster distribuido de tres nodos de
+CockroachDB y un backbone de mensajer\'ia Apache Kafka que conecta la creaci\'on de tickets con un
+servicio de clasificaci\'on autom\'atica basado en IA.
+
+Un sistema de esta naturaleza no puede tratarse como una \'unica base de datos monol\'itica: la
+distribuci\'on geogr\'afica de los t\'ecnicos y clientes, la necesidad de tolerar la ca\'ida de un
+nodo sin detener el servicio, y la existencia de una tarea de enriquecimiento (la clasificaci\'on
+autom\'atica) que no deber\'ia bloquear el flujo principal de negocio, obligan a tomar decisiones
+expl\'icitas sobre qu\'e garant\'ias de consistencia ofrecer y c\'omo replicar los datos. Estas
+decisiones no son gratuitas: cada incremento en la fuerza de la consistencia impone mayor
+coordinaci\'on entre r\'eplicas y, por lo tanto, mayor latencia y menor disponibilidad ante fallos
+o particiones de red~\cite{viotti2016}.
+
+El objetivo de este informe es doble. Primero, caracterizar con precisi\'on el modelo de
+consistencia y la estrategia de replicaci\'on efectivamente implementados en el PFC del equipo
+ACC, a partir de la configuraci\'on real del c\'luster de CockroachDB y de la arquitectura de
+mensajer\'ia entre servicios. Segundo, evaluar de forma cr\'itica -- a la luz de los teoremas CAP
+y PACELC y de al menos dos alternativas de dise\~no -- si dicho modelo constituye la elecci\'on
+\'optima para el dominio de soporte t\'ecnico de un ISP, o si existen compromisos m\'as adecuados
+que el equipo deber\'ia considerar.
+
+% ============================================================
+% MARCO TEORICO
+% ============================================================
+\section{Marco te\'orico}
+
+\subsection{Modelos de consistencia}
+\label{subsec:modelos}
+
+La consistencia de r\'eplicas no es una propiedad binaria sino un espectro de garant\'ias con
+sem\'antica formal precisa, ordenadas por su fuerza~\cite{viotti2016}. En el extremo m\'as fuerte,
+la \textbf{linealizabilidad} (o consistencia fuerte) exige que toda operaci\'on parezca ejecutarse
+de forma at\'omica en un instante \'unico dentro del tiempo real transcurrido entre su invocaci\'on
+y su respuesta, de modo que cualquier lector observe siempre el efecto de la \'ultima escritura
+confirmada. La \textbf{consistencia secuencial} relaja la referencia al tiempo real pero preserva
+un orden total \'unico de operaciones, visible igual para todos los procesos. La
+\textbf{consistencia causal} exige preservar \'unicamente el orden entre operaciones causalmente
+relacionadas, permitiendo reordenar operaciones concurrentes e independientes. La
+\textbf{consistencia de lectura de los propios cambios} (read-your-writes) es una garant\'ia
+todav\'ia m\'as d\'ebil, centrada en la sesi\'on: un proceso siempre ve sus propias escrituras,
+aunque no necesariamente las de otros procesos de forma inmediata. Finalmente, la
+\textbf{consistencia eventual} solo garantiza que, en ausencia de nuevas escrituras, todas las
+r\'eplicas converger\'an eventualmente al mismo estado, sin acotar cu\'anto tiempo tarda esa
+convergencia.
+
+Esta jerarqu\'ia tiene un correlato operacional directo: un modelo m\'as fuerte requiere que las
+r\'eplicas coordinen cada operaci\'on (t\'ipicamente mediante consenso distribuido) antes de
+confirmarla, lo cual incrementa la latencia y reduce la disponibilidad cuando alguna r\'eplica no
+es alcanzable; un modelo m\'as d\'ebil permite confirmar operaciones localmente y propagar los
+cambios de forma diferida, ganando disponibilidad y latencia a costa de exponer estados
+transitoriamente divergentes entre r\'eplicas.
+
+\subsection{Teoremas de compromiso: CAP y PACELC}
+\label{subsec:cap-pacelc}
+
+El teorema CAP, formalizado por Gilbert y Lynch a partir de la conjetura de Brewer, establece que
+ante una partici\'on de red un sistema distribuido no puede garantizar simult\'aneamente
+consistencia (C) y disponibilidad (A); debe sacrificar una de las dos mientras persista la
+partici\'on, conservando siempre la tolerancia a particiones (P) como requisito irrenunciable en
+cualquier sistema realmente distribuido~\cite{gilbert2002}. Sin embargo, CAP describe \'unicamente
+el comportamiento del sistema durante una partici\'on, un evento relativamente infrecuente; no
+dice nada sobre el compromiso que enfrenta el sistema en operaci\'on normal, que es el caso
+dominante en la pr\'actica.
+
+Ese vac\'io lo cubre la formulaci\'on PACELC de Abadi: si hay Partici\'on (P), el sistema elige
+entre Disponibilidad (A) y Consistencia (C), igual que en CAP; pero en su defecto (E, \emph{else}),
+en operaci\'on normal sin particiones, el sistema elige entre Latencia (L) y Consistencia
+(C)~\cite{abadi2012}. PACELC captura as\'i que incluso sistemas que jam\'as sufren una partici\'on
+real deben decidir permanentemente cu\'anta latencia est\'an dispuestos a pagar por mantener las
+r\'eplicas sincronizadas. Un sistema PC/EC (como Spanner) prioriza consistencia tanto ante
+particiones como en operaci\'on normal, aceptando mayor latencia; un sistema PA/EL (como Dynamo)
+prioriza disponibilidad y baja latencia en ambos casos. La decisi\'on de dise\~no de cualquier PFC
+debe leerse bajo ambos ejes, no solo bajo el eje de partici\'on de CAP.
+
+\subsection{Estrategias de replicaci\'on}
+\label{subsec:replicacion}
+
+La estrategia de replicaci\'on determina c\'omo se propagan las escrituras entre r\'eplicas y, con
+ello, condiciona directamente el modelo de consistencia alcanzable~\cite{vansteen2017}. En la
+\textbf{replicaci\'on primario--respaldo} (\emph{leader--follower}) todas las escrituras pasan por
+un nodo l\'ider que las propaga a los seguidores; si la propagaci\'on es s\'incrona (el l\'ider
+espera confirmaci\'on de un qu\'orum de seguidores antes de responder al cliente) se obtienen
+garant\'ias fuertes a costa de latencia, mientras que si es as\'incrona se gana disponibilidad y
+latencia a costa de una ventana de inconsistencia y de posible p\'erdida de datos ante la ca\'ida
+del l\'ider. La \textbf{replicaci\'on multi-l\'ider} admite varios nodos que aceptan escrituras de
+forma concurrente, lo que exige resoluci\'on de conflictos y habitualmente relaja la consistencia.
+La \textbf{replicaci\'on sin l\'ider por quorum} elimina la figura de l\'ider fijo: cualquier
+r\'eplica puede aceptar escrituras, y la consistencia percibida depende de los par\'ametros de
+qu\'orum de lectura y escritura ($R$ y $W$) frente al total de r\'eplicas $N$.
+
+Los sistemas de referencia industrial ilustran los extremos de este espectro. Dynamo, de Amazon,
+prioriza la disponibilidad mediante replicaci\'on sin l\'ider con qu\'orum ajustable y resoluci\'on
+de conflictos por vectores de versi\'on, aceptando consistencia eventual como consecuencia directa
+de esa elecci\'on~\cite{decandia2007}. Spanner, de Google, se ubica en el extremo opuesto: ofrece
+consistencia externa (transacciones globalmente consistentes y linealizables) apoy\'andose en
+consenso Paxos por fragmento de datos y en sincronizaci\'on temporal de alta precisi\'on
+(TrueTime) para ordenar transacciones distribuidas sin coordinaci\'on adicional~\cite{corbett2013}.
+CockroachDB, la base de datos empleada en el PFC del equipo ACC, se inspira expl\'icitamente en el
+dise\~no de Spanner mientras que Kafka, empleado como backbone de mensajer\'ia as\'incrona, se
+aproxima en esp\'iritu al extremo de disponibilidad que ilustra Dynamo.
+
+% ============================================================
+% ANALISIS DEL PFC
+% ============================================================
+\section{An\'alisis del modelo de consistencia del PFC}
+\label{sec:analisis}
+
+\subsection{Caracterizaci\'on del modelo implementado}
+\label{subsec:caracterizacion}
+
+El sistema del equipo ACC no implementa un \'unico modelo de consistencia uniforme, sino dos
+regiones con garant\'ias distintas, separadas por la frontera as\'incrona de Kafka. La
+Figura~\ref{fig:topologia} representa la topolog\'ia real desplegada.
+
+\textbf{N\'ucleo transaccional (tickets, t\'ecnicos, autenticaci\'on).} El cl\'uster de CockroachDB
+se despliega con tres nodos (\texttt{roach1}, \texttt{roach2}, \texttt{roach3}), cada uno anclado a
+una \emph{locality} distinta (\texttt{zone=quevedo-centro}, \texttt{zone=quevedo-norte},
+\texttt{zone=quevedo-sur}) mediante el flag \texttt{--locality} en el arranque de cada nodo. La
+tabla principal \texttt{tickets} se particiona horizontalmente por lista (\texttt{PARTITION BY
+LIST}) sobre la columna \texttt{zone}, con una partici\'on por zona operativa
+(\texttt{tickets\_centro}, \texttt{tickets\_norte}, \texttt{tickets\_sur}) y una partici\'on por
+defecto. Cada partici\'on se configura expl\'icitamente con \texttt{num\_replicas = 3} y una
+restricci\'on de localidad preferente hacia su zona (\texttt{constraints =
+\{"+zone=quevedo-centro": 1\}}, an\'aloga para las otras dos), de modo que el \emph{leaseholder}
+de cada rango tiende a ubicarse en el nodo de su propia zona, pero las tres r\'eplicas Raft de cada
+rango se mantienen sincronizadas entre los tres nodos del cl\'uster. Este es, por definici\'on,
+un esquema de \textbf{replicaci\'on l\'ider--seguidor s\'incrona por rango}: cada escritura debe
+alcanzar un qu\'orum Raft (dos de tres r\'eplicas) antes de confirmarse, y CockroachDB expone
+\'unicamente aislamiento \texttt{SERIALIZABLE}, la garant\'ia m\'as fuerte del espectro descrito en
+la Secci\'on~\ref{subsec:modelos} para operaciones transaccionales sobre el mismo rango. Tanto
+\texttt{auth-service} como \texttt{ticket-service} se conectan a este cl\'uster con
+\texttt{ddl-auto: none}, delegando el esquema -- incluida la partici\'on -- a los scripts de
+\texttt{db-cluster/scripts}, y sin contrase\~na (modo \texttt{--insecure}, aceptable para el
+entorno de desarrollo del PFC pero no para un despliegue productivo).
+
+\textbf{Coreograf\'ia de clasificaci\'on (borde as\'incrono).} Cuando \texttt{ticket-service} crea
+un ticket, publica un evento en el t\'opico \texttt{ticket.created} de Kafka. \texttt{ai-service}
+(un servicio Python/FastAPI) consume ese t\'opico, ejecuta la clasificaci\'on y publica el
+resultado en \texttt{ticket.classified}; \texttt{ticket-service} consume ese segundo t\'opico y
+actualiza el ticket con la categor\'ia inferida. Este patr\'on -- una \emph{saga por
+coreograf\'ia} sin coordinador central -- desacopla completamente ambos servicios: no existe
+transacci\'on distribuida ni bloqueo entre la creaci\'on del ticket y su clasificaci\'on. La
+consecuencia directa es que, entre el instante en que el ticket se crea (y ya es visible, sin
+categor\'ia, para cualquier lector del n\'ucleo transaccional) y el instante en que
+\texttt{ticket-service} aplica la actualizaci\'on proveniente de \texttt{ticket.classified}, existe
+una ventana de \textbf{inconsistencia eventual} sobre el campo \texttt{category}: dos lectores
+concurrentes del mismo ticket pueden observar temporalmente valores distintos de ese campo seg\'un
+si su lectura ocurre antes o despu\'es de que la coreograf\'ia complete su ciclo. Kafka, en la
+configuraci\'on de un solo bróker usada en el PFC, no aporta por s\'i mismo garant\'ias de
+consistencia fuerte entre productor y consumidores; su contrato es de entrega ordenada por
+partici\'on con procesamiento asincr\'onico, que es precisamente la propiedad que hace posible
+desacoplar la disponibilidad del flujo principal de tickets respecto de la disponibilidad del
+servicio de IA.
+
+\begin{figure}[ht]
+\centering
+\resizebox{\linewidth}{!}{%
+\begin{tikzpicture}[
+  node distance=9mm and 14mm,
+  box/.style={draw, rounded corners, align=center, minimum height=8mm, minimum width=24mm, font=\small},
+  db/.style={draw, circle, align=center, minimum size=13mm, font=\scriptsize},
+  strong/.style={-{Latex[length=2mm]}, thick},
+  async/.style={-{Latex[length=2mm]}, thick, dashed},
+  lbl/.style={font=\scriptsize, midway, fill=white, inner sep=1pt}
+]
+  % Capa de cliente y autenticacion
+  \node[box] (front) {Frontend\\(cliente web)};
+  \node[box, right=of front] (auth) {auth-service\\(JWT, :8001)};
+  \node[box, right=of auth] (tix) {ticket-service\\(:8002)};
+
+  % Cluster CockroachDB particionado por zona (region de consistencia fuerte)
+  \node[db, below=16mm of front, xshift=6mm] (r1) {roach1\\quevedo\\centro};
+  \node[db, right=of r1] (r2) {roach2\\quevedo\\norte};
+  \node[db, right=of r2] (r3) {roach3\\quevedo\\sur};
+
+  \node[draw, dashed, fit=(r1)(r2)(r3), inner sep=6mm, label={[font=\scriptsize]below:CockroachDB -- Raft, SERIALIZABLE, 3 replicas/rango}] (cluster) {};
+
+  % Servicio de IA y Kafka (region de consistencia eventual)
+  \node[box, right=of tix, yshift=-16mm] (ai) {ai-service\\(FastAPI, :8004)};
+  \node[db, below=8mm of ai, minimum size=11mm] (mongo) {MongoDB};
+
+  % Conexiones sincronas / fuertes
+  \draw[strong] (front) -- node[lbl]{login} (auth);
+  \draw[strong] (front) -- (tix);
+  \draw[strong] (auth) -- node[lbl]{valida JWT} (tix);
+  \draw[strong] (tix) -- node[lbl]{lecturas/escrituras SQL (qu\'orum Raft)} (cluster);
+
+  % Conexiones asincronas / eventuales (Kafka)
+  \draw[async] (tix.south) .. controls +(0,-10mm) and +(-10mm,0) .. node[lbl]{ticket.created} (ai.west);
+  \draw[async] (ai.north) .. controls +(10mm,0) and +(0,-10mm) .. node[lbl]{ticket.classified} (tix.south east);
+  \draw[strong] (ai) -- (mongo);
+
+  \node[font=\scriptsize, align=left, below=2mm of ai, yshift=-16mm, xshift=6mm] (leyenda)
+    {\textbf{Leyenda:}\\[1pt]
+     \tikz\draw[strong,-{Latex[length=2mm]}] (0,0) -- (7mm,0); ~ s\'incrono / consistencia fuerte\\[1pt]
+     \tikz\draw[async,-{Latex[length=2mm]}] (0,0) -- (7mm,0); ~ as\'incrono (Kafka) / consistencia eventual};
+\end{tikzpicture}%
+}
+\caption{Topolog\'ia de replicaci\'on y consistencia del PFC del equipo ACC. El n\'ucleo
+transaccional (izquierda, gris punteado) usa replicaci\'on s\'incrona por consenso Raft con
+aislamiento serializable; la coreograf\'ia con \texttt{ai-service} (derecha) atraviesa la frontera
+as\'incrona de Kafka y opera bajo consistencia eventual.}
+\label{fig:topologia}
+\end{figure}
+
+\subsection{Justificaci\'on t\'ecnica ligada al dominio}
+\label{subsec:justificacion}
+
+La coexistencia de dos regiones de consistencia distintas no es una inconsistencia de dise\~no,
+sino una lectura impl\'icita -- y correcta -- de PACELC aplicada a dos subproblemas del mismo
+dominio con requisitos opuestos.
+
+Para el n\'ucleo transaccional, el dominio impone invariantes que toleran mal la
+consistencia relajada. La asignaci\'on de un t\'ecnico a un ticket, el c\'omputo del cumplimiento
+de un SLA (\texttt{sla\_deadline}, \texttt{sla\_breached}) y el estado del ticket
+(\texttt{status}) son datos cr\'iticos de negocio: una lectura obsoleta podr\'ia llevar a asignar
+dos t\'ecnicos distintos al mismo ticket, o a subestimar un incumplimiento de SLA con
+consecuencias contractuales frente al cliente. Bajo PACELC, el equipo ACC eligi\'o
+\textbf{PC/EC}: tanto ante una partici\'on (P) como en operaci\'on normal (E), el sistema prioriza
+consistencia (C) sobre disponibilidad/latencia, aceptando el costo de esperar el qu\'orum Raft en
+cada escritura. Esta elecci\'on es coherente con el hecho de que CockroachDB solo ofrece
+aislamiento serializable: el equipo no dise\~n\'o una relajaci\'on deliberada de consistencia para
+el n\'ucleo, sino que adopt\'o la garant\'ia m\'as fuerte disponible en la plataforma elegida.
+
+Para la coreograf\'ia de clasificaci\'on, en cambio, el dominio es tolerante a \emph{staleness}: la
+categor\'ia autom\'atica de un ticket es un dato de enriquecimiento, \'util para priorizar la cola
+de trabajo de los t\'ecnicos, pero su ausencia o retraso moment\'aneo no compromete la
+correcci\'on del flujo de soporte -- el ticket sigue siendo v\'alido, visible y asignable sin
+categor\'ia. Aqu\'i el equipo eligi\'o impl\'icitamente \textbf{PA/EL} para ese subproblema:
+prioriza disponibilidad y baja latencia del flujo principal (\texttt{ticket-service} nunca espera
+a \texttt{ai-service} para responder al cliente) sobre la consistencia inmediata del campo
+\texttt{category}, exactamente el mismo compromiso que justifica el uso de consistencia eventual
+en Dynamo~\cite{decandia2007}. La partici\'on geogr\'afica por zona (\texttt{PARTITION BY LIST} +
+restricciones de localidad) responde adem\'as a un requisito de negocio real y verificable en el
+c\'odigo: la mayor\'ia de las consultas y actualizaciones de un ticket las realiza el t\'ecnico de
+su propia zona, por lo que anclar el \emph{leaseholder} de cada partici\'on al nodo local reduce la
+latencia de las operaciones zonales m\'as frecuentes sin renunciar a las tres r\'eplicas
+s\'incronas que garantizan tolerancia a la ca\'ida de cualquier nodo individual.
+
+% ============================================================
+% EVALUACION DE ALTERNATIVAS
+% ============================================================
+\section{Evaluaci\'on de alternativas}
+\label{sec:alternativas}
+
+Para contrastar el modelo actual se consideran dos alternativas de consistencia/replicaci\'on
+razonables para el mismo dominio de gesti\'on de tickets.
+
+\textbf{Alternativa 1 -- R\'eplica primario--secundario as\'incrona (estilo MongoDB replica
+set).} Consistir\'ia en reemplazar el cl\'uster particionado de CockroachDB por una \'unica base de
+datos primaria que replica de forma as\'incrona hacia una o m\'as secundarias, permitiendo lecturas
+desde secundarias para descargar al primario. Es, de hecho, el mismo patr\'on que el propio PFC ya
+usa -- pero para \texttt{ai-service}, no para el n\'ucleo -- con la instancia \texttt{mongo} del
+\emph{stack} de mensajer\'ia, lo que la vuelve una alternativa concretamente evaluable en este
+contexto.
+
+\textbf{Alternativa 2 -- Almacenamiento sin l\'ider por qu\'orum (estilo Dynamo/Cassandra).}
+Consistir\'ia en distribuir la tabla \texttt{tickets} sobre un anillo de nodos sin l\'ider fijo,
+con factor de r\'eplicaci\'on $N=3$ y par\'ametros de qu\'orum de lectura/escritura ajustables
+($R+W>N$ para consistencia fuerte ajustada, o $R+W\le N$ para favorecer disponibilidad y
+latencia), resolviendo conflictos de escrituras concurrentes mediante vectores de versi\'on o
+\emph{last-write-wins}.
+
+La Tabla~\ref{tab:comparativa} contrasta el modelo actual frente a ambas alternativas seg\'un cinco
+criterios t\'ecnicos.
+
+\begin{table}[ht]
+\centering
+\small
+\caption{Comparaci\'on del modelo actual del PFC (ACC) frente a dos alternativas de
+consistencia/replicaci\'on.}
+\label{tab:comparativa}
+\begin{tabular}{@{}p{2.6cm}p{3.7cm}p{3.7cm}p{3.7cm}@{}}
+\toprule
+\textbf{Criterio} & \textbf{Modelo actual}\newline(CockroachDB Raft + Kafka) & \textbf{Alt. 1}\newline(primario--secundario as\'incrono) & \textbf{Alt. 2}\newline(sin l\'ider por qu\'orum) \\
+\midrule
+Consistencia &
+Serializable (fuerte) en el n\'ucleo; eventual solo en el campo de clasificaci\'on &
+Fuerte en el primario; eventual en lecturas desde secundarias &
+Ajustable v\'ia $R,W$; eventual por defecto, fuerte solo con $R+W>N$ \\
+\addlinespace
+Disponibilidad ante ca\'ida de nodo &
+Alta: tolera la ca\'ida de 1 de 3 nodos sin p\'erdida de qu\'orum Ra. &
+Baja para escritura si cae el primario (requiere failover); alta para lectura &
+Muy alta: cualquier nodo disponible puede servir la operaci\'on \\
+\addlinespace
+Latencia de escritura &
+Media: espera qu\'orum Raft (2 de 3), atenuada por afinidad de zona &
+Baja (el primario confirma sin esperar secundarias) &
+Baja a media, seg\'un $W$ configurado \\
+\addlinespace
+Tolerancia a particiones &
+Alta dentro del cl\'uster; el n\'ucleo prioriza C sobre A ante partici\'on &
+El primario aislado sigue escribiendo; secundarias divergen &
+Alta: dise\~nado expl\'icitamente para operar particionado (P) \\
+\addlinespace
+Complejidad operativa &
+Media: partici\'on y localidades declarativas, sin resoluci\'on manual de conflictos &
+Baja: patr\'on est\'andar y bien soportado &
+Alta: exige gesti\'on expl\'icita de conflictos y de qu\'orum \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Frente a la Alternativa 1, el modelo actual ofrece una garant\'ia estrictamente m\'as fuerte para
+el n\'ucleo (serializable multi-nodo frente a fuerte-solo-en-el-primario), al costo de una latencia
+de escritura algo mayor; dado que el dominio penaliza m\'as una asignaci\'on incorrecta de t\'ecnico
+que unos pocos milisegundos adicionales por transacci\'on, el modelo actual domina para el
+n\'ucleo. Frente a la Alternativa 2, el modelo actual sacrifica algo de disponibilidad y de
+tolerancia a particiones extremas a cambio de eliminar por completo la complejidad de resoluci\'on
+de conflictos concurrentes, complejidad que un equipo de PFC de alcance acad\'emico dif\'icilmente
+podr\'ia operar de forma confiable dentro del tiempo del curso.
+
+% ============================================================
+% DISCUSION CRITICA
+% ============================================================
+\section{Discusi\'on cr\'itica}
+\label{sec:discusion}
+
+¿Es el modelo de consistencia elegido el \'optimo para el dominio del sistema? La respuesta
+razonada es: \textbf{s\'i, para el n\'ucleo transaccional, con reservas operativas}, y
+\textbf{s\'i, de forma casi \'optima, para la coreograf\'ia de clasificaci\'on}.
+
+Para el n\'ucleo, la elecci\'on de consistencia serializable v\'ia Raft es defendible bajo PACELC
+porque el dominio -- asignaci\'on de t\'ecnicos y c\'omputo de SLA -- es exactamente el tipo de
+carga para la que CAP/PACELC recomienda priorizar C sobre A/L: los costos de una violaci\'on de
+consistencia (doble asignaci\'on, SLA mal calculado) son altos y dif\'icilmente reversibles,
+mientras que el costo de la latencia adicional del qu\'orum Raft es acotado y predecible dentro de
+un cl\'uster de tres nodos en la misma regi\'on. Sin embargo, subsisten dos limitaciones concretas.
+Primera, el cl\'uster corre en modo \texttt{--insecure} y sin r\'eplicas fuera de la m\'aquina de
+desarrollo: la tolerancia a fallos que ofrece Raft es real frente a la ca\'ida de un proceso, pero
+no frente a un fallo del host completo, lo que en producci\'on exigir\'ia nodos en m\'aquinas o
+zonas de disponibilidad f\'isicamente independientes. Segunda, anclar el \emph{leaseholder} de
+cada partici\'on a su zona reduce la latencia de las operaciones locales, pero cualquier consulta
+que cruce zonas (por ejemplo, un reporte agregado de SLA a nivel de ciudad) sigue pagando el costo
+de un qu\'orum Raft con al menos una r\'eplica remota, un compromiso que el equipo no documenta
+expl\'icitamente y que conviene medir.
+
+Para la coreograf\'ia de clasificaci\'on, la consistencia eventual v\'ia Kafka es la elecci\'on
+correcta en esp\'iritu -- el enriquecimiento no debe bloquear el flujo cr\'itico -- pero el PFC no
+implementa ninguna de las mitigaciones habituales para acotar el impacto de esa eventualidad: no
+hay un l\'imite expl\'icito de tiempo m\'aximo de convergencia (\emph{staleness bound}), ni una
+se\~nal visible en la interfaz de que la categor\'ia de un ticket est\'a "pendiente de
+clasificar", ni una pol\'itica de reintentos o \emph{dead-letter queue} documentada si
+\texttt{ai-service} cae mientras hay mensajes en \texttt{ticket.created}. Estas mitigaciones no
+cambiar\'ian el modelo de consistencia elegido, pero s\'i reducir\'ian el riesgo de que la
+consistencia eventual se perciba, err\'oneamente, como un dato perdido en vez de un dato en
+tr\'ansito. En conjunto, el modelo h\'ibrido implementado es una lectura correcta de CAP/PACELC
+aplicada de forma diferenciada a dos subproblemas con requisitos opuestos dentro del mismo
+dominio, y su principal margen de mejora no est\'a en cambiar el modelo de consistencia, sino en
+hacer expl\'icitas y observables las garant\'ias -- y las ausencias de garant\'ia -- que ya
+implementa.
+
+% ============================================================
+% CONCLUSIONES
+% ============================================================
+\section{Conclusiones}
+
+El PFC del equipo ACC implementa, de facto, un modelo de consistencia h\'ibrido: consistencia
+fuerte (serializable, v\'ia consenso Raft con replicaci\'on s\'incrona de tres r\'eplicas por
+partici\'on geogr\'afica) para el n\'ucleo transaccional de tickets, y consistencia eventual (v\'ia
+una coreograf\'ia as\'incrona sobre Kafka) para el enriquecimiento de clasificaci\'on autom\'atica.
+Esta combinaci\'on no fue necesariamente el resultado de un an\'alisis expl\'icito de CAP/PACELC
+por parte del equipo, pero es, retrospectivamente, coherente con lo que ambos marcos recomiendan
+para un dominio donde coexisten invariantes cr\'iticos de negocio (asignaci\'on, SLA) con tareas de
+enriquecimiento tolerantes a retraso (clasificaci\'on). La comparaci\'on con dos alternativas de
+dise\~no -- r\'eplica primario--secundario as\'incrona y almacenamiento sin l\'ider por qu\'orum --
+confirma que ninguna domina estrictamente al modelo actual para el n\'ucleo transaccional, y que la
+complejidad adicional de un esquema sin l\'ider no se justifica en el alcance de un PFC
+acad\'emico. El aprendizaje principal para el equipo es que la optimalidad del modelo actual es
+condicional: se sostiene mientras el dominio siga privilegiando correcci\'on sobre latencia en el
+n\'ucleo y tolere retraso en el enriquecimiento, y se debilita si el sistema creciera hacia
+m\'ultiples regiones geogr\'aficas reales o si el negocio empezara a exigir garant\'ias de tiempo
+de convergencia sobre la clasificaci\'on autom\'atica.
+
+% ============================================================
+% DECLARACION DE USO DE IA
+% ============================================================
+\section{Declaraci\'on de uso de IA generativa}
+
+Para la elaboraci\'on de este informe se utiliz\'o Claude (Anthropic), un asistente de IA
+generativa, como herramienta de apoyo en las siguientes tareas: (i) inspecci\'on del c\'odigo
+fuente y de los archivos de configuraci\'on del PFC del equipo ACC (\texttt{docker-compose},
+\texttt{application.yml}, scripts SQL de partici\'on y zonas) para caracterizar con precisi\'on el
+modelo de consistencia y la estrategia de replicaci\'on realmente implementados; (ii) organizaci\'on
+del documento conforme a la estructura obligatoria de la gu\'ia TA-IND-02; y (iii) redacci\'on
+inicial del marco te\'orico, del an\'alisis del modelo del PFC, de la tabla comparativa y de la
+discusi\'on cr\'itica. El estudiante revis\'o el contenido generado, verific\'o su correspondencia
+con el c\'odigo real del PFC y asumi\'o la postura cr\'itica final presentada en la
+Secci\'on~\ref{sec:discusion}.
+
+% ============================================================
+% REFERENCIAS (IEEE, manuales, sin bibtex)
+% ============================================================
+\begin{thebibliography}{6}
+
+\bibitem{abadi2012}
+D.~J. Abadi, ``Consistency Tradeoffs in Modern Distributed Database System Design: CAP is Only
+Part of the Story,'' \emph{Computer}, vol.~45, no.~2, pp.~37--42, 2012. doi:
+10.1109/MC.2012.33
+
+\bibitem{corbett2013}
+J.~C. Corbett \emph{et al.}, ``Spanner: Google's Globally Distributed Database,'' \emph{ACM
+Transactions on Computer Systems}, vol.~31, no.~3, pp.~1--22, 2013, art.\ no.~8. doi:
+10.1145/2491245
+
+\bibitem{decandia2007}
+G.~DeCandia \emph{et al.}, ``Dynamo: Amazon's Highly Available Key-value Store,'' in
+\emph{Proceedings of the 21st ACM SIGOPS Symposium on Operating Systems Principles (SOSP
+'07)}, 2007, pp.~205--220. doi: 10.1145/1294261.1294281
+
+\bibitem{gilbert2002}
+S.~Gilbert and N.~Lynch, ``Brewer's Conjecture and the Feasibility of Consistent, Available,
+Partition-Tolerant Web Services,'' \emph{ACM SIGACT News}, vol.~33, no.~2, pp.~51--59, 2002.
+doi: 10.1145/564585.564601
+
+\bibitem{vansteen2017}
+M.~van Steen and A.~S. Tanenbaum, \emph{Distributed Systems}, 3rd ed. distributed-systems.net,
+2017. isbn: 978-1543057386.
+
+\bibitem{viotti2016}
+P.~Viotti and M.~Vukoli\'c, ``Consistency in Non-Transactional Distributed Storage Systems,''
+\emph{ACM Computing Surveys}, vol.~49, no.~1, pp.~1--34, 2016, art.\ no.~19. doi:
+10.1145/2926965
+
+\end{thebibliography}
+
+\end{document}
