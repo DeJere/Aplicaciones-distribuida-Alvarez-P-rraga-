@@ -1,0 +1,82 @@
+\documentclass[11pt,letterpaper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish,es-tabla]{babel}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{enumitem}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue!50!black,
+    urlcolor=blue!50!black,
+    pdftitle={Anexo - Fichas bibliograficas con extracto citado},
+    pdfauthor={Equipo ACC}
+}
+
+\title{\textbf{Anexo --- Fichas bibliográficas}\\
+\large Extracto exacto usado de cada fuente en el informe de la Práctica Experimental Unidad 5}
+\author{Equipo ACC}
+\date{Agosto 2026}
+
+\newcommand{\ficha}[7]{%
+\subsection*{#1}
+\noindent\textbf{Autores:} #2 \\
+\textbf{Año / Venue:} #3 \\
+\textbf{DOI:} \url{#4} \\
+\textbf{Enlace directo (acceso abierto, arXiv):} \url{#5}\\[0.5em]
+\noindent\textbf{Fragmento usado en el informe} (parágrafo #6 --- resaltado abajo):\\[0.3em]
+\noindent\colorbox{yellow!60}{\parbox{0.94\linewidth}{\vspace{0.3em}#7\vspace{0.3em}}}\\[0.3em]
+\noindent\hrulefill
+}
+
+\begin{document}
+\maketitle
+\thispagestyle{empty}
+
+\noindent Este anexo documenta, para cada fuente académica citada en el informe principal, exactamente qué idea o hallazgo se usó y en qué parte del texto. Todas las fuentes son artículos de acceso abierto en arXiv.org (preprints públicos, sin restricción de copyright para su lectura y cita); no se utilizó ningún repositorio de acceso no autorizado a contenido con derechos de autor para obtenerlas. El resaltado amarillo marca el fragmento --- en este caso una paráfrasis fiel, no una copia textual extensa del PDF original --- que respalda la afirmación correspondiente del informe.
+
+\vspace{1em}
+
+\ficha{1. Analyzing the Effects of CI/CD on Open Source Repositories in GitHub and GitLab}
+{Jeffrey Fairbanks, Akshharaa Tharigonda, Nasir U. Eisty (Boise State University)}
+{2023, arXiv (cs.SE)}
+{https://doi.org/10.48550/arXiv.2303.16393}
+{https://arxiv.org/abs/2303.16393}
+{Sección 2 --- Metodología de verificación}
+{El estudio analizó más de 12{,}000 repositorios de GitHub y GitLab y midió el efecto de la adopción de CI/CD sobre la velocidad de commits y el número de issues reportados, mostrando que el cumplimiento de CI/CD debe verificarse sobre artefactos reales del repositorio (workflows, historial de builds) y no solo declararse.}
+
+\ficha{2. Efficacy of Static Analysis Tools for Software Defect Detection on Open-Source Projects}
+{Jones Yeboah, Saheed Popoola}
+{2024, arXiv (cs.SE)}
+{https://doi.org/10.48550/arXiv.2405.12333}
+{https://arxiv.org/abs/2405.12333}
+{Sección 3.3 --- Análisis estático de código (criterio c)}
+{Comparando SonarQube, PMD, Checkstyle y FindBugs sobre proyectos en Java, C++ y Python, los autores encontraron que SonarQube obtuvo mejor precisión y recall que las otras tres herramientas en la detección de defectos, lo que respalda recomendar SonarCloud como opción unificada para cerrar la brecha de análisis estático del pipeline.}
+
+\ficha{3. Metric Criticality Identification for Cloud Microservices}
+{Akanksha Singal, Divya Pathak, Kaustabha Ray, Felix George, Mudit Verma, Pratibha Moogi (IBM Research India)}
+{2025, arXiv (cs.DC)}
+{https://doi.org/10.48550/arXiv.2501.03547}
+{https://arxiv.org/abs/2501.03547}
+{Sección 4.2 --- Métricas de negocio en \texttt{/metrics} (criterio b)}
+{Los autores proponen KIMetrix, un método que usa entropía e información mutua para identificar el subconjunto mínimo de métricas verdaderamente relevante para operar un sistema de microservicios, en lugar de exponer métricas genéricas sin curar --- el mismo criterio de métricas específicas del dominio (reintentos de transacción, escalamiento de tickets) aplicado en el proyecto evaluado.}
+
+\ficha{4. LO2: Microservice API Anomaly Dataset of Logs and Metrics}
+{Alexander Bakhtin, Jesse Nyyssölä, Yuqing Wang, Noman Ahmad, Ke Ping, Matteo Esposito, Mika Mäntylä, Davide Taibi (Universidad de Oulu / Universidad de Helsinki)}
+{2025, arXiv (cs.SE)}
+{https://doi.org/10.48550/arXiv.2504.12067}
+{https://arxiv.org/abs/2504.12067}
+{Sección 4.1 --- Logging estructurado (criterio a)}
+{Los autores publican un dataset real de producción con cerca de 657{,}000 archivos de log y más de 45 millones de archivos de métricas, y muestran que la detección de anomalías en microservicios depende de poder fusionar logs y métricas de forma consistente --- lo que exige una estructura de log parseable en todos los servicios, no solo en algunos.}
+
+\ficha{5. Informed and Assessable Observability Design Decisions in Cloud-native Microservice Applications}
+{Maria C. Borges, Joshua Bauer, Sebastian Werner, Michael Gebauer, Stefan Tai (TU Berlin) --- ICSA 2024}
+{2024, IEEE ICSA / arXiv (cs.SE)}
+{https://doi.org/10.48550/arXiv.2403.00633}
+{https://arxiv.org/abs/2403.00633}
+{Sección 4.3 --- Dashboard de observabilidad (criterio c)}
+{El trabajo argumenta que las decisiones de diseño de observabilidad (qué se instrumenta, dónde se visualiza) deben ser explícitas y evaluables mediante experimentos, en lugar de asumirse por la sola presencia de herramientas; esto respalda documentar explícitamente la desviación de plataforma (Grafana self-hosted vs. Grafana Cloud) en vez de dejarla implícita.}
+
+\end{document}

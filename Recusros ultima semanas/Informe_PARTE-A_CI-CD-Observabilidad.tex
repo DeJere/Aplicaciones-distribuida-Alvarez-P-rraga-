@@ -1,0 +1,123 @@
+\documentclass[11pt,letterpaper]{article}
+
+% ---------- Paquetes ----------
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish,es-tabla]{babel}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{xcolor}
+\usepackage{caption}
+\usepackage{hyperref}
+\usepackage{enumitem}
+\usepackage{float}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue!50!black,
+    citecolor=blue!50!black,
+    urlcolor=blue!50!black,
+    pdftitle={Informe de cumplimiento - Practica Experimental Unidad 5 - Equipo ACC},
+    pdfauthor={Carlos Carpio, Cristhian Pacheco, Robinson Cando, Jeremy Alvarez}
+}
+
+\newcolumntype{P}[1]{>{\raggedright\arraybackslash}p{#1}}
+
+\title{\textbf{Informe de Cumplimiento}\\
+\large Práctica Experimental Unidad 5: CI/CD, Pruebas y Observabilidad\\
+\large Sistema de Gestión de Solicitudes de Soporte Técnico de Internet\\
+\large Repositorio: \texttt{PFC-SOPORTE-ISP}}
+
+\author{
+Carlos José Carpio Mendoza \and
+Cristhian Daniel Pacheco Cárdenas \and
+Robinson Rodrigo Cando Moreno \and
+Jeremy Álvarez\\[1em]
+\normalsize Equipo ACC\\
+\normalsize Facultad de Ciencias de la Computación\\
+\normalsize Universidad Técnica Estatal de Quevedo
+}
+
+\date{Agosto 2026}
+
+\begin{document}
+
+\maketitle
+\thispagestyle{empty}
+
+\begin{abstract}
+\noindent Este informe verifica, con evidencia directa del código fuente y la configuración del repositorio \texttt{carlospatroner-boop/PFC-SOPORTE-ISP}, el grado de cumplimiento de la Parte A de la Práctica Experimental de la Unidad 5: un pipeline CI/CD con pruebas automáticas, publicación de imágenes Docker y análisis estático; y observabilidad básica con logging estructurado, métricas de negocio en formato Prometheus y un dashboard de Grafana. La verificación se realizó clonando la rama \texttt{feature/entrega-4} (la que contiene el trabajo más reciente) e inspeccionando directamente los archivos de workflow, configuración y código fuente, sin asumir cumplimiento a partir de nombres de commit o comentarios.
+\end{abstract}
+
+\section{Introducción}
+
+El equipo ACC desarrolla \emph{PFC-SOPORTE-ISP}, un sistema distribuido de gestión de tickets de soporte técnico para un ISP, compuesto por seis microservicios (\texttt{auth-service}, \texttt{svc-principal}/\texttt{ticket-service}, \texttt{report-service}, \texttt{api-gateway}, \texttt{notification-service} y \texttt{ai-service}), un clúster CockroachDB, mensajería Kafka y aplicaciones web y móvil. La actividad culminante del período (Práctica Experimental Unidad 5) exige que el equipo demuestre, sobre este mismo proyecto, dos capacidades de ingeniería de software modernas: integración/entrega continua (CI/CD) y observabilidad. Este documento contrasta punto por punto los requisitos de la Parte A del enunciado con lo que realmente existe en el repositorio.
+
+\section{Metodología de verificación}
+
+Se clonó el repositorio público y se examinó tanto la rama \texttt{main} como \texttt{feature/entrega-4}. La rama \texttt{main} solo contiene el workflow simple de la Entrega~3 (\texttt{ci.yml}, sólo pruebas unitarias). Todo el trabajo relevante para esta práctica —pipeline CI/CD completo, métricas, logging estructurado y dashboard— vive en \texttt{feature/entrega-4}, que es la rama evaluada en este informe. Para cada criterio del enunciado se citó el archivo exacto que lo sustenta (workflow de GitHub Actions, \texttt{Dockerfile}, \texttt{application.yml}, \texttt{logback-spring.xml}, \texttt{docker-compose.yml}, \texttt{prometheus.yml} y \texttt{pfc-dashboard.json}), evitando inferir cumplimiento a partir de mensajes de commit o comentarios de código que no estén respaldados por configuración real. Esta práctica de auditoría dirigida por evidencia responde a la recomendación empírica de que la adopción de CI/CD debe medirse sobre artefactos verificables del repositorio y no solo sobre su presencia declarada \cite{fairbanks2023cicd}.
+
+\section{Parte A --- Pipeline CI/CD}
+
+El pipeline vive en \texttt{.github/workflows/ci-cd.yml} (rama \texttt{feature/entrega-4}) y se dispara en cada \texttt{push} a \texttt{main} y a cualquier rama \texttt{feature/**}, y en cada \texttt{pull\_request} hacia \texttt{main}.
+
+\subsection{(a) Pruebas unitarias automáticas en cada push}
+\textbf{Cumple.} Tres jobs independientes ejecutan la suite de pruebas completa en cada disparo del workflow: \texttt{test-backend} corre \texttt{mvn test} para los tres servicios Java con Maven (\texttt{auth-service}, \texttt{svc-principal}, \texttt{report-service}) y además \texttt{npm test} para \texttt{notification-service} y \texttt{pytest} para \texttt{ai-service}; \texttt{test-web} corre las pruebas de \texttt{apps/web} con Vitest; \texttt{test-mobile} corre pruebas unitarias de ViewModel y pruebas instrumentadas de Compose en un emulador Android headless. Ningún job depende de ejecución manual.
+
+\subsection{(b) Build y publicación de la imagen Docker en GHCR}
+\textbf{Cumple.} El job \texttt{build-images} usa una matriz de 7 imágenes (los 6 microservicios más \texttt{apps/web}), cada una con su propio \texttt{Dockerfile}, y las publica en \texttt{ghcr.io} mediante \texttt{docker/login-action@v3} y \texttt{docker/build-push-action@v5}, con tags por \texttt{sha} de commit y \texttt{latest}. Corre solo en eventos \texttt{push} (no en \texttt{pull\_request}, para no llenar el registro con imágenes de prueba) y depende de que \texttt{test-backend} y \texttt{test-web} hayan pasado primero.
+
+\subsection{(c) Análisis estático de código}
+\textbf{Cumple parcialmente.} El job \texttt{lint} ejecuta ESLint (\texttt{npm run lint}) sobre \texttt{apps/web} y Android Lint (\texttt{gradlew lintDebug}) sobre \texttt{apps/mobile}, ambos como pasos obligatorios del pipeline —esto satisface literalmente la opción ``Pylint/ESLint configurado en el pipeline'' del enunciado. Sin embargo, la cobertura no es uniforme: no se encontró configuración de SonarCloud (sin \texttt{sonar-project.properties} ni acción \texttt{sonarcloud-github-action}), no hay Pylint ni Flake8 para \texttt{ai-service} (Python), y ninguno de los cuatro servicios Java del backend (\texttt{auth-service}, \texttt{svc-principal}, \texttt{report-service}, \texttt{api-gateway}) tiene un analizador estático (Checkstyle, PMD o SpotBugs) en el pipeline. Yeboah y Popoola muestran empíricamente que la herramienta elegida importa: SonarQube dominó a PMD, Checkstyle y FindBugs en precisión y recall sobre Java, C++ y Python \cite{yeboah2024static}, lo que hace de SonarCloud (su equivalente en la nube, gratuito para repositorios públicos) la opción más costo-efectiva para cerrar esta brecha sin multiplicar herramientas por lenguaje.
+
+\section{Parte A --- Observabilidad básica}
+
+\subsection{(a) Logging estructurado (JSON) en todos los microservicios}
+\textbf{Cumple parcialmente (4 de 6 servicios).} \texttt{auth-service}, \texttt{svc-principal}, \texttt{report-service} y \texttt{api-gateway} configuran Logback con \texttt{LogstashEncoder} (\texttt{logback-spring.xml}), que emite cada línea de log como un objeto JSON e incluye \texttt{trace\_id} y \texttt{span\_id} vía MDC más un campo \texttt{service} fijo por microservicio. En cambio, \texttt{notification-service} (Node/Express) registra con \texttt{console.log}/\texttt{console.error} de texto plano sin estructura ni correlación, y \texttt{ai-service} (Python/FastAPI) usa \texttt{logging.basicConfig} con un formato de texto (\texttt{\%(asctime)s \%(levelname)s...}), también sin JSON. El enunciado pide explícitamente JSON en \emph{todos} los microservicios, por lo que esta es la brecha más clara del proyecto en la parte de observabilidad. Esta brecha no es solo formal: conjuntos de datos reales de producción muestran que los logs y las métricas se analizan cada vez más de forma conjunta (fusión multimodal) para detectar anomalías en microservicios \cite{bakhtin2025lo2}, algo que exige que el log de \emph{todos} los servicios --- no solo los Java --- tenga una estructura parseable de forma consistente.
+
+\subsection{(b) Al menos 3 métricas de negocio en \texttt{/metrics} (formato Prometheus)}
+\textbf{Cumple y excede el mínimo.} Los servicios Java exponen Spring Boot Actuator en \texttt{/actuator/prometheus} (\texttt{management.endpoints.web.exposure.include: health,info,prometheus}). Sobre esa base existen métricas de negocio hechas a medida y no solo las genéricas de la JVM: \texttt{HttpMetricsFilter}/\texttt{HttpMetricsGlobalFilter} (tasa y latencia de peticiones por ruta), \texttt{CrdbMetrics} con \texttt{RepositoryTimingAspect} (reintentos de transacción y tiempos de repositorio contra CockroachDB) y \texttt{EscalationMetricsObserver} (escalamientos de tickets, una métrica de negocio del dominio de soporte). \texttt{ops/prometheus/prometheus.yml} scrapea las cuatro rutas Java cada 10~s, además del clúster CockroachDB y \texttt{cAdvisor}. Estas métricas se alinean con el enfoque de instrumentación liviana y específica del dominio que recomienda la literatura reciente sobre selección de métricas críticas en microservicios \cite{singal2025metric}.
+
+\subsection{(c) Dashboard básico en Grafana con las 3 métricas visualizadas}
+\textbf{Cumple funcionalmente, con una desviación de plataforma.} \texttt{ops/grafana/pfc-dashboard.json} define un dashboard (``PFC Soporte ISP --- Observabilidad'') con \textbf{6 paneles}, más del triple del mínimo exigido: tasa de peticiones, latencia p50/p95/p99, tasa de errores 5xx, disponibilidad Raft del clúster CockroachDB, uso de recursos por contenedor y latencia end-to-end en el API Gateway. Se aprovisiona automáticamente (\texttt{ops/grafana/provisioning}) al levantar \texttt{docker-compose.yml}. La desviación respecto al enunciado es de \emph{plataforma}, no de contenido: el enunciado pide \textbf{Grafana Cloud (capa gratuita)}, un servicio alojado, mientras que la implementación actual es una instancia de Grafana \emph{autoalojada} dentro del propio \texttt{docker-compose} del proyecto. Diseñar observabilidad evaluable exige decisiones explícitas sobre dónde y cómo se visualizan las señales \cite{borges2024observability}; en este caso el equipo priorizó la integración con el resto del stack local (Prometheus, Tempo, OTel Collector) sobre el uso literal de Grafana Cloud.
+
+\section{Tabla resumen de cumplimiento}
+
+\begin{table}[H]
+\centering
+\small
+\begin{tabular}{P{1.3cm} P{6.7cm} P{2.3cm} P{4cm}}
+\toprule
+\textbf{Item} & \textbf{Requisito} & \textbf{Estado} & \textbf{Evidencia principal} \\
+\midrule
+CI/CD (a) & Pruebas unitarias en cada push & Cumple & \texttt{ci-cd.yml}: jobs \texttt{test-backend}, \texttt{test-web}, \texttt{test-mobile} \\
+CI/CD (b) & Build y publicación de imagen Docker en GHCR & Cumple & \texttt{ci-cd.yml}: job \texttt{build-images} (7 imágenes) \\
+CI/CD (c) & Análisis estático configurado & Parcial & ESLint y Android Lint sí; falta SonarCloud/Pylint/Checkstyle en 5 de 7 componentes \\
+Obs. (a) & Logging JSON en todos los microservicios & Parcial & 4/6 con Logback+JSON; Node y Python en texto plano \\
+Obs. (b) & $\geq$3 métricas de negocio en \texttt{/metrics} & Cumple (excede) & \texttt{CrdbMetrics}, \texttt{EscalationMetricsObserver}, \texttt{HttpMetricsFilter} \\
+Obs. (c) & Dashboard Grafana con las métricas & Cumple* & \texttt{pfc-dashboard.json} (6 paneles); *self-hosted, no Grafana Cloud \\
+\bottomrule
+\end{tabular}
+\caption{Cumplimiento de la Parte A por criterio, rama \texttt{feature/entrega-4}.}
+\end{table}
+
+\section{Brechas identificadas y recomendaciones}
+
+\begin{enumerate}[leftmargin=1.2em]
+\item \textbf{Análisis estático incompleto.} Incorporar SonarCloud (capa gratuita para repositorios públicos) como paso adicional del job \texttt{lint}, apuntando a los cuatro módulos Maven y a \texttt{ai-service}; alternativamente, añadir Pylint/Flake8 para \texttt{ai-service} y Checkstyle o SpotBugs para los módulos Java, de modo que los 7 componentes del monorepo queden cubiertos y no solo \texttt{apps/web} y \texttt{apps/mobile}.
+\item \textbf{Logging no uniforme.} Migrar \texttt{notification-service} a un logger JSON (por ejemplo \texttt{pino}) y \texttt{ai-service} a \texttt{python-json-logger} o \texttt{structlog}, replicando el patrón ya usado en los servicios Java: un campo \texttt{service} fijo y correlación \texttt{trace\_id}/\texttt{span\_id} propagada desde el API Gateway.
+\item \textbf{Grafana self-hosted vs.\ Grafana Cloud.} Si la rúbrica exige literalmente Grafana Cloud, importar \texttt{pfc-dashboard.json} tal cual a una cuenta gratuita de Grafana Cloud (el JSON ya es compatible) y apuntar su datasource Prometheus remoto al \texttt{remote\_write} del Prometheus local; si la equivalencia funcional es aceptable, documentar explícitamente esta decisión de diseño en la entrega para evitar pérdida de puntos por una lectura literal del enunciado.
+\item \textbf{Rama no fusionada.} Todo lo verificado en este informe vive en \texttt{feature/entrega-4}; \texttt{main} aún solo tiene el workflow simple de la Entrega~3. Fusionar la rama antes de la fecha de entrega, o confirmar con el docente que evaluará explícitamente \texttt{feature/entrega-4} o su Pull Request abierto.
+\end{enumerate}
+
+\section{Conclusión}
+
+De los seis criterios de la Parte A, tres se cumplen sin reservas (pruebas automáticas, publicación de imágenes en GHCR y métricas de negocio en Prometheus, esta última superando el mínimo exigido) y tres se cumplen parcialmente por brechas puntuales y acotadas: cobertura despareja de análisis estático, logging no estructurado en dos de seis microservicios, y uso de Grafana self-hosted en lugar de Grafana Cloud. Ninguna brecha es estructural: las cuatro recomendaciones de la sección anterior son incrementales sobre la arquitectura de observabilidad y CI/CD ya construida, que en varios aspectos (número de paneles del dashboard, métricas de negocio expuestas) excede lo mínimo pedido por el enunciado.
+
+\bibliographystyle{ieeetr}
+\bibliography{referencias}
+
+\end{document}
